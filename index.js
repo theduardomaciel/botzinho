@@ -1,10 +1,11 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 
-const {
-    prefix,
-    token,
-} = require('./config.json');
+const dotenv = require('dotenv');
+dotenv.config();
+
+const prefix = process.env.PREFIX;
+const token = process.env.TOKEN;
 
 const client = new Discord.Client();
 
