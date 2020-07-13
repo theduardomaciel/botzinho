@@ -1,7 +1,7 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const { prefix } = process.env.PREFIX;
+const prefix = process.env.PREFIX;
 
 module.exports = {
 	name: 'help',
