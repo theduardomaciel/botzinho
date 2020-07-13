@@ -8,8 +8,7 @@ const guilhermoEmbed = new MessageEmbed()
 .setColor(0xff0000)
 // Set the main content of the embed
 .setDescription('"A solidão me fez solidão. - Alguém ai - 2012"')
-.attachFiles(['../DiscordBot/assets/gui.png'])
-.setImage('attachment://gui.png');
+.setImage('https://lh3.googleusercontent.com/_nxxEixdDn-Ap1uHoyflQkh3xelF-unTjolwpUn04_ja-PovjbLZyVdAkJ5TLww0GC_K-JIMrLS-hvj7POIHETC9NoRps6KxT-Z7VektYwgjWxrdsCOZDNDjuyDsQaOgPGmFzM94MzWs5m8z0gtlLzJmeE7rvm00Jrx9Jv87TDWEQKF_WszcaTq-YbaaVXAkJK7VYkEYJ8PoKWa_CBLkErMLJZ-Ln8GxqDdDR0E5nDAM-7dCCzDdTg90c2vccOXg7FEUwxi72t3vpImSrNYe-hzqhcSONBEeXlQO93cT4BwM5bYaq1S3LKMaR5DptGWB8GZePlKyQpdSD_GbGB8cpRiYGGICVtZ9I8OgHJl96KOIB9wXP3zvU9iJoRMZZURVb0dAOEg8zAf97kN0ekmpmqCh5Rr1gel53Y5RcV0RN7SqjOgx4_a4psyTyLMuk3ijmRxppv5ZIYLams-mKTBZryTIVCqOZ2uz3zGp8XIk_zJeJon_JfM9iqI-OWWJmwEHs7n_VTC3Df-GXLBrouOE5EeGbIpT7Lopuqqt9R_r3n0i_8Fa76i-f2zQLj7mSOwX2GhwcLtBQQrO2VtNVi4O4PhVopGWIH6AdW0elwJy7kc2WA0B0r9JM4nA5ShxPjHy21_YgifP8I2Zo5fsZbcI4D60X1ZtwlO16FFf-hMAt8JGjjqytrG_qBNly0IZ1oE=w315-h230-no?authuser=0');
 // Send the embed to the same channel as the message
 
 function randomizeFrase() {
