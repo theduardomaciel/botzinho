@@ -196,6 +196,9 @@ function checkClass()
             proximaAula = 'Todas as aulas de hoje acabaram!';
         }
 
+        console.log(now);
+        console.log(aulaAtual);
+
         if (aulaAtual !== aulaCheck) {
             console.log('Nova aula iniciando, enviado mensagem ao servidor com o link.');
             console.log(aula);
