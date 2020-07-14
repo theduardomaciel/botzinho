@@ -13,7 +13,7 @@ const guilhermoEmbed = new MessageEmbed()
 
 function randomizeFrase() {
     const values = [
-        '"A culpa da pedofilia é dessa criançada gostosa"',
+        '"A culpa da pedofilia é dessa criançada %@#$%@"',
         '"Mendigo não é gente, porque não aparece no Censo"',
         '"$%#@% com sua vó só é estranho quando ela acorda"',
         '"Se estiver com raiva, bata num nazista. O que ele vai fazer chamar Hitler? E se ele aparecer, bata nele também"',

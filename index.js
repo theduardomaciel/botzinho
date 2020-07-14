@@ -31,7 +31,6 @@ let activities = undefined;
 
 client.on('ready', () => {
     activities = [
-        '🛠MANUTENÇÃO! (Isso vai ser bastante frequente...)',
         '🔧ATUALIZAÇÃO! Durante o período inicial terei constantes atualizações.',
         '🐞MUITOS BUGS! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
     ],
