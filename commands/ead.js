@@ -183,7 +183,6 @@ function checkClass()
         for (let i = 0; i <= 8; i++) {
             if (now > horarios[i])
             {
-                console.log(horarios[i]);
                 aula = i + 1;
             }
         }
@@ -195,8 +194,7 @@ function checkClass()
             proximaAula = 'Todas as aulas de hoje acabaram!';
         }
 
-        console.log(now);
-        console.log(aulaAtual);
+        aulaCheck = aulaAtual;
 
         if (aulaAtual !== aulaCheck) {
             console.log('Nova aula iniciando, enviado mensagem ao servidor com o link.');
