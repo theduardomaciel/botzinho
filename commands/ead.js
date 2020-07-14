@@ -194,8 +194,6 @@ function checkClass()
             proximaAula = 'Todas as aulas de hoje acabaram!';
         }
 
-        aulaCheck = aulaAtual;
-
         if (aulaAtual !== aulaCheck) {
             console.log('Nova aula iniciando, enviado mensagem ao servidor com o link.');
             console.log(aula);
@@ -203,6 +201,9 @@ function checkClass()
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • <@&729017153897889812>`);
             textChannel.send({ embed: proximaAulaEmbed });
         }
+
+        aulaCheck = aulaAtual;
+        
     }
 }
 if (hasClass()) {
