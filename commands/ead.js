@@ -130,16 +130,17 @@ const dia = time.getDay();
 
 // Cada aula possui um adiantamento de 2 minutos;
 // 7:10, 8:00, 9:35, 10:20, 10:40, 11:30, 12:15, 13:00
+// E possuim um atraso de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
-const aula1Time = new Date(ano, mes, diaMes, 7, 8);
-const aula2Time = new Date(ano, mes, diaMes, 7, 58);
-const aula3Time = new Date(ano, mes, diaMes, 8, 48);
-const aula4Time = new Date(ano, mes, diaMes, 9, 33);
-const aula5Time = new Date(ano, mes, diaMes, 10, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10, 38);
-const aula7Time = new Date(ano, mes, diaMes, 11, 28);
-const aula8Time = new Date(ano, mes, diaMes, 12, 13);
-const fimDasAulas = new Date(ano, mes, diaMes, 13, 0);
+const aula1Time = new Date(ano, mes, diaMes, 7 - 3, 8);
+const aula2Time = new Date(ano, mes, diaMes, 7 - 3, 58);
+const aula3Time = new Date(ano, mes, diaMes, 8 - 3, 48);
+const aula4Time = new Date(ano, mes, diaMes, 9 - 3, 33);
+const aula5Time = new Date(ano, mes, diaMes, 10 - 3, 20);
+const aula6Time = new Date(ano, mes, diaMes, 10 - 3, 38);
+const aula7Time = new Date(ano, mes, diaMes, 11 - 3, 28);
+const aula8Time = new Date(ano, mes, diaMes, 12 - 3, 13);
+const fimDasAulas = new Date(ano, mes, diaMes, 13 - 3, 0);
 
 // Dias
 const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
