@@ -183,7 +183,7 @@ function checkClass()
         for (let i = 0; i <= 8; i++) {
             if (now > horarios[i])
             {
-                print(horarios[i]);
+                console.log(horarios[i]);
                 aula = i + 1;
             }
         }
