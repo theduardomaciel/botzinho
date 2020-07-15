@@ -6,7 +6,7 @@ const token = process.env.TOKEN;
 const execute = (client, message) => {
     // Turn bot off (destroy), then turn it back on
         // send channel a message that you're resetting bot [optional]
-    channel.send('Resetando...')
+    message.channel.send('Resetando...')
     .then(msg => client.destroy())
     .then(() => client.login(token));
 };
