@@ -132,14 +132,14 @@ const dia = time.getDay();
 // 7:10, 8:00, 9:35, 10:20, 10:40, 11:30, 12:15, 13:00
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
-const aula1Time = new Date(ano, mes, diaMes, 7 + 3, 8);
+const aula1Time = new Date(ano, mes, diaMes, 7 + 3, 10 - 2);
 const aula2Time = new Date(ano, mes, diaMes, 7 + 3, 58);
-const aula3Time = new Date(ano, mes, diaMes, 8 + 3, 48);
-const aula4Time = new Date(ano, mes, diaMes, 9 + 3, 33);
+const aula3Time = new Date(ano, mes, diaMes, 8 + 3, 50 - 2);
+const aula4Time = new Date(ano, mes, diaMes, 9 + 3, 35 - 2);
 const aula5Time = new Date(ano, mes, diaMes, 10 + 3, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10 + 3, 38);
-const aula7Time = new Date(ano, mes, diaMes, 11 + 3, 28);
-const aula8Time = new Date(ano, mes, diaMes, 12 + 3, 13);
+const aula6Time = new Date(ano, mes, diaMes, 10 + 3, 40 - 2);
+const aula7Time = new Date(ano, mes, diaMes, 11 + 3, 30 - 2);
+const aula8Time = new Date(ano, mes, diaMes, 12 + 3, 15 - 2);
 const fimDasAulas = new Date(ano, mes, diaMes, 13 + 3, 0);
 
 // Dias
@@ -231,7 +231,7 @@ module.exports = {
     cooldown: 2.5,
     aliases: ['aulas', 'aula'],
 	description: 'Comando responsável por informar: matérias do dia, horário das aulas, status das aulas, aula atual, link das aulas online entre outras funções...',
-	execute(client, message, args) {
+	execute(client, message, args, ops) {
         textChannel = message.channel;
 
         let aulaAtualEmbed = undefined;

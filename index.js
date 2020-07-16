@@ -10,6 +10,7 @@ const token = process.env.TOKEN;
 const client = new Discord.Client();
 
 const cooldowns = new Discord.Collection();
+const ownerID = '160536179517816832';
 
 client.queues = new Map();
 
@@ -31,8 +32,8 @@ let activities = undefined;
 
 client.on('ready', () => {
     activities = [
-        '🔧ATUALIZAÇÃO! Durante o período inicial terei constantes atualizações.',
-        '🐞MUITOS BUGS! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
+        '🔧DESENVOLVIMENTO! Durante o período inicial terei constantes atualizações!',
+        '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
     ],
     i = 0;
     setInterval(() => client.user.setActivity(`${activities[i++ %
@@ -52,10 +53,14 @@ client.once('reconnecting', () => {
     console.log('O bot foi desconectado!');
 });
 
-// COMANDOS
+// COMANDOS HOLDER
 
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+    let ops = {
+        ownerID: ownerID
+    }
 
     const args = message.content.slice(prefix.length).split(' ');
     const commandName = args.shift().toLowerCase();
@@ -104,7 +109,7 @@ client.on('message', message => {
 
     // Commands System
     try {
-        command.execute(client, message, args);
+        command.execute(client, message, args, ops);
     } catch (error) {
         console.error(error);
         message.reply('houve um erro ao tentar executar este comando, provavelmente o comando está quebrado!.');
