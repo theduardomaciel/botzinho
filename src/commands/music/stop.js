@@ -4,6 +4,8 @@ const execute = (client, message) => {
         return message.reply('não existe nenhuma playlist sendo reproduzida.');
     }
     queue.musics = [];
+    queue.loop = false
+    
     client.queues.set(message.guild.id, queue);
     queue.dispatcher.end();
 };
@@ -12,6 +14,6 @@ module.exports = {
     name: 'stop',
     description: 'Interrompe a playlist tocando no momento.',
 	aliases: ['parar'],
-    cooldown: 5,
+    cooldown: 10,
     execute,
 };

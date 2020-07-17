@@ -112,7 +112,10 @@ const diasLetivos = {
         'aula8': {
             'materia': 'Inglês', 'horario': '12:15', 'link': 'Aguardando...',
         },
-        'aula9': fimDasAulasMensagem,
+        'aula9': {
+            'materia': 'Educação', 'horario': '12:15', 'link': 'No e-class...',
+        },
+        'aula10': fimDasAulasMensagem,
     },
     'Sábado': '',
 };
@@ -128,18 +131,20 @@ const diaMes = time.getDate();
 
 const dia = time.getDay();
 
-// Cada aula possui um adiantamento de 2 minutos;
+// Cada aula possui um adiantamento de 5 minutos;
 // 7:10, 8:00, 9:35, 10:20, 10:40, 11:30, 12:15, 13:00
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
-const aula1Time = new Date(ano, mes, diaMes, 7 + 3, 10 - 2);
-const aula2Time = new Date(ano, mes, diaMes, 7 + 3, 58);
-const aula3Time = new Date(ano, mes, diaMes, 8 + 3, 50 - 2);
-const aula4Time = new Date(ano, mes, diaMes, 9 + 3, 35 - 2);
+const adiantamento = 5;
+
+const aula1Time = new Date(ano, mes, diaMes, 7 + 3, 10 - adiantamento);
+const aula2Time = new Date(ano, mes, diaMes, 7 + 3, 60 - adiantamento);
+const aula3Time = new Date(ano, mes, diaMes, 8 + 3, 50 - adiantamento);
+const aula4Time = new Date(ano, mes, diaMes, 9 + 3, 35 - adiantamento);
 const aula5Time = new Date(ano, mes, diaMes, 10 + 3, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10 + 3, 40 - 2);
-const aula7Time = new Date(ano, mes, diaMes, 11 + 3, 30 - 2);
-const aula8Time = new Date(ano, mes, diaMes, 12 + 3, 15 - 2);
+const aula6Time = new Date(ano, mes, diaMes, 10 + 3, 40 - adiantamento);
+const aula7Time = new Date(ano, mes, diaMes, 11 + 3, 30 - adiantamento);
+const aula8Time = new Date(ano, mes, diaMes, 12 + 3, 15 - adiantamento);
 const fimDasAulas = new Date(ano, mes, diaMes, 13 + 3, 0);
 
 // Dias
@@ -180,7 +185,7 @@ function checkClass()
 
         const now = new Date();
 
-        for (let i = 0; i <= 8; i++) {
+        for (let i = 0; i <= aulaDia.lenght; i++) {
             if (now > horarios[i])
             {
                 aula = i + 1;
