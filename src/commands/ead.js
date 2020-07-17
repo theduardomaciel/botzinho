@@ -136,7 +136,9 @@ const dia = time.getDay();
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
-var offsetEmHoras = time.getTimezoneOffset() / 60;
+const offsetEmHoras = time.getTimezoneOffset() / 60;
+
+console.log(offsetEmHoras);
 
 const aula1Time = new Date(ano, mes, diaMes, 7 + offsetEmHoras, 10 - adiantamento);
 const aula2Time = new Date(ano, mes, diaMes, 7 + offsetEmHoras, 60 - adiantamento);
@@ -191,9 +193,12 @@ function checkClass()
         for (let i = 0; i <= 8; i++) {
             if (now > horarios[i])
             {
+                console.log(horarios[i]);
+                console.log(now);
                 aula = i + 1;
             }
         }
+
 
         aulaAtual = aulaDia['aula' + [aula]];
         if (aula != 9) {
