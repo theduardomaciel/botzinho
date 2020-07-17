@@ -113,7 +113,7 @@ const diasLetivos = {
             'materia': 'Inglês', 'horario': '12:15', 'link': 'Aguardando...',
         },
         'aula9': {
-            'materia': 'Educação', 'horario': '12:15', 'link': 'No e-class...',
+            'materia': 'Educação Física', 'horario': '13:00', 'link': 'No e-class...',
         },
         'aula10': fimDasAulasMensagem,
     },
@@ -136,16 +136,17 @@ const dia = time.getDay();
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
+var offsetEmHoras = time.getTimezoneOffset() / 60;
 
-const aula1Time = new Date(ano, mes, diaMes, 7 + 3, 10 - adiantamento);
-const aula2Time = new Date(ano, mes, diaMes, 7 + 3, 60 - adiantamento);
-const aula3Time = new Date(ano, mes, diaMes, 8 + 3, 50 - adiantamento);
-const aula4Time = new Date(ano, mes, diaMes, 9 + 3, 35 - adiantamento);
-const aula5Time = new Date(ano, mes, diaMes, 10 + 3, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10 + 3, 40 - adiantamento);
-const aula7Time = new Date(ano, mes, diaMes, 11 + 3, 30 - adiantamento);
-const aula8Time = new Date(ano, mes, diaMes, 12 + 3, 15 - adiantamento);
-const fimDasAulas = new Date(ano, mes, diaMes, 13 + 3, 0);
+const aula1Time = new Date(ano, mes, diaMes, 7 + offsetEmHoras, 10 - adiantamento);
+const aula2Time = new Date(ano, mes, diaMes, 7 + offsetEmHoras, 60 - adiantamento);
+const aula3Time = new Date(ano, mes, diaMes, 8 + offsetEmHoras, 50 - adiantamento);
+const aula4Time = new Date(ano, mes, diaMes, 9 + offsetEmHoras, 35 - adiantamento);
+const aula5Time = new Date(ano, mes, diaMes, 10 + offsetEmHoras, 20);
+const aula6Time = new Date(ano, mes, diaMes, 10 + offsetEmHoras, 40 - adiantamento);
+const aula7Time = new Date(ano, mes, diaMes, 11 + offsetEmHoras, 30 - adiantamento);
+const aula8Time = new Date(ano, mes, diaMes, 12 + offsetEmHoras, 15 - adiantamento);
+const fimDasAulas = new Date(ano, mes, diaMes, 13 + offsetEmHoras, 0);
 
 // Dias
 const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -177,6 +178,8 @@ if (hasClass()) {
 let aulasEAD = undefined;
 let aulaCheck = undefined;
 
+const diaLenght = Object.keys(aulaDia).length
+
 function checkClass()
 {
      const horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
@@ -185,7 +188,7 @@ function checkClass()
 
         const now = new Date();
 
-        for (let i = 0; i <= aulaDia.lenght; i++) {
+        for (let i = 0; i <= 8; i++) {
             if (now > horarios[i])
             {
                 aula = i + 1;
@@ -251,7 +254,7 @@ module.exports = {
             .setTimestamp()
             .setFooter('Botzinho (by Edu)', 'https://images.emojiterra.com/twitter/512px/1f44c.png');
 
-            for (let i = 1; i < 9; i++) {
+            for (let i = 1; i < diaLenght - 1; i++) {
                 aulasEAD.addField(`${aulaDia['aula' + i]['materia']}  (${aulaDia['aula' + i]['horario']})`, aulaDia['aula' + i]['link'], true);
             }
 
