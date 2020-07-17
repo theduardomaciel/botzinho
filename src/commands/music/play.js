@@ -4,6 +4,7 @@ const ytdl = require('ytdl-core-discord');
 const execute = (client, message, args) => {
     const string = args.join(' ');
     console.log(string);
+    if (!args[0]) return message.reply('você precisa me especificar um nome ou link de música!');
     try {
         search(string, (error, result) => {
             if (error) {

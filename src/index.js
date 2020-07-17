@@ -4,6 +4,8 @@ const Discord = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const path = require('path');
+
 const prefix = process.env.PREFIX;
 const token = process.env.TOKEN;
 
@@ -15,8 +17,8 @@ const ownerID = '160536179517816832';
 client.queues = new Map();
 
 client.commands = new Discord.Collection();
-const generalCommands = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-const musicCommands = fs.readdirSync('./commands/music').filter(file => file.endsWith('.js'));
+const generalCommands = fs.readdirSync(path.join(__dirname, '/commands')).filter(file => file.endsWith('.js'));
+const musicCommands = fs.readdirSync(path.join(__dirname, '/commands/music')).filter(file => file.endsWith('.js'));
 
 for (const file of generalCommands) {
 	const command = require(`./commands/${file}`);
