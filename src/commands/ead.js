@@ -136,19 +136,17 @@ const dia = time.getDay();
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
-const offsetEmHoras = time.getTimezoneOffset() / 60;
+const offsetEmHoras = time.getTimezoneOffset() / 60; // Caso o cliente seja local
 
-console.log(offsetEmHoras);
-
-const aula1Time = new Date(ano, mes, diaMes, 7 + offsetEmHoras, 10 - adiantamento);
-const aula2Time = new Date(ano, mes, diaMes, 7 + offsetEmHoras, 60 - adiantamento);
-const aula3Time = new Date(ano, mes, diaMes, 8 + offsetEmHoras, 50 - adiantamento);
-const aula4Time = new Date(ano, mes, diaMes, 9 + offsetEmHoras, 35 - adiantamento);
-const aula5Time = new Date(ano, mes, diaMes, 10 + offsetEmHoras, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10 + offsetEmHoras, 40 - adiantamento);
-const aula7Time = new Date(ano, mes, diaMes, 11 + offsetEmHoras, 30 - adiantamento);
-const aula8Time = new Date(ano, mes, diaMes, 12 + offsetEmHoras, 15 - adiantamento);
-const fimDasAulas = new Date(ano, mes, diaMes, 13 + offsetEmHoras, 0);
+const aula1Time = new Date(ano, mes, diaMes, 7 + 3, 10 - adiantamento);
+const aula2Time = new Date(ano, mes, diaMes, 7 + 3, 60 - adiantamento);
+const aula3Time = new Date(ano, mes, diaMes, 8 + 3, 50 - adiantamento);
+const aula4Time = new Date(ano, mes, diaMes, 9 + 3, 35 - adiantamento);
+const aula5Time = new Date(ano, mes, diaMes, 10 + 3, 20);
+const aula6Time = new Date(ano, mes, diaMes, 10 + 3, 40 - adiantamento);
+const aula7Time = new Date(ano, mes, diaMes, 11 + 3, 30 - adiantamento);
+const aula8Time = new Date(ano, mes, diaMes, 12 + 3, 15 - adiantamento);
+const fimDasAulas = new Date(ano, mes, diaMes, 13 + 3, 0);
 
 // Dias
 const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
