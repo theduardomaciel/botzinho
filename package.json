@@ -1,6 +1,6 @@
 {
   "name": "botzinho",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
     "start": "node src/index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "ex_treme",
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
