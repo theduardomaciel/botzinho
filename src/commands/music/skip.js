@@ -15,7 +15,7 @@ const execute = (client, message) => {
 module.exports = {
     name: 'skip',
     description: 'Pula a música atual e passa para a próxima da playlist.',
-	aliases: ['pular', 'próxima', 'proxima'],
+	aliases: ['pular', 'próxima', 'next'],
     cooldown: 5,
     execute,
 };

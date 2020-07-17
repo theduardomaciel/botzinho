@@ -6,7 +6,6 @@ const fimDasAulasMensagem = { 'materia': 'TODAS AS AULAS JÁ ACABARAM!', 'horari
 const diasLetivos = {
     'Domingo': '',
     'dia1': {
-        'aula0': inicioDasAulasMensagem,
         'aula1': {
             'materia': 'História', 'horario': '7:10', 'link': 'Aguardando...' },
         'aula2': {
@@ -22,10 +21,8 @@ const diasLetivos = {
             'materia': 'Química', 'horario': '11:30', 'link': 'Aguardando...' },
         'aula8': {
             'materia': 'Arte', 'horario': '12:15', 'link': 'Aguardando...' },
-        'aula9': fimDasAulasMensagem,
     },
     'dia2': {
-        'aula0': inicioDasAulasMensagem,
         'aula1': {
             'materia': 'Redação', 'horario': '7:10', 'link': 'Aguardando...',
         },
@@ -48,10 +45,8 @@ const diasLetivos = {
         'aula8': {
             'materia': 'Capela', 'horario': '12:15', 'link': 'https://www.instagram.com/colegioadventistademaceio/',
         },
-        'aula9': fimDasAulasMensagem,
     },
     'dia3': {
-        'aula0': inicioDasAulasMensagem,
         'aula1': {
             'materia': 'Religião', 'horario': '7:10', 'link': 'Aguardando...' },
         'aula2': {
@@ -67,10 +62,8 @@ const diasLetivos = {
             'materia': 'Literatura', 'horario': '11:30', 'link': 'Aguardando...' },
         'aula8': {
             'materia': 'Biologia', 'horario': '12:15', 'link': 'Aguardando...' },
-            'aula9': fimDasAulasMensagem,
     },
     'dia4': {
-        'aula0': inicioDasAulasMensagem,
         'aula1': {
             'materia': 'História (Ari)', 'horario': '7:10', 'link': 'Aguardando...' },
         'aula2': {
@@ -86,10 +79,8 @@ const diasLetivos = {
             'materia': 'Química', 'horario': '11:30', 'link': 'Aguardando...' },
         'aula8': {
             'materia': 'Inglês', 'horario': '12:15', 'link': 'Aguardando...' },
-            'aula9': fimDasAulasMensagem,
     },
     'dia5': {
-        'aula0': inicioDasAulasMensagem,
         'aula1': {
             'materia': 'História', 'horario': '7:10', 'link': 'Aguardando...',
         },
@@ -115,7 +106,6 @@ const diasLetivos = {
         'aula9': {
             'materia': 'Educação Física', 'horario': '13:00', 'link': 'No e-class...',
         },
-        'aula10': fimDasAulasMensagem,
     },
     'Sábado': '',
 };
@@ -163,7 +153,7 @@ let proximaAula = undefined;
 let proximaAulaEmbed = undefined;
 
 if (hasClass()) {
-    aulaAtual = aulaDia['aula0'];
+    aulaAtual = inicioDasAulasMensagem;
     proximaAula = aulaDia['aula1'];
 
     // Embed: Próxima Aula
@@ -171,7 +161,6 @@ if (hasClass()) {
     .setColor('#0099ff')
     .setTitle(`${aulaAtual['materia']}`)
     .setAuthor('PRÓXIMA AULA • EAD')
-    // .setAuthor('Botzinho • EAD', 'https://pbs.twimg.com/profile_images/1030607655478415366/LBoC35SF_400x400.jpg', 'https://twitter.com/theduardomaciel')
     .setDescription(aulaAtual['link']);
 }
 
@@ -188,11 +177,9 @@ function checkClass()
 
         const now = new Date();
 
-        for (let i = 0; i <= 8; i++) {
+        for (let i = 0; i <= diaLenght; i++) {
             if (now > horarios[i])
             {
-                console.log(horarios[i]);
-                console.log(now);
                 aula = i + 1;
             }
         }
@@ -206,10 +193,20 @@ function checkClass()
         }
 
         if (aulaAtual !== aulaCheck) {
+
+            if (aula < 1) {
+                proximaAulaEmbed.setTitle(`${inicioDasAulasMensagem['materia']} (${inicioDasAulasMensagem['horario']})`);
+                proximaAulaEmbed.setDescription(`${inicioDasAulasMensagem['link']} • <@&729017153897889812>`);
+            } else if (aula >= diaLenght) {
+                proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
+                proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']} • <@&729017153897889812>`);
+            } else {
+                proximaAulaEmbed.setTitle(`${aulaDia['aula' + aula]['materia']} (${aulaDia['aula' + aula]['horario']})`);
+                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']} • <@&729017153897889812>`);
+            }
+
             console.log('Nova aula iniciando, enviado mensagem ao servidor com o link.');
             console.log(aula);
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']})`);
-            proximaAulaEmbed.setDescription(`${aulaAtual['link']} • <@&729017153897889812>`);
             textChannel.send({ embed: proximaAulaEmbed });
         }
 
@@ -257,7 +254,7 @@ module.exports = {
             .setTimestamp()
             .setFooter('Botzinho (by Edu)', 'https://images.emojiterra.com/twitter/512px/1f44c.png');
 
-            for (let i = 1; i < diaLenght - 1; i++) {
+            for (let i = 1; i < diaLenght + 1; i++) {
                 aulasEAD.addField(`${aulaDia['aula' + i]['materia']}  (${aulaDia['aula' + i]['horario']})`, aulaDia['aula' + i]['link'], true);
             }
 
