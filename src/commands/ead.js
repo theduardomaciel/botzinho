@@ -151,7 +151,7 @@ let aulaAtual = undefined;
 let proximaAula = undefined;
 
 let proximaAulaEmbed = undefined;
-
+console.log(hasClass());
 if (hasClass()) {
     aulaAtual = inicioDasAulasMensagem;
     proximaAula = aulaDia['aula1'];
@@ -167,7 +167,9 @@ if (hasClass()) {
 let aulasEAD = undefined;
 let aulaCheck = undefined;
 
-const diaLenght = Object.keys(aulaDia).length
+if (hasClass()) {
+    const diaLenght = Object.keys(aulaDia).length
+}
 
 function checkClass()
 {
@@ -223,7 +225,7 @@ if (hasClass()) {
 
 function hasClass()
 {
-    if (dia === 0 || dia === 7) {
+    if (dia === 0 || dia === 6) {
         return false;
     } else {
         return true;

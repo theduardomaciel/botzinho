@@ -100,7 +100,7 @@ client.on('message', message => {
     if (timestamps.has(message.author.id)) {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-        if (now < expirationTime) {
+        if (now < expirationTime && message.author.id !== '160536179517816832') {
             const timeLeft = (expirationTime - now) / 1000;
             return message.reply(`aguarde ${timeLeft.toFixed(1)} segundo(s) para poder usar o comando \`${command.name}\``);
         }
