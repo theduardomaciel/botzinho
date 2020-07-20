@@ -128,15 +128,15 @@ const dia = time.getDay();
 const adiantamento = 5;
 const offsetEmHoras = time.getTimezoneOffset() / 60; // Caso o cliente seja local
 
-const aula1Time = new Date(ano, mes, diaMes, 7 + 3, 10 - adiantamento);
-const aula2Time = new Date(ano, mes, diaMes, 7 + 3, 60 - adiantamento);
-const aula3Time = new Date(ano, mes, diaMes, 8 + 3, 50 - adiantamento);
-const aula4Time = new Date(ano, mes, diaMes, 9 + 3, 35 - adiantamento);
-const aula5Time = new Date(ano, mes, diaMes, 10 + 3, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10 + 3, 40 - adiantamento);
-const aula7Time = new Date(ano, mes, diaMes, 11 + 3, 30 - adiantamento);
-const aula8Time = new Date(ano, mes, diaMes, 12 + 3, 15 - adiantamento);
-const fimDasAulas = new Date(ano, mes, diaMes, 13 + 3, 0);
+const aula1Time = new Date(ano, mes, diaMes, 7 , 10 - adiantamento);
+const aula2Time = new Date(ano, mes, diaMes, 7, 60 - adiantamento);
+const aula3Time = new Date(ano, mes, diaMes, 8, 50 - adiantamento);
+const aula4Time = new Date(ano, mes, diaMes, 9, 35 - adiantamento);
+const aula5Time = new Date(ano, mes, diaMes, 10, 20);
+const aula6Time = new Date(ano, mes, diaMes, 10, 40 - adiantamento);
+const aula7Time = new Date(ano, mes, diaMes, 11, 30 - adiantamento);
+const aula8Time = new Date(ano, mes, diaMes, 12, 15 - adiantamento);
+const fimDasAulas = new Date(ano, mes, diaMes, 13, 0);
 
 // Dias
 const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -190,10 +190,11 @@ function checkClass()
 
 
         aulaAtual = aulaDia['aula' + [aula]];
-        if (aula != 9) {
+
+        if (aula < 8) {
             proximaAula = aulaDia['aula' + [aula + 1]];
         } else {
-            proximaAula = 'Todas as aulas de hoje acabaram!';
+            proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
         }
 
         if (aulaAtual !== aulaCheck) {
@@ -201,7 +202,7 @@ function checkClass()
             if (aula < 1) {
                 proximaAulaEmbed.setTitle(`${inicioDasAulasMensagem['materia']} (${inicioDasAulasMensagem['horario']})`);
                 proximaAulaEmbed.setDescription(`${inicioDasAulasMensagem['link']} • <@&729017153897889812>`);
-            } else if (aula >= diaLenght) {
+            } else if (aula >= diaLenght + 1) {
                 proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
                 proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']} • <@&729017153897889812>`);
             } else {
