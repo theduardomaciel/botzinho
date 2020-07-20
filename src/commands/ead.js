@@ -167,13 +167,15 @@ if (hasClass()) {
 let aulasEAD = undefined;
 let aulaCheck = undefined;
 
-if (hasClass()) {
-    const diaLenght = Object.keys(aulaDia).length
+let diaLenght = undefined;
+
+if (aulaDia) {
+    diaLenght =  Object.keys(aulaDia).length;;
 }
 
 function checkClass()
 {
-     const horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
+    const horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
 
     if (textChannel) {
 
