@@ -29,7 +29,7 @@ for (const file of musicCommands) {
 	const command = require(`./commands/music/${file}`);
 	client.commands.set(command.name, command);
 }
-for (const file of musicCommands) {
+for (const file of eadCommands) {
 	const command = require(`./commands/ead/${file}`);
 	client.commands.set(command.name, command);
 }
