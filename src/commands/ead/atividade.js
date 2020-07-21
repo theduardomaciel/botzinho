@@ -1,4 +1,7 @@
-const atividadesEmbed = new Discord.MessageEmbed()
+const { MessageEmbed } = require("discord.js");
+
+
+const atividadesEmbed = new MessageEmbed()
 .setColor('#0099ff')
 .setTitle('PLAYLIST ATUAL:')
 .setAuthor('Botzinho • Por Edu (ex_) ', 'https://pbs.twimg.com/profile_images/1030607655478415366/LBoC35SF_400x400.jpg', 'https://twitter.com/theduardomaciel')
