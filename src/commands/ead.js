@@ -126,17 +126,18 @@ const dia = time.getDay();
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
+let offset = 3;
 const offsetEmHoras = time.getTimezoneOffset() / 60; // Caso o cliente seja local
 
-const aula1Time = new Date(ano, mes, diaMes, 7 , 10 - adiantamento);
-const aula2Time = new Date(ano, mes, diaMes, 7, 60 - adiantamento);
-const aula3Time = new Date(ano, mes, diaMes, 8, 50 - adiantamento);
-const aula4Time = new Date(ano, mes, diaMes, 9, 35 - adiantamento);
-const aula5Time = new Date(ano, mes, diaMes, 10, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10, 40 - adiantamento);
-const aula7Time = new Date(ano, mes, diaMes, 11, 30 - adiantamento);
-const aula8Time = new Date(ano, mes, diaMes, 12, 15 - adiantamento);
-const fimDasAulas = new Date(ano, mes, diaMes, 13, 0);
+const aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
+const aula2Time = new Date(ano, mes, diaMes, 7 + offset, 60 - adiantamento);
+const aula3Time = new Date(ano, mes, diaMes, 8 + offset, 50 - adiantamento);
+const aula4Time = new Date(ano, mes, diaMes, 9 + offset, 35 - adiantamento);
+const aula5Time = new Date(ano, mes, diaMes, 10 + offset, 20);
+const aula6Time = new Date(ano, mes, diaMes, 10 + offset, 40 - adiantamento);
+const aula7Time = new Date(ano, mes, diaMes, 11 + offset, 30 - adiantamento);
+const aula8Time = new Date(ano, mes, diaMes, 12 + offset, 15 - adiantamento);
+const fimDasAulas = new Date(ano, mes, diaMes, 13 + offset, 0);
 
 // Dias
 const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -289,6 +290,9 @@ module.exports = {
             } else if (args[0] === 'atual' || args[0] === 'proxima' || args[0] === 'agora' || args[0] === 'proximo') {
                 message.channel.send({ embed: aulaAtualEmbed });
                 message.delete();
+            } else if (args[0] === 'offset') {
+                offset = args[1];
+                message.channel.send('Offset de horário atualizado para: ' + args[1]);
 
                 // COMEÇANDO INSERÇÃO DE LINKS
             } else if (args[0] === 'set' && message.member.roles.cache.has('728794307099885660')) {

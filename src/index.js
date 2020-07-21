@@ -19,7 +19,7 @@ client.queues = new Map();
 client.commands = new Discord.Collection();
 const generalCommands = fs.readdirSync(path.join(__dirname, '/commands')).filter(file => file.endsWith('.js'));
 const musicCommands = fs.readdirSync(path.join(__dirname, '/commands/music')).filter(file => file.endsWith('.js'));
-const eadCommands = fs.readdirSync(path.join(__dirname, '/commands/ead')).filter(file => file.endsWith('.js'));
+// const eadCommands = fs.readdirSync(path.join(__dirname, '/commands/ead')).filter(file => file.endsWith('.js'));
 
 for (const file of generalCommands) {
 	const command = require(`./commands/${file}`);
@@ -29,10 +29,10 @@ for (const file of musicCommands) {
 	const command = require(`./commands/music/${file}`);
 	client.commands.set(command.name, command);
 }
-for (const file of eadCommands) {
-	const command = require(`./commands/ead/${file}`);
-	client.commands.set(command.name, command);
-}
+//for (const file of eadCommands) {
+//	const command = require(`./commands/ead/${file}`);
+//	client.commands.set(command.name, command);
+//}
 
 let i = 0;
 let activities = undefined;
