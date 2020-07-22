@@ -11,58 +11,42 @@ const execute = (client, message, args) => {
     const channel = message.channel;
 
     if (!args[0]) {
-        message.reply('você precisa me especificar se quer adicionar: matéria, atividade, data, ou anexar algum arquivo!');
-    } else if (args[0] === 'materia') {
-        if (criandoAtividade === false) {
-            novaAtividade = true;
-            atividadeEmbed = new Discord.MessageEmbed()
-            .setColor(0x0099ff);
-        }
-        atividadeEmbed.setTitle(`ATIVIDADE DE ${args[1]}:`);
-        status += 1;
+        message.reply('você precisa especificar se quer adicionar: matéria, atividade, data, ou anexar algum arquivo!');
+    } else {
+        const atividadeEmbed = new Discord.MessageEmbed()
+        .setColor(0x0099ff);
 
-        checkEnd(message);
-        message.delete();
-    } else if (args[0] === 'desc') {
-        const text = args.slice(1).join(' ')
-        if (!text) return message.reply('você precisar descrever a atividade!');
-        atividadeEmbed.setDescription(`**${text}**`);
-        status += 1;
-
-        checkEnd(message);
-        message.delete();
-    } else if (args[0] === 'prazo') {
-        atividadeEmbed.setFooter('Prazo de Entrega: ' + args[1]);
-        status += 1;
+        if (!args[0] && args[1] && args[2]) return message.reply('você precisar adicionar a matéria (1), informar o prazo (2) e descrever a atividade. (3)');
         
-        checkEnd(message);
-        message.delete();
-    } else if (args[0] === 'anexo') {
+        atividadeEmbed.setTitle(`ATIVIDADE DE ${args[1].toUpperCase()}:`);
 
-        const anexo = message.attachments.array()[0]
+        const text = args.slice(2).join(' ');
+        atividadeEmbed.setDescription(`**${text}**`);
 
-        try {
-            attachment = new Discord.MessageAttachment(anexo.url);
-        } catch(error) {
-            console.log(error);
+        atividadeEmbed.setFooter('Prazo de Entrega: ' + args[1]);
+
+        const anexos = message.attachments.array()[0] 
+
+        if (anexos) {
+            try {
+                attachment = new Discord.MessageAttachment(anexo.url);
+            } catch(error) {
+                console.log(error);
+            }
         }
 
-        checkEnd(message);
+        message.channel.send(atividadeEmbed).then(embedMessage => {
+            embedMessage.react("✅")
+            //embedMessage.react("❌");
+        });
+        if (attachment) {
+            channel.send(attachment);
+        }
+        message.delete();
+
     }
 
 };
-
-function checkEnd(message) {
-    if (status >= 3) {
-        message.channel.send(atividadeEmbed).then(embedMessage => {
-            embedMessage.react("✅"),
-            embedMessage.react("❌");
-        });
-    }
-    if (attachment) {
-        channel.send(attachment);
-    }
-}
 
 module.exports = {
     name: 'atividade',
