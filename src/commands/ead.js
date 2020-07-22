@@ -192,7 +192,7 @@ function checkClass()
 
         aulaAtual = aulaDia['aula' + [aula]];
 
-        if (aula < diaLenght) {
+        if (aula < 1) {
             proximaAula = aulaDia['aula' + [aula + 1]];
         } else {
             proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
@@ -302,14 +302,15 @@ module.exports = {
             } else if (args[0] === 'all') {
                 if (args.length > 9) return message.reply('me foi dado mais de 7 argumentos!');
                 message.delete();
-                for (let i = 1; i < args.length; i++) {
-                    if (i <= 4) {
+                for (let i = 1; i < args.length + 1; i++) {
+                    console.log(args.length);
+                    if (i < 5) {
                         aulaDia['aula' + i]['link'] = args[i];
                         console.log('Aula ' + i + ': ' + aulaDia['aula' + i]['link']);
-                    } else if (i > 4) {
-                        const value = i + 1;
+                    } else if (i > 5) {
+                        const value = i - 1;
+                        aulaDia['aula' + i]['link'] = args[value];
                         console.log('Aula ' + i + ': ' + aulaDia['aula' + i]['link']);
-                        aulaDia['aula' + value]['link'] = args[i];
                     }
                 }
             }
