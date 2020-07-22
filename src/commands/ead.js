@@ -192,7 +192,7 @@ function checkClass()
 
         aulaAtual = aulaDia['aula' + [aula]];
 
-        if (aula < 1) {
+        if (aula <= diaLenght) {
             proximaAula = aulaDia['aula' + [aula + 1]];
         } else {
             proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
@@ -301,7 +301,6 @@ module.exports = {
                 message.delete();
             } else if (args[0] === 'all') {
                 if (args.length > 9) return message.reply('me foi dado mais de 7 argumentos!');
-                message.delete();
                 for (let i = 1; i < args.length + 1; i++) {
                     console.log(args.length);
                     if (i < 5) {

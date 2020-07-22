@@ -21,10 +21,14 @@ const execute = (client, message, args) => {
                     }
                 } else {
                     if (message.member.voice.channel) {
-                        message.channel.send(`Tocando a música: \`${music.title}\``);
+                        message.channel.send(`Iniciando a playlist, tocando a música: \`${music.title}\``);
                         message.delete();
+                        try {
+                            playMusic(client, message, music);
+                        } catch(error) {
+                            console.log(error);
+                        }
                     }
-                    playMusic(client, message, music);
                 }
             } else {
                 return message.reply('desculpe, não encontrei sua música. Pare de bater a cabeça no teclado e escreva direito.');
