@@ -18,7 +18,7 @@ const execute = (client, message, args) => {
 
         if (!args[0] && args[1] && args[2]) return message.reply('você precisar adicionar a matéria (1), informar o prazo (2) e descrever a atividade. (3)');
         
-        atividadeEmbed.setTitle(`ATIVIDADE DE ${args[1].toUpperCase()}:`);
+        atividadeEmbed.setTitle(`ATIVIDADE DE ${args[0].toUpperCase()}:`);
 
         const text = args.slice(2).join(' ');
         atividadeEmbed.setDescription(`**${text}**`);

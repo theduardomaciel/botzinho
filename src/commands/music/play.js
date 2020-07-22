@@ -21,7 +21,7 @@ const execute = (client, message, args) => {
                     }
                 } else {
                     if (message.member.voice.channel) {
-                        message.channel.send(`Iniciando a playlist, tocando a música: \`${music.title}\``);
+                        message.channel.send(`Iniciando a playlist com a música: \`${music.title}\``);
                         message.delete();
                         try {
                             playMusic(client, message, music);
@@ -45,7 +45,7 @@ const playMusic = async (client, message, music) => {
     if(!music && queue.loop === false) {
         if (queue) {
             queue.connection.disconnect();
-            message.channel.send('**A rave no servidor acabou, hasta la vista!**');
+            message.channel.send('**A playlist atual foi finalizada, hasta la vista a todos que compareceram!**');
             message.channel.bulkDelete(100, true);
             return client.queues.delete(message.member.guild.id);
         }
