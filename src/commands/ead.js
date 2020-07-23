@@ -126,7 +126,7 @@ const dia = time.getDay();
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
-let offset = 3;
+let offset = 0;
 const offsetEmHoras = time.getTimezoneOffset() / 60; // Caso o cliente seja local
 
 const aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
@@ -189,8 +189,13 @@ function checkClass()
             }
         }
 
-
-        aulaAtual = aulaDia['aula' + [aula]];
+        if (aula < diaLenght) {
+            aulaAtual = inicioDasAulasMensagem;
+        } else if (aula > diaLenght) {
+            aulaAtual = fimDasAulasMensagem;
+        } else {
+            aulaAtual = aulaDia['aula' + [aula]];
+        }
 
         if (aula <= diaLenght) {
             proximaAula = aulaDia['aula' + [aula + 1]];
@@ -287,12 +292,12 @@ module.exports = {
             if (!args.length) {
                 message.channel.send({ embed: aulasEAD });
                 message.delete();
-            } else if (args[0] === 'atual' || args[0] === 'proxima' || args[0] === 'agora' || args[0] === 'proximo') {
+            } else if (args[0] === 'atual') {
                 message.channel.send({ embed: aulaAtualEmbed });
                 message.delete();
             } else if (args[0] === 'offset') {
                 offset = args[1];
-                message.channel.send('Offset de horário atualizado para: ' + args[1]);
+                message.channel.send('Offset de horário atualizado para: ' + args[1] + ', mesmo que o comando ainda não funcione...');
 
                 // COMEÇANDO INSERÇÃO DE LINKS
             } else if (args[0] === 'set' && message.member.roles.cache.has('728794307099885660')) {
