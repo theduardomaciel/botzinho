@@ -22,7 +22,7 @@ module.exports = {
             .setTitle('**MEUS COMANDOS:**')
             .setURL('https://twitter.com/theduardomaciel')
             .setAuthor(message.guild.name, `https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}.png`, 'https://discord.gg/Tnap8b')
-            .setDescription(`Aqui está a lista de todos os meus comandos. \nVocê pode enviar \`${prefix}help [nome do comando]\` para acessar um comando específico.`)
+            .setDescription(`Aqui está a lista de todos os meus comandos. \nVocê pode enviar \`${prefix}help [nome do comando]\` para acessar um comando específico. \nPara informações mais detalhadas sobre o bot, visite a wiki: https://github.com/extremeHubGit/botzinho/wiki`)
             .setTimestamp()
             .setFooter('Botzinho (by Edu)', 'https://images.emojiterra.com/twitter/512px/1f44c.png');
 

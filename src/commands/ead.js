@@ -128,15 +128,14 @@ const dia = time.getDay();
 const adiantamento = 5;
 let offset = 0;
 
-let aula1Time
-let aula2Time
-let aula3Time
-let aula4Time
-let aula5Time
-let aula6Time
-let aula7Time
-let aula8Time
-let fimDasAulas
+let aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
+let aula2Time = new Date(ano, mes, diaMes, 7 + offset, 60 - adiantamento);
+let aula3Time = new Date(ano, mes, diaMes, 8 + offset, 50 - adiantamento);
+let aula4Time = new Date(ano, mes, diaMes, 9 + offset, 35 - adiantamento);
+let aula5Time = new Date(ano, mes, diaMes, 10 + offset, 20);
+let aula6Time = new Date(ano, mes, diaMes, 10 + offset, 40 - adiantamento);
+let aula7Time = new Date(ano, mes, diaMes, 11 + offset, 30 - adiantamento);
+let aula8Time = new Date(ano, mes, diaMes, 12 + offset, 15 - adiantamento);
 
 function updateTime() {
     aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
@@ -192,9 +191,7 @@ let ready = false;
 function checkClass()
 {
     const horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
-
-    if (textChannel && ready) {
-
+    if (textChannel && ready === true) {
         const now = new Date();
 
         for (let i = 0; i <= diaLenght; i++) {
@@ -314,18 +311,16 @@ module.exports = {
             } else if (args[0] === 'offset') {
                 message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
                 updateTime();
-            } else if (args[0] === 'ready') {
-                if (args[1] === 'true') {
-                    ready = true
-                    message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
-                    message.delete();
-                    return;
-                } else {
-                    ready = false;
-                    return message.reply(`o status do EAD foi atualizado para: \`${ready}\``);
-                    message.delete();
-                    return;
-                }
+            } else if (args[0] === 'true') {
+                ready = true
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                message.delete();
+                return;
+            } else if (args[0] === 'false') {
+                ready = false
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                message.delete();
+                return;
 
                 // COMEÇANDO INSERÇÃO DE LINKS
             } else if (args[0] === 'set' && message.member.roles.cache.has('728794307099885660')) {

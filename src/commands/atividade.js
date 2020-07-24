@@ -12,6 +12,18 @@ const execute = (client, message, args) => {
 
     if (!args[0]) {
         message.reply('você precisa especificar se quer adicionar: matéria, atividade, data, ou anexar algum arquivo!');
+    } else if (args[0] === 'anexo') {
+        const anexos = message.attachments.array()[0];
+        try {
+            attachment = new Discord.MessageAttachment(anexos.url);
+        } catch(error) {
+            console.log(error);
+        }
+        if (attachment) {
+            channel.send(attachment);
+        } else {
+            message.channel.send('Não foi possível carregar seu anexo!')
+        }
     } else {
         const atividadeEmbed = new Discord.MessageEmbed()
         .setColor(0x0099ff);
@@ -25,11 +37,11 @@ const execute = (client, message, args) => {
 
         atividadeEmbed.setFooter('Prazo de Entrega: ' + args[1]);
 
-        const anexos = message.attachments.array()[0] 
+        const anexos = message.attachments.array()[0];
 
         if (anexos) {
             try {
-                attachment = new Discord.MessageAttachment(anexo.url);
+                attachment = new Discord.MessageAttachment(anexos.url);
             } catch(error) {
                 console.log(error);
             }
@@ -41,6 +53,8 @@ const execute = (client, message, args) => {
         });
         if (attachment) {
             channel.send(attachment);
+        } else {
+            message.channel.send('Não foi possível carregar seu anexo!')
         }
         message.delete();
 
