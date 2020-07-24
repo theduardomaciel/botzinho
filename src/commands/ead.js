@@ -104,7 +104,7 @@ const diasLetivos = {
             'materia': 'Inglês', 'horario': '12:15', 'link': 'Aguardando...',
         },
         'aula9': {
-            'materia': 'Educação Física', 'horario': '13:00', 'link': 'No e-class...',
+            'materia': 'Educação Física', 'horario': '13:00', 'link': 'Aguardando...',
         },
     },
     'Sábado': '',
@@ -305,16 +305,16 @@ module.exports = {
                 message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
                 message.delete();
             } else if (args[0] === 'all') {
+                console.log('Aulas no dia: ' + diaLenght);
                 if (args.length > diaLenght + 1) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
-                for (let i = 1; i < args.length; i++) {
-                    console.log(args.length);
+                for (let i = 1; i < args.length + 1; i++) {
                     if (i < 5) {
                         aulaDia['aula' + i]['link'] = args[i];
-                        console.log('Aula ' + i + ': ' + aulaDia['aula' + i]['link']);
+                        console.log(`Aula ${i}: ${aulaDia['aula' + i]['link']}`);
                     } else if (i > 5) {
                         const value = i - 1;
                         aulaDia['aula' + i]['link'] = args[value];
-                        console.log('Aula ' + i + ': ' + aulaDia['aula' + i]['link']);
+                        console.log(`Aula ${i}: ${aulaDia['aula' + i]['link']}`);
                     }
                 }
             }
