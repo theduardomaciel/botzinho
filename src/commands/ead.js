@@ -126,7 +126,7 @@ const dia = time.getDay();
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
-let offset = 3;
+let offset = 0;
 const offsetEmHoras = time.getTimezoneOffset() / 60; // Caso o cliente seja local
 
 const aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
@@ -305,8 +305,8 @@ module.exports = {
                 message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
                 message.delete();
             } else if (args[0] === 'all') {
-                if (args.length > 9) return message.reply('me foi dado mais de 7 argumentos!');
-                for (let i = 1; i < args.length + 1; i++) {
+                if (args.length > diaLenght + 1) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
+                for (let i = 1; i < args.length; i++) {
                     console.log(args.length);
                     if (i < 5) {
                         aulaDia['aula' + i]['link'] = args[i];
