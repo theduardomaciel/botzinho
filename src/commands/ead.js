@@ -126,7 +126,7 @@ const dia = time.getDay();
 // E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
-let offset = 0;
+let offset = 3;
 const offsetEmHoras = time.getTimezoneOffset() / 60; // Caso o cliente seja local
 
 const aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
