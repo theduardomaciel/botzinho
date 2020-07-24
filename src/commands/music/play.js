@@ -3,7 +3,7 @@ const ytdl = require('ytdl-core-discord');
 
 const execute = (client, message, args) => {
     const string = args.join(' ');
-    console.log(string);
+    console.log('Música Encontrada: ' + string);
     if (!args[0]) return message.reply('você precisa me especificar um nome ou link de música!');
     try {
         search(string, (error, result) => {
@@ -45,7 +45,7 @@ const playMusic = async (client, message, music) => {
     if(!music && queue.loop === false) {
         if (queue) {
             queue.connection.disconnect();
-            message.channel.send('**A playlist atual foi finalizada, hasta la vista a todos que compareceram!**');
+            message.channel.send('**A playlist atual foi finalizada, hasta la vista a todos que compareceram à rave!**');
             message.channel.bulkDelete(100, true);
             return client.queues.delete(message.member.guild.id);
         }
@@ -90,15 +90,18 @@ const playMusic = async (client, message, music) => {
         } catch(error) {
             console.log(error);
         }
-
-    queue.dispatcher.on('finish', () => {
-        if (queue.loop === true) {
-            queue.musics.push(queue.musics.shift());
-        } else {
-            queue.musics.shift();
-        }
-        playMusic(client, message, queue.musics[0]);
-    });
+    try {
+        queue.dispatcher.on('finish', () => {
+            if (queue.loop === true) {
+                queue.musics.push(queue.musics.shift());
+            } else {
+                queue.musics.shift();
+            }
+            playMusic(client, message, queue.musics[0]);
+        });
+    } catch(error) {
+        console.log(error);
+    }
 };
 
 module.exports = {
