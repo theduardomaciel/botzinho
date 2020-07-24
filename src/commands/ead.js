@@ -123,21 +123,34 @@ const dia = time.getDay();
 
 // Cada aula possui um adiantamento de 5 minutos;
 // 7:10, 8:00, 9:35, 10:20, 10:40, 11:30, 12:15, 13:00
-// E possui um adimantamento de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
+// O adiantamento padrão é de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
-let offset = 3;
-const offsetEmHoras = time.getTimezoneOffset() / 60; // Caso o cliente seja local
+let offset = 0;
 
-const aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
-const aula2Time = new Date(ano, mes, diaMes, 7 + offset, 60 - adiantamento);
-const aula3Time = new Date(ano, mes, diaMes, 8 + offset, 50 - adiantamento);
-const aula4Time = new Date(ano, mes, diaMes, 9 + offset, 35 - adiantamento);
-const aula5Time = new Date(ano, mes, diaMes, 10 + offset, 20);
-const aula6Time = new Date(ano, mes, diaMes, 10 + offset, 40 - adiantamento);
-const aula7Time = new Date(ano, mes, diaMes, 11 + offset, 30 - adiantamento);
-const aula8Time = new Date(ano, mes, diaMes, 12 + offset, 15 - adiantamento);
-const fimDasAulas = new Date(ano, mes, diaMes, 13 + offset, 0);
+let aula1Time
+let aula2Time
+let aula3Time
+let aula4Time
+let aula5Time
+let aula6Time
+let aula7Time
+let aula8Time
+let fimDasAulas
+
+function updateTime() {
+    aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
+    aula2Time = new Date(ano, mes, diaMes, 7 + offset, 60 - adiantamento);
+    aula3Time = new Date(ano, mes, diaMes, 8 + offset, 50 - adiantamento);
+    aula4Time = new Date(ano, mes, diaMes, 9 + offset, 35 - adiantamento);
+    aula5Time = new Date(ano, mes, diaMes, 10 + offset, 20);
+    aula6Time = new Date(ano, mes, diaMes, 10 + offset, 40 - adiantamento);
+    aula7Time = new Date(ano, mes, diaMes, 11 + offset, 30 - adiantamento);
+    aula8Time = new Date(ano, mes, diaMes, 12 + offset, 15 - adiantamento);
+    fimDasAulas = new Date(ano, mes, diaMes, 13 + offset, 0);
+}
+
+updateTime();
 
 // Dias
 const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
@@ -174,11 +187,13 @@ if (aulaDia) {
     diaLenght =  Object.keys(aulaDia).length;;
 }
 
+let ready = false;
+
 function checkClass()
 {
     const horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
 
-    if (textChannel) {
+    if (textChannel && ready) {
 
         const now = new Date();
 
@@ -290,14 +305,27 @@ module.exports = {
         // EAD Commands
         if (hasClass()) {
             if (!args.length) {
+                if (!ready) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
                 message.channel.send({ embed: aulasEAD });
                 message.delete();
             } else if (args[0] === 'atual') {
                 message.channel.send({ embed: aulaAtualEmbed });
                 message.delete();
             } else if (args[0] === 'offset') {
-                offset = args[1];
-                message.channel.send('Offset de horário atualizado para: ' + args[1] + ', mesmo que o comando ainda não funcione...');
+                message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
+                updateTime();
+            } else if (args[0] === 'ready') {
+                if (args[1] === 'true') {
+                    ready = true
+                    message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                    message.delete();
+                    return;
+                } else {
+                    ready = false;
+                    return message.reply(`o status do EAD foi atualizado para: \`${ready}\``);
+                    message.delete();
+                    return;
+                }
 
                 // COMEÇANDO INSERÇÃO DE LINKS
             } else if (args[0] === 'set' && message.member.roles.cache.has('728794307099885660')) {
