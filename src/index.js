@@ -17,9 +17,10 @@ const ownerID = '160536179517816832';
 client.queues = new Map();
 
 client.commands = new Discord.Collection();
+
 const generalCommands = fs.readdirSync(path.join(__dirname, '/commands')).filter(file => file.endsWith('.js'));
 const musicCommands = fs.readdirSync(path.join(__dirname, '/commands/music')).filter(file => file.endsWith('.js'));
-// const eadCommands = fs.readdirSync(path.join(__dirname, '/commands/ead')).filter(file => file.endsWith('.js'));
+const eadCommands = fs.readdirSync(path.join(__dirname, '/commands/ead')).filter(file => file.endsWith('.js'));
 
 for (const file of generalCommands) {
 	const command = require(`./commands/${file}`);
@@ -29,10 +30,18 @@ for (const file of musicCommands) {
 	const command = require(`./commands/music/${file}`);
 	client.commands.set(command.name, command);
 }
-//for (const file of eadCommands) {
-//	const command = require(`./commands/ead/${file}`);
-//	client.commands.set(command.name, command);
-//}
+for (const file of eadCommands) {
+	const command = require(`./commands/ead/${file}`);
+	client.commands.set(command.name, command);
+}
+
+function isModerator(member) {
+    if (member.roles.cache.has('728794307099885660')) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 let i = 0;
 let activities = undefined;
@@ -105,7 +114,7 @@ client.on('message', message => {
     if (timestamps.has(message.author.id)) {
         const expirationTime = timestamps.get(message.author.id) + cooldownAmount;
 
-        if (now < expirationTime && message.author.id !== '160536179517816832') {
+        if (now < expirationTime && !isModerator(message.member) ) {
             const timeLeft = (expirationTime - now) / 1000;
             return message.reply(`aguarde ${timeLeft.toFixed(1)} segundo(s) para poder usar o comando \`${command.name}\``);
         }
@@ -114,9 +123,11 @@ client.on('message', message => {
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
+    const eadChannel = client.channels.cache.get('727537392415932488');
+
     // Commands System
     try {
-        command.execute(client, message, args, ops);
+        command.execute(client, message, args, eadChannel);
     } catch (error) {
         console.error(error);
         message.reply('houve um erro ao tentar executar este comando, provavelmente o comando está quebrado!.');

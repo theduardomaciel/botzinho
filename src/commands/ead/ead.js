@@ -112,6 +112,14 @@ const diasLetivos = {
 
 // const status = ['Esperando...', 'Em progresso...', 'TERMINADO', 'LINK QUEBRADO.'];
 
+function isModerator(member) {
+    if (member.roles.cache.has('728794307099885660')) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // Horários
 const time = new Date();
 
@@ -262,8 +270,8 @@ module.exports = {
     cooldown: 2.5,
     aliases: ['aulas', 'aula'],
 	description: 'Comando responsável por informar: matérias do dia, horário das aulas, status das aulas, aula atual, link das aulas online entre outras funções...',
-	execute(client, message, args, ops) {
-        textChannel = message.channel;
+	execute(client, message, args, eadChannel) {
+        textChannel = client.channels.cache.get('727537392415932488');
 
         let aulaAtualEmbed = undefined;
         if (hasClass()) {
@@ -288,7 +296,9 @@ module.exports = {
             .setDescription(`**${aulaAtual['materia']}**\n${aulaAtual['link']}`)
             .setURL('https://cpbedu.me/')
             .setThumbnail('https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png')
-            .setFooter('Próxima Aula: ' + `${proximaAula['materia']}`);
+            if (proximaAula) {
+                aulaAtualEmbed.setFooter('Próxima Aula: ' + `${proximaAula['materia']}`);
+            }
 
         }
 
@@ -306,28 +316,32 @@ module.exports = {
                 message.channel.send({ embed: aulasEAD });
                 message.delete();
             } else if (args[0] === 'atual') {
+                if (!ready) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
                 message.channel.send({ embed: aulaAtualEmbed });
                 message.delete();
-            } else if (args[0] === 'offset') {
+            } else if (args[0] === 'offset' && isModerator(message.member)) {
                 message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
                 updateTime();
-            } else if (args[0] === 'true') {
-                ready = true
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
-                message.delete();
-                return;
-            } else if (args[0] === 'false') {
-                ready = false
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
-                message.delete();
-                return;
+                
+            } else if (args[0] && isModerator(message.member)) {
+                if (args[0] === 'true') {
+                    ready = true
+                    message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                    message.delete();
+                    return;
+                } else {
+                    ready = false
+                    message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                    message.delete();
+                    return;
+                }
 
                 // COMEÇANDO INSERÇÃO DE LINKS
-            } else if (args[0] === 'set' && message.member.roles.cache.has('728794307099885660')) {
+            } else if (args[0] === 'set' && isModerator(message.member)) {
                 aulaDia['aula' + args[1]]['link'] = args[2];
                 message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
                 message.delete();
-            } else if (args[0] === 'all') {
+            } else if (args[0] === 'all' && isModerator(message.member)) {
                 console.log('Aulas no dia: ' + diaLenght);
                 if (args.length > diaLenght + 1) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
                 for (let i = 1; i < args.length + 1; i++) {

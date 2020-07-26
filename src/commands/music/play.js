@@ -45,8 +45,13 @@ const playMusic = async (client, message, music) => {
     if(!music && queue.loop === false) {
         if (queue) {
             queue.connection.disconnect();
-            message.channel.send('**A playlist atual foi finalizada, hasta la vista a todos que compareceram à rave!**');
             message.channel.bulkDelete(100, true);
+            await message.channel.send('**A playlist atual foi finalizada, hasta la vista a todos que compareceram à rave!**')
+            .then(msg => {
+                message.delete();
+                msg.delete({ timeout: 10000 });
+            });
+
             return client.queues.delete(message.member.guild.id);
         }
     }
