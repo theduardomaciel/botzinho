@@ -126,7 +126,6 @@ const time = new Date();
 const ano = time.getFullYear();
 const mes = time.getMonth();
 const diaMes = time.getDate();
-
 const dia = time.getDay();
 
 // Cada aula possui um adiantamento de 5 minutos;
@@ -135,15 +134,16 @@ const dia = time.getDay();
 
 const adiantamento = 5;
 let offset = 3;
+let horarios;
 
-let aula1Time = undefined;
-let aula2Time = undefined;
-let aula3Time = undefined;
-let aula4Time = undefined;
-let aula5Time = undefined;
-let aula6Time = undefined;
-let aula7Time = undefined;
-let aula8Time = undefined;
+let aula1Time;
+let aula2Time;
+let aula3Time;
+let aula4Time;
+let aula5Time;
+let aula6Time;
+let aula7Time;
+let aula8Time;
 
 function updateTime() {
     aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
@@ -198,8 +198,9 @@ let ready = false;
 
 function checkClass()
 {
-    const horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
     if (textChannel && ready === true) {
+
+        horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
         const now = new Date();
 
         for (let i = 0; i <= diaLenght; i++) {
@@ -271,8 +272,8 @@ module.exports = {
     aliases: ['aulas', 'aula'],
 	description: 'Comando responsável por informar: matérias do dia, horário das aulas, status das aulas, aula atual, link das aulas online entre outras funções...',
 	execute(client, message, args, eadChannel) {
-        textChannel = client.channels.cache.get('727537392415932488');
-
+        textChannel = message.channel;
+        // client.channels.cache.get('727537392415932488');
         let aulaAtualEmbed = undefined;
         if (hasClass()) {
             aulasEAD = new Discord.MessageEmbed()
@@ -321,6 +322,7 @@ module.exports = {
                 message.delete();
             } else if (args[0] === 'offset' && isModerator(message.member)) {
                 message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
+                offset = parseInt(args[1]);
                 updateTime();
                 checkClass();
                 
