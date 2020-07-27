@@ -210,7 +210,7 @@ function checkClass(isUpdating)
             }
         }
 
-        if (aula < diaLenght) {
+        if (aula < 1) {
             aulaAtual = inicioDasAulasMensagem;
         } else if (aula > diaLenght) {
             aulaAtual = fimDasAulasMensagem;
@@ -243,8 +243,7 @@ function checkClass(isUpdating)
         }
 
         if (isUpdating) {
-            console.log('Atualizando offset, aula atual:');
-            console.log(aula);
+            console.log('Atualizando offset, aula atual: ' + aula);
         }
         
         aulaCheck = aulaAtual;
