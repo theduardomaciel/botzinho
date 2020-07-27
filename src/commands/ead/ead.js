@@ -247,7 +247,7 @@ function checkClass(isUpdating)
             console.log(aula);
         }
         
-        aulaAtual = aulaCheck;
+        aulaCheck = aulaAtual;
         
     }
 }
