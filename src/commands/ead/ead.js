@@ -196,7 +196,7 @@ if (aulaDia) {
 
 let ready = false;
 
-function checkClass()
+function checkClass(isUpdating)
 {
     if (textChannel && ready === true) {
 
@@ -242,7 +242,12 @@ function checkClass()
             textChannel.send({ embed: proximaAulaEmbed });
         }
 
-        aulaCheck = aulaAtual;
+        if (isUpdating) {
+            console.log('Atualizando offset, aula atual:');
+            console.log(aula);
+        }
+        
+        aulaAtual = aulaCheck;
         
     }
 }
@@ -294,11 +299,15 @@ module.exports = {
             aulaAtualEmbed = new Discord.MessageEmbed()
             .setColor(0x0099ff)
             .setTitle('AULA ATUAL:')
-            .setDescription(`**${aulaAtual['materia']}**\n${aulaAtual['link']}`)
             .setURL('https://cpbedu.me/')
             .setThumbnail('https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png')
             if (proximaAula) {
                 aulaAtualEmbed.setFooter('Próxima Aula: ' + `${proximaAula['materia']}`);
+            }
+            if (aulaAtual) {
+                aulaAtualEmbed.setDescription(`**${aulaAtual['materia']}**\n${aulaAtual['link']}`)
+            } else {
+                aulaAtualEmbed.setDescription(`As aulas ainda não começaram...`);
             }
 
         }
@@ -324,7 +333,7 @@ module.exports = {
                 message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
                 offset = parseInt(args[1]);
                 updateTime();
-                checkClass();
+                checkClass(true);
                 
             } else if (args[0] === 'true' && isModerator(message.member)) {
                 ready = true
