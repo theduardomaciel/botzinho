@@ -134,16 +134,16 @@ const dia = time.getDay();
 // O adiantamento padrão é de 3 horas, para compensar o horário UTC (3 horas a mais que o brasileiro)
 
 const adiantamento = 5;
-let offset = 0;
+let offset = 3;
 
-let aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
-let aula2Time = new Date(ano, mes, diaMes, 7 + offset, 60 - adiantamento);
-let aula3Time = new Date(ano, mes, diaMes, 8 + offset, 50 - adiantamento);
-let aula4Time = new Date(ano, mes, diaMes, 9 + offset, 35 - adiantamento);
-let aula5Time = new Date(ano, mes, diaMes, 10 + offset, 20);
-let aula6Time = new Date(ano, mes, diaMes, 10 + offset, 40 - adiantamento);
-let aula7Time = new Date(ano, mes, diaMes, 11 + offset, 30 - adiantamento);
-let aula8Time = new Date(ano, mes, diaMes, 12 + offset, 15 - adiantamento);
+let aula1Time = undefined;
+let aula2Time = undefined;
+let aula3Time = undefined;
+let aula4Time = undefined;
+let aula5Time = undefined;
+let aula6Time = undefined;
+let aula7Time = undefined;
+let aula8Time = undefined;
 
 function updateTime() {
     aula1Time = new Date(ano, mes, diaMes, 7 + offset, 10 - adiantamento);
@@ -312,7 +312,7 @@ module.exports = {
         // EAD Commands
         if (hasClass()) {
             if (!args.length) {
-                if (!ready) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
+                if (!ready && !isModerator(message.member)) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
                 message.channel.send({ embed: aulasEAD });
                 message.delete();
             } else if (args[0] === 'atual') {
@@ -322,19 +322,18 @@ module.exports = {
             } else if (args[0] === 'offset' && isModerator(message.member)) {
                 message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
                 updateTime();
+                checkClass();
                 
-            } else if (args[0] && isModerator(message.member)) {
-                if (args[0] === 'true') {
-                    ready = true
-                    message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
-                    message.delete();
-                    return;
-                } else {
-                    ready = false
-                    message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
-                    message.delete();
-                    return;
-                }
+            } else if (args[0] === 'true' && isModerator(message.member)) {
+                ready = true
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                message.delete();
+                return;
+            } else if (args[0] === 'false' && isModerator(message.member)) {
+                ready = false
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                message.delete();
+                return;
 
                 // COMEÇANDO INSERÇÃO DE LINKS
             } else if (args[0] === 'set' && isModerator(message.member)) {
