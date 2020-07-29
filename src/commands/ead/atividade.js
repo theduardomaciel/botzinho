@@ -17,6 +17,7 @@ const execute = (client, message, args) => {
         try {
             attachment = new Discord.MessageAttachment(anexos.url);
         } catch(error) {
+            message.channel.send('**Desculpe, não foi possível carregar seu anexo.**')
             console.log(error);
         }
         if (attachment) {
@@ -44,6 +45,7 @@ const execute = (client, message, args) => {
                 attachment = new Discord.MessageAttachment(anexos.url);
             } catch(error) {
                 console.log(error);
+                message.channel.send('**Desculpe, não foi possível carregar seu anexo.**')
             }
         }
 
@@ -53,8 +55,6 @@ const execute = (client, message, args) => {
         });
         if (attachment) {
             channel.send(attachment);
-        } else {
-            message.channel.send('Não foi possível carregar seu anexo!')
         }
         message.delete();
 

@@ -165,6 +165,9 @@ const diaNome = dias[time.getDay()];
 
 const aulaDia = diasLetivos['dia' + time.getDay()];
 
+// aulaDia.unshift(inicioDasAulasMensagem);
+// aulaDia.push(fimDasAulasMensagem);
+
 // Verificando se há aula e qual a aula atual;
 
 let aula = 0;
@@ -196,7 +199,10 @@ if (aulaDia) {
 
 let ready = false;
 
-function checkClass(isUpdating)
+let textChannel = undefined;
+let lastMessage = undefined;
+
+async function checkClass(isUpdating)
 {
     if (textChannel && ready === true) {
 
@@ -237,9 +243,30 @@ function checkClass(isUpdating)
                 proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']} • <@&729017153897889812>`);
             }
 
-            console.log('Nova aula iniciando, enviado mensagem ao servidor com o link.');
-            console.log(aula);
-            textChannel.send({ embed: proximaAulaEmbed });
+            console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
+            
+            textChannel.send(proximaAulaEmbed).then(async function (message) {
+                await message.react("🔄")
+
+                const filter = (reaction, user) => {
+                    return reaction.emoji.name === '🔄'
+                };
+                
+                const collector = message.createReactionCollector(filter, { max: 2, errors: ['time'] });
+
+                collector.on('collect', (reaction, reactionCollector) => {
+                    console.log('detectou amém');
+                });
+
+                collector.on('end', collected => {
+                    console.log('A mensagem de espera foi reagida. Enviando reações de ínicio e fim de aula.');
+                    message.reactions.removeAll().catch(error => console.error('Houve um erro ao tentar remover as reações ', error));
+                    message.react("✅")
+                    message.react("❌");
+                });
+
+            })
+
         }
 
         if (isUpdating) {
@@ -252,7 +279,7 @@ function checkClass(isUpdating)
 }
 if (hasClass()) {
     console.log('Hoje há aula... iniciando verificações de novas aulas...');
-    setInterval(checkClass, 60000);
+    setInterval(checkClass, 10000);
 } else {
     console.log('Hoje não há aula... encerrando verificações de novas aulas...');
 }
@@ -267,8 +294,6 @@ function hasClass()
 }
 
 // Comandos Handler
-
-let textChannel = undefined;
 
 module.exports = {
     name: 'ead',
@@ -305,8 +330,6 @@ module.exports = {
             }
             if (aulaAtual) {
                 aulaAtualEmbed.setDescription(`**${aulaAtual['materia']}**\n${aulaAtual['link']}`)
-            } else {
-                aulaAtualEmbed.setDescription(`As aulas ainda não começaram...`);
             }
 
         }
@@ -322,7 +345,7 @@ module.exports = {
         if (hasClass()) {
             if (!args.length) {
                 if (!ready && !isModerator(message.member)) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
-                message.channel.send({ embed: aulasEAD });
+                message.channel.send(aulasEAD);
                 message.delete();
             } else if (args[0] === 'atual') {
                 if (!ready) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
