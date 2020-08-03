@@ -22,12 +22,12 @@ const execute = (client, message, args) => {
                 } else {
                     if (message.member.voice.channel) {
                         message.channel.send(`Iniciando a playlist com a música: \`${music.title}\``);
-                        message.delete();
                         try {
                             playMusic(client, message, music);
                         } catch(error) {
                             console.log(error);
                         }
+                        message.delete();
                     }
                 }
             } else {
@@ -47,11 +47,6 @@ const playMusic = async (client, message, music) => {
             queue.connection.disconnect();
             message.channel.bulkDelete(100, true);
             await message.channel.send('**A playlist atual foi finalizada, hasta la vista a todos que compareceram à rave!**')
-            .then(msg => {
-                message.delete();
-                msg.delete({ timeout: 10000 });
-            });
-
             return client.queues.delete(message.member.guild.id);
         }
     }

@@ -53,9 +53,9 @@ const execute = (client, message, args) => {
                     message.client.commands.set(newCommand.name, newCommand);
                 }
             }
-            
         });
 
+        console.clear();
         message.channel.send(`O comando: \`${args[0]}\` foi corretamente recarregado.`);
 
     } catch (error) {

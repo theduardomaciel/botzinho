@@ -245,32 +245,50 @@ async function checkClass(isUpdating)
 
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
-            textChannel.send(proximaAulaEmbed).then(async function (message) {
-                await message.react("🔄")
+            textChannel.send(proximaAulaEmbed).then(eadMessage => {
 
-                const filter = (reaction, user) => {
-                    return reaction.emoji.name === '🔄'
+                eadMessage.react("🔄")
+
+                const waitingFilter = (reaction, user) => {
+                    return reaction.emoji.name === '🔄' && reaction.users
+                };
+
+                const beginFilter = (reaction) => {
+                    return reaction.emoji.name === '✅' && reaction.users
+                };
+                const endFilter = (reaction) => {
+                    return reaction.emoji.name === '❌' && reaction.users
                 };
                 
-                const collector = message.createReactionCollector(filter, { max: 2, errors: ['time'] });
+                const waitingCollector = new Discord.ReactionCollector(eadMessage, waitingFilter);
+                const beginCollector = new Discord.ReactionCollector(eadMessage, beginFilter);
+                const endCollector = new Discord.ReactionCollector(eadMessage, endFilter);
 
-                collector.on('collect', (reaction, reactionCollector) => {
-                    console.log('detectou amém');
-                });
-
-                collector.on('end', collected => {
-                    console.log('A mensagem de espera foi reagida. Enviando reações de ínicio e fim de aula.');
-                    message.reactions.removeAll().catch(error => console.error('Houve um erro ao tentar remover as reações ', error));
-                    message.react("✅")
-                    message.react("❌");
-                });
+                waitingCollector.on('collect', (reaction, user) => {
+                    if (!user.bot) {
+                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                        eadMessage.react('✅');
+                    }
+                })
+                beginCollector.on('collect', (reaction, user) => {
+                    if (!user.bot) {
+                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                        eadMessage.react('❌');
+                    }
+                })
+                endCollector.on('collect', (reaction, user) => {
+                    if (!user.bot) {
+                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                        eadMessage.react('✅');
+                    }
+                })
 
             })
 
         }
 
         if (isUpdating) {
-            console.log('Atualizando offset, aula atual: ' + aula);
+            console.log(`Atualizando offset para ${offset} hora(s), aula atual: ${aula}`);
         }
         
         aulaCheck = aulaAtual;
