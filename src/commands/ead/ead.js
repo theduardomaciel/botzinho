@@ -113,7 +113,7 @@ const diasLetivos = {
 // const status = ['Esperando...', 'Em progresso...', 'TERMINADO', 'LINK QUEBRADO.'];
 
 function isModerator(member) {
-    if (member.roles.cache.has('728794307099885660')) {
+    if (member.roles.cache.has('739818354470158356')) {
         return true;
     } else {
         return false;
@@ -297,7 +297,7 @@ async function checkClass(isUpdating)
 }
 if (hasClass()) {
     console.log('Hoje há aula... iniciando verificações de novas aulas...');
-    setInterval(checkClass, 10000);
+    setInterval(checkClass, 60000);
 } else {
     console.log('Hoje não há aula... encerrando verificações de novas aulas...');
 }
