@@ -32,7 +32,7 @@ try {
 }
 
 function isModerator(member) {
-    if (member.roles.cache.has('728794307099885660')) {
+    if (member.roles.cache.some(role => role.name === 'Moderador')) {
         return true;
     } else {
         return false;
@@ -44,7 +44,7 @@ let activities = undefined;
 
 client.on('ready', () => {
     activities = [
-        '🔧DESENVOLVIMENTO! Durante o período inicial terei constantes atualizações!',
+        '🔧EAD! Ou neste momento, Estresse.A.Distância.',
         '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
     ],
     i = 0;
@@ -69,10 +69,6 @@ client.once('reconnecting', () => {
 
 client.on('message', message => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
-
-    let ops = {
-        ownerID: ownerID
-    }
 
     const args = message.content.slice(prefix.length).split(' ');
     const commandName = args.shift().toLowerCase();
@@ -119,11 +115,9 @@ client.on('message', message => {
     timestamps.set(message.author.id, now);
     setTimeout(() => timestamps.delete(message.author.id), cooldownAmount);
 
-    const eadChannel = client.channels.cache.get('727537392415932488');
-
     // Commands System
     try {
-        command.execute(client, message, args, eadChannel);
+        command.execute(client, message, args, isModerator);
     } catch (error) {
         console.error(error);
         message.reply('houve um erro ao tentar executar este comando, provavelmente o comando está quebrado!.');

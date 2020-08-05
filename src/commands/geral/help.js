@@ -8,7 +8,7 @@ module.exports = {
 	name: 'help',
 	description: 'Uou! Inception! Mas enfim, é a lista de todos os meus comandos ou uma informação específica de um comando, assim como esta.',
 	aliases: ['commands'],
-	usage: '[command name]',
+	usage: '[nome do comando]',  
     cooldown: 5,
     guildOnly: true,
 	execute(client, message, args) {
@@ -26,7 +26,6 @@ module.exports = {
             .setTimestamp()
             .setFooter('Botzinho (by Edu)', 'https://images.emojiterra.com/twitter/512px/1f44c.png');
 
-            // for (let i = 0; i < 10; i++) {
             commandsEmbed.addField(commands.map(command => command.name), `Estes comandos podem estar quebrados, portanto, caso encontre algum erro, reporte para: \`${'⇦eXt┒reMe#7743'}\` `, true);
 
             return message.author.send(commandsEmbed)

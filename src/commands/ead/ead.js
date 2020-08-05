@@ -14,7 +14,7 @@ const diasLetivos = {
             'materia': 'Espanhol', 'horario': '8:50', 'link': 'Aguardando...' },
         'aula4': {
             'materia': 'Filosofia', 'horario': '9:35', 'link': 'Aguardando...' },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': 'Relaxe...' },
+        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio ao seu longo tempo de descanso (20 minutos, uau...).\n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },
         'aula6': {
             'materia': 'Sociologia', 'horario': '10:40', 'link': 'Aguardando...' },
         'aula7': {
@@ -35,7 +35,7 @@ const diasLetivos = {
         'aula4': {
             'materia': 'Português', 'horario': '9:35', 'link': 'Aguardando...',
         },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': 'Relaxe...' },
+        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },
         'aula6': {
             'materia': 'Geografia', 'horario': '10:40', 'link': 'Aguardando...',
         },
@@ -55,8 +55,7 @@ const diasLetivos = {
             'materia': 'Português', 'horario': '8:50', 'link': 'Aguardando...' },
         'aula4': {
             'materia': 'Redação', 'horario': '9:35', 'link': 'Aguardando...' },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': 'Relaxe...' },
-        'aula6': {
+            'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },        'aula6': {
             'materia': 'Física', 'horario': '10:40', 'link': 'Aguardando...' },
         'aula7': {
             'materia': 'Literatura', 'horario': '11:30', 'link': 'Aguardando...' },
@@ -72,8 +71,7 @@ const diasLetivos = {
             'materia': 'Química', 'horario': '8:50', 'link': 'Aguardando...' },
         'aula4': {
             'materia': 'Português', 'horario': '9:35', 'link': 'Aguardando...' },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': 'Relaxe...' },
-        'aula6': {
+        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },        'aula6': {
             'materia': 'Matemática', 'horario': '10:40', 'link': 'Aguardando...' },
         'aula7': {
             'materia': 'Química', 'horario': '11:30', 'link': 'Aguardando...' },
@@ -93,8 +91,7 @@ const diasLetivos = {
         'aula4': {
             'materia': 'Biologia', 'horario': '9:35', 'link': 'Aguardando...',
         },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': 'Relaxe...' },
-        'aula6': {
+        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },        'aula6': {
             'materia': 'Geografia', 'horario': '10:40', 'link': 'Aguardando...',
         },
         'aula7': {
@@ -110,12 +107,12 @@ const diasLetivos = {
     'Sábado': '',
 };
 
-// const status = ['Esperando...', 'Em progresso...', 'TERMINADO', 'LINK QUEBRADO.'];
-
 function isModerator(member) {
-    if (member.roles.cache.has('739818354470158356')) {
+    if (member.roles.cache.some(role => role.name === 'Moderador')) {
+        console.log(member.roles.cache);
         return true;
     } else {
+        console.log(member.roles.cache);
         return false;
     }
 }
@@ -234,13 +231,13 @@ async function checkClass(isUpdating)
 
             if (aula < 1) {
                 proximaAulaEmbed.setTitle(`${inicioDasAulasMensagem['materia']} (${inicioDasAulasMensagem['horario']})`);
-                proximaAulaEmbed.setDescription(`${inicioDasAulasMensagem['link']} • <@&729017153897889812>`);
+                proximaAulaEmbed.setDescription(`${inicioDasAulasMensagem['link']}`);
             } else if (aula >= diaLenght + 1) {
                 proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
-                proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']} • <@&729017153897889812>`);
+                proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
             } else {
                 proximaAulaEmbed.setTitle(`${aulaDia['aula' + aula]['materia']} (${aulaDia['aula' + aula]['horario']})`);
-                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']} • <@&729017153897889812>`);
+                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']}`);
             }
 
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);

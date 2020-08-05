@@ -6,22 +6,14 @@ dotenv.config();
 
 const token = process.env.TOKEN;
 
-function isModerator(member) {
-    if (member.roles.cache.has('728794307099885660')) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-const execute = (client, message, args) => {
+const execute = (client, message, args, isModerator) => {
 
     if (!args[0]) return message.reply('por favor, indique um comando para recarregar.')
 
     const commandName = args[0].toLowerCase();
     
     // Chechando se o autor da mensagem é dono do bot
-    if (!isModerator(message.member)) return message.reply('desculpe, somente moderadores podem utilizar este comando');
+    if (!isModerator) return message.reply('desculpe, somente moderadores podem utilizar este comando');
 
     const command = message.client.commands.get(commandName)
         || message.client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
@@ -55,7 +47,6 @@ const execute = (client, message, args) => {
             }
         });
 
-        console.clear();
         message.channel.send(`O comando: \`${args[0]}\` foi corretamente recarregado.`);
 
     } catch (error) {
