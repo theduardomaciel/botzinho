@@ -12,10 +12,7 @@ const token = process.env.TOKEN;
 const client = new Discord.Client();
 
 const cooldowns = new Discord.Collection();
-const ownerID = '160536179517816832';
-
 client.queues = new Map();
-
 client.commands = new Discord.Collection();
 
 const dir = './src/commands'
@@ -44,7 +41,7 @@ let activities = undefined;
 
 client.on('ready', () => {
     activities = [
-        '🔧EAD! Ou neste momento, Estresse.A.Distância.',
+        'EAD! Ou neste momento, Estresse.A.Distância.',
         '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
     ],
     i = 0;
@@ -53,8 +50,6 @@ client.on('ready', () => {
         type: 'PLAYING' }), 60000);
     // WATCHING, LISTENING, PLAYING, STREAMING
     console.log('O bot foi iniciado');
-
-
 });
 
 client.once('reconnecting', () => {

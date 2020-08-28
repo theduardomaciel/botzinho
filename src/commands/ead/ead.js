@@ -109,10 +109,8 @@ const diasLetivos = {
 
 function isModerator(member) {
     if (member.roles.cache.some(role => role.name === 'Moderador')) {
-        console.log(member.roles.cache);
         return true;
     } else {
-        console.log(member.roles.cache);
         return false;
     }
 }
@@ -182,7 +180,7 @@ if (hasClass()) {
     .setColor('#0099ff')
     .setTitle(`${aulaAtual['materia']}`)
     .setAuthor('PRÓXIMA AULA • EAD')
-    .setDescription(aulaAtual['link']);
+    .setDescription(aulaAtual['link'] + ' • @everyone');
 }
 
 let aulasEAD = undefined;
@@ -242,45 +240,48 @@ async function checkClass(isUpdating)
 
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
-            textChannel.send(proximaAulaEmbed).then(eadMessage => {
+            if (aula === 1 || aula === 5 || aula === diaLenght) {
+                textChannel.send(proximaAulaEmbed).then(eadMessage => {
 
-                eadMessage.react("🔄")
+                    eadMessage.react("🔄")
 
-                const waitingFilter = (reaction, user) => {
-                    return reaction.emoji.name === '🔄' && reaction.users
-                };
+                    const waitingFilter = (reaction, user) => {
+                        return reaction.emoji.name === '🔄' && reaction.users
+                    };
 
-                const beginFilter = (reaction) => {
-                    return reaction.emoji.name === '✅' && reaction.users
-                };
-                const endFilter = (reaction) => {
-                    return reaction.emoji.name === '❌' && reaction.users
-                };
-                
-                const waitingCollector = new Discord.ReactionCollector(eadMessage, waitingFilter);
-                const beginCollector = new Discord.ReactionCollector(eadMessage, beginFilter);
-                const endCollector = new Discord.ReactionCollector(eadMessage, endFilter);
+                    const beginFilter = (reaction) => {
+                        return reaction.emoji.name === '✅' && reaction.users
+                    };
+                    const endFilter = (reaction) => {
+                        return reaction.emoji.name === '❌' && reaction.users
+                    };
+                    
+                    const waitingCollector = new Discord.ReactionCollector(eadMessage, waitingFilter);
+                    const beginCollector = new Discord.ReactionCollector(eadMessage, beginFilter);
+                    const endCollector = new Discord.ReactionCollector(eadMessage, endFilter);
 
-                waitingCollector.on('collect', (reaction, user) => {
-                    if (!user.bot) {
-                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                        eadMessage.react('✅');
-                    }
+                    waitingCollector.on('collect', (reaction, user) => {
+                        if (!user.bot) {
+                            eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                            eadMessage.react('✅');
+                        }
+                    })
+                    beginCollector.on('collect', (reaction, user) => {
+                        if (!user.bot) {
+                            eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                            eadMessage.react('❌');
+                        }
+                    })
+                    endCollector.on('collect', (reaction, user) => {
+                        if (!user.bot) {
+                            eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                            eadMessage.react('✅');
+                        }
+                    })
+
                 })
-                beginCollector.on('collect', (reaction, user) => {
-                    if (!user.bot) {
-                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                        eadMessage.react('❌');
-                    }
-                })
-                endCollector.on('collect', (reaction, user) => {
-                    if (!user.bot) {
-                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                        eadMessage.react('✅');
-                    }
-                })
-
-            })
+            
+            }
 
         }
 
