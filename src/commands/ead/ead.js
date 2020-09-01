@@ -240,9 +240,8 @@ async function checkClass(isUpdating)
 
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
-            if (aula === 1 || aula === 5 || aula === diaLenght) {
-                textChannel.send(proximaAulaEmbed).then(eadMessage => {
-
+            textChannel.send(proximaAulaEmbed).then(eadMessage => {
+                if (aula !== 1 || aula !== 5 || aula !== diaLenght) {
                     eadMessage.react("🔄")
 
                     const waitingFilter = (reaction, user) => {
@@ -279,9 +278,7 @@ async function checkClass(isUpdating)
                         }
                     })
 
-                })
-            
-            }
+                }})
 
         }
 
