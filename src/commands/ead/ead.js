@@ -235,13 +235,13 @@ async function checkClass(isUpdating)
                 proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
             } else {
                 proximaAulaEmbed.setTitle(`${aulaDia['aula' + aula]['materia']} (${aulaDia['aula' + aula]['horario']})`);
-                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']}`);
+                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']} • @everyone`);
             }
 
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
             textChannel.send(proximaAulaEmbed).then(eadMessage => {
-                if (aula !== 1 || aula !== 5 || aula !== diaLenght) {
+                if (aula !== 0 || aula !== 5 || aula !== diaLenght) {
                     eadMessage.react("🔄")
 
                     const waitingFilter = (reaction, user) => {
