@@ -80,7 +80,7 @@ client.on('message', message => {
     // Retry Command System
 
     if (command.guildOnly && message.channel.type === 'dm') {
-        return message.reply('Eu não posso executar esse comando em DM\'s (mensagens diretas)!');
+        return message.reply(`**Não é possível executar o comando: ${commandName} **em DM\'s (mensagens diretas)!`);
     }
 
     if (command.args && !args.length) {

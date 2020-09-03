@@ -10,12 +10,12 @@ module.exports = {
 	aliases: ['commands'],
 	usage: '[nome do comando]',  
     cooldown: 5,
-    guildOnly: true,
+    guildOnly: false,
 	execute(client, message, args) {
         const data = [];
         const { commands } = message.client;
 
-        if (!args.length) {
+        if (!args.length && message.channel.type !== 'dm') {
 
             const commandsEmbed = new MessageEmbed()
             .setColor(0x0099ff)
