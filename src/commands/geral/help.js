@@ -15,7 +15,9 @@ module.exports = {
         const data = [];
         const { commands } = message.client;
 
-        if (!args.length && message.channel.type !== 'dm') {
+        if (!args.length) {
+
+            if (message.channel.type === 'dm') return message.channel.send(`**Para poder acessar a lista completa de comandos, vá para algum servidor e digite:** \`!help\`. \nCaso saiba qual comando quer consultar, **digite-o usando o seguinte formato:** \`!help [nome do comando]\`.`);
 
             const commandsEmbed = new MessageEmbed()
             .setColor(0x0099ff)
@@ -48,7 +50,7 @@ module.exports = {
 
         const commandEmbed = new MessageEmbed()
         .setColor(0x0099ff)
-        .setTitle(`\`!${command.name}*\``)
+        .setTitle(`\`!${command.name}\``)
         .setURL('https://twitter.com/theduardomaciel')
         .addField('**DESCRIÇÃO:**', command.description, true)
         if (command.aliases) commandEmbed.addField('**SINÔNIMOS:**', command.aliases.join(', '), true)

@@ -126,4 +126,14 @@ client.on('message', message => {
 
 });
 
+client.on('guildMemberAdd', (member) => {
+    const joinResponse = `Olá! **${member.user.username}**, seja bem vindo ao servidor: **${member.guild.name}**!`
+    let role = member.guild.roles.get('EAD');
+    if(!role) return console.log('Este cargo não existe');
+    member.addRole(role);
+    const ch = member.guild.channels.get('aulas-ead');
+    if(!ch) return console.log("Canal não existe.");
+    ch.send(joinResponse);
+});
+
 client.login(token);

@@ -47,6 +47,7 @@ const execute = (client, message, args, isModerator) => {
             }
         });
 
+        console.clear();
         message.channel.send(`O comando: \`${args[0]}\` foi corretamente recarregado.`);
 
     } catch (error) {

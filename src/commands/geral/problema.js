@@ -1,15 +1,30 @@
 const Discord = require('discord.js');
-const problemaSave = require('./problema.json')
+const fs = require('fs');
+const path = require('path');
+
+const problemaSave = require('./problema.json');
 
 const execute = (client, message, args, isModerator) => {
 
-    let diasNormais = parseInt(problemaSave.quantidadeDias);
+    let quantidadeDias = problemaSave.quantidadeDias;
+    console.log(`Estamos a: ${quantidadeDias} dia(s) sem problemas!`);
 
     if (args[0] === 'reset') {
-        problemaSave.quantidadeDias = toString(0);
+        let problemaUpdated = {
+            "quantidadeDias": 0
+        };
+        let data = JSON.stringify(problemaUpdated);
+        console.log(data);
+        fs.writeFileSync(path.join(__dirname, `./problema.json`), data);
         message.reply('e de novo eu tô com problema. Incrível...');
     } else if (args[0] === 'add') {
-        problemaSave.quantidadeDias = diasNormais + 1
+        let amount = parseInt(quantidadeDias) + 1
+        let problemaUpdated = {
+            "quantidadeDias": amount
+        };
+        let data = JSON.stringify(problemaUpdated);
+        console.log(data);
+        fs.writeFileSync(path.join(__dirname, `./problema.json`), data);
     } else {
         const problemaEmbed = new Discord.MessageEmbed()
         .setColor(0xff0000)
@@ -25,6 +40,7 @@ module.exports = {
     name: 'problema',
     description: 'Mostra a quanto tempo o bot está funcionando sem problemas. Provavelmente o número será bem baixo constantemente.',
     cooldown: 10,
+    aliases: ['pro'],
     guildOnly: false,
     execute,
 };

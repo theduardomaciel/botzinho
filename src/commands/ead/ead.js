@@ -180,7 +180,7 @@ if (hasClass()) {
     .setColor('#0099ff')
     .setTitle(`${aulaAtual['materia']}`)
     .setAuthor('PRÓXIMA AULA • EAD')
-    .setDescription(aulaAtual['link'] + ' • @everyone');
+    .setDescription(`aulaAtual['link'] • ${role}`);
 }
 
 let aulasEAD = undefined;
@@ -195,6 +195,7 @@ if (aulaDia) {
 let ready = false;
 
 let textChannel = undefined;
+let role = undefined;
 let lastMessage = undefined;
 
 async function checkClass(isUpdating)
@@ -235,7 +236,7 @@ async function checkClass(isUpdating)
                 proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
             } else {
                 proximaAulaEmbed.setTitle(`${aulaDia['aula' + aula]['materia']} (${aulaDia['aula' + aula]['horario']})`);
-                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']} • @everyone`);
+                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']} • ${role}`);
             }
 
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
@@ -315,6 +316,8 @@ module.exports = {
     guildOnly: true,
 	description: 'Comando responsável por informar: matérias do dia, horário das aulas, status das aulas, aula atual, link das aulas online entre outras funções...',
 	execute(client, message, args, eadChannel) {
+
+        role = message.guild.roles.cache.find(role => role.name === 'EAD');
         textChannel = message.channel;
         // client.channels.cache.get('727537392415932488');
         let aulaAtualEmbed = undefined;
