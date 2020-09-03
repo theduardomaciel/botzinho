@@ -171,17 +171,6 @@ let proximaAula = undefined;
 
 let proximaAulaEmbed = undefined;
 console.log(hasClass());
-if (hasClass()) {
-    aulaAtual = inicioDasAulasMensagem;
-    proximaAula = aulaDia['aula1'];
-
-    // Embed: Próxima Aula
-    proximaAulaEmbed = new Discord.MessageEmbed()
-    .setColor('#0099ff')
-    .setTitle(`${aulaAtual['materia']}`)
-    .setAuthor('PRÓXIMA AULA • EAD')
-    .setDescription(`aulaAtual['link'] • ${role}`);
-}
 
 let aulasEAD = undefined;
 let aulaCheck = undefined;
@@ -319,6 +308,19 @@ module.exports = {
 
         role = message.guild.roles.cache.find(role => role.name === 'EAD');
         textChannel = message.channel;
+
+        if (hasClass()) {
+            aulaAtual = inicioDasAulasMensagem;
+            proximaAula = aulaDia['aula1'];
+        
+            // Embed: Próxima Aula
+            proximaAulaEmbed = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`${aulaAtual['materia']}`)
+            .setAuthor('PRÓXIMA AULA • EAD')
+            .setDescription(`aulaAtual['link'] • ${role}`);
+        }
+
         // client.channels.cache.get('727537392415932488');
         let aulaAtualEmbed = undefined;
         if (hasClass()) {
