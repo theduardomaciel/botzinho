@@ -109,6 +109,7 @@ module.exports = {
     description: 'Reproduz músicas!',
 	aliases: ['p', 'tocar', 'musica'],
     cooldown: 5,
+    guildOnly: true,
     execute,
     playMusic,
 };

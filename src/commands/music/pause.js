@@ -11,5 +11,6 @@ module.exports = {
     description: 'Pausa a música reproduzindo atualmente na playlist.',
 	aliases: ['pausar', 'pausa'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

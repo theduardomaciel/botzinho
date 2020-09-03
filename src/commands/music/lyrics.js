@@ -3,7 +3,7 @@ const execute = (client, message) => {
     if (!queue) {
         return message.reply('não existe nenhuma playlist sendo reproduzida.');
     }
-    console.log('test');
+    message.reply('este comando ainda não está pronto!')
 };
 
 module.exports = {
@@ -11,5 +11,6 @@ module.exports = {
     description: 'Mostra a letra da música tocando no momento.',
 	aliases: ['letra'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

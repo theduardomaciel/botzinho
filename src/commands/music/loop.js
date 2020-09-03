@@ -56,7 +56,8 @@ const execute = async (client, message, args) => {
 module.exports = {
     name: 'loop',
     description: 'Repete a música tocando atualmente na playlist. O número de repetições pode ser especificado com um argumento após o comando. (máximo: 5)',
-	aliases: ['loopar'],
+	aliases: ['loopar', 'again'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

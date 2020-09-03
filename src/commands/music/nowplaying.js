@@ -11,5 +11,6 @@ module.exports = {
     description: 'Mostra qual a música que está tocando atualmente.',
 	aliases: ['tocando', 'agora', 'tocandoagora'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

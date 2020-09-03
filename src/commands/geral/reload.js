@@ -60,5 +60,6 @@ module.exports = {
     name: 'reload',
     description: 'Disponível somente para moderadores. É responsável por recarregar comandos.',
     cooldown: 1,
+    guildOnly: false,
     execute,
 };

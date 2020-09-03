@@ -38,11 +38,13 @@ function isModerator(member) {
 
 let i = 0;
 let activities = undefined;
+const semProblemas = require('./commands/geral/problema.json')
 
 client.on('ready', () => {
     activities = [
         'EAD! Ou neste momento, Estresse.A.Distância.',
         '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
+        `Estou a ${semProblemas.quantidadeDias} dia(s) sem problemas!`
     ],
     i = 0;
     setInterval(() => client.user.setActivity(`${activities[i++ %
@@ -76,6 +78,10 @@ client.on('message', message => {
 	if (!command) return;
 
     // Retry Command System
+
+    if (command.guildOnly && message.channel.type === 'dm') {
+        return message.reply('Eu não posso executar esse comando em DM\'s (mensagens diretas)!');
+    }
 
     if (command.args && !args.length) {
         let reply = `Você não me deu nenhum argumento, ${message.author}!`;

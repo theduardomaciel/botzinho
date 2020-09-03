@@ -41,5 +41,6 @@ module.exports = {
     description: 'Mostra todas as músicas da playlist atual.',
 	aliases: ['musiclist', 'pl'],
     cooldown: 1,
+    guildOnly: true,
     execute,
 };

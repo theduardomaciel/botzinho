@@ -11,5 +11,6 @@ module.exports = {
     description: 'Retorna a música que foi anteriorimente pausada na playlist.',
 	aliases: ['resume', 'voltar'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

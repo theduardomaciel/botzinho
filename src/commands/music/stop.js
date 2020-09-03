@@ -15,5 +15,6 @@ module.exports = {
     description: 'Interrompe a playlist tocando no momento.',
 	aliases: ['parar'],
     cooldown: 10,
+    guildOnly: true,
     execute,
 };

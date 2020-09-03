@@ -17,5 +17,6 @@ module.exports = {
     description: 'Pula a música atual e passa para a próxima da playlist.',
 	aliases: ['pular', 'próxima', 'next'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

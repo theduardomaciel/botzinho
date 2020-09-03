@@ -51,7 +51,6 @@ const execute = (client, message, args) => {
 
         message.channel.send(atividadeEmbed).then(embedMessage => {
             embedMessage.react("✅")
-            //embedMessage.react("❌");
         });
         if (attachment) {
             channel.send(attachment);
@@ -64,8 +63,9 @@ const execute = (client, message, args) => {
 
 module.exports = {
     name: 'atividade',
-    description: 'Lista as atividades do dia atual.',
+    description: 'Envia uma mensagem para informar e marcar o status de uma atividade. Formato: !atividade [matéria] [prazo] [descrição] {opcional: anexo}',
 	aliases: ['atividades', 'ati', 'ativi'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

@@ -16,5 +16,6 @@ module.exports = {
     description: 'Cria um comunicado para avisar a todos do servidor de mensagens importantes.',
 	aliases: ['aviso', 'urgente'],
     cooldown: 5,
+    guildOnly: true,
     execute,
 };

@@ -312,6 +312,7 @@ module.exports = {
     name: 'ead',
     cooldown: 2.5,
     aliases: ['aulas', 'aula'],
+    guildOnly: true,
 	description: 'Comando responsável por informar: matérias do dia, horário das aulas, status das aulas, aula atual, link das aulas online entre outras funções...',
 	execute(client, message, args, eadChannel) {
         textChannel = message.channel;

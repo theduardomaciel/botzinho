@@ -71,5 +71,6 @@ module.exports = {
     name: 'status',
     description: 'Disponível somente para moderadores. É responsável por alterar o status do bot',
     cooldown: 1,
+    guildOnly: true,
     execute,
 };

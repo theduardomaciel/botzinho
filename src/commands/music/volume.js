@@ -57,5 +57,6 @@ module.exports = {
     description: 'Ajusta o volume em uma escala de 1 a 10.',
 	aliases: ['vol'],
     cooldown: 1,
+    guildOnly: true,
     execute,
 };

@@ -21,7 +21,8 @@ function randomize() {
 module.exports = {
     name: 'guilhermo',
     cooldown: 5,
-    description: 'Comando que mostra uma foto do guilherme, só isso mesmo.',
+    description: 'Comando que mostra uma frase (muito politicamente incorreta) e uma foto do guilherme, só isso mesmo.',
+    guildOnly: false,
     aliases: ['guilherme', 'gui'],
 	execute(client, message) {
         
