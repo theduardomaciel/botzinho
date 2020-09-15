@@ -8,6 +8,7 @@ const execute = (client, message, args) => {
     .setDescription(args.splice(0).join(" ") + ' • @everyone');
 
     message.channel.send(comunicadoEmbed)
+    message.delete()
 
 }
 

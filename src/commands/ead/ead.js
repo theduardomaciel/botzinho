@@ -178,7 +178,7 @@ let aulaCheck = undefined;
 let diaLenght = undefined;
 
 if (aulaDia) {
-    diaLenght =  Object.keys(aulaDia).length;;
+    diaLenght =  Object.keys(aulaDia).length;
 }
 
 let ready = false;
@@ -231,7 +231,9 @@ async function checkClass(isUpdating)
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
             textChannel.send(proximaAulaEmbed).then(eadMessage => {
-                if (aula !== 0 || aula !== 5 || aula !== diaLenght) {
+                if (!aula === 0 || !aula === 5 || !aula === diaLenght + 1) {
+                    console.log(aula);
+                    console.log(diaLenght + 1)
                     eadMessage.react("🔄")
 
                     const waitingFilter = (reaction, user) => {
@@ -268,7 +270,8 @@ async function checkClass(isUpdating)
                         }
                     })
 
-                }})
+                }
+            })
 
         }
 
@@ -378,12 +381,12 @@ module.exports = {
                 
             } else if (args[0] === 'true' && isModerator(message.member)) {
                 ready = true
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`);
                 message.delete();
                 return;
             } else if (args[0] === 'false' && isModerator(message.member)) {
                 ready = false
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\``);
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`);
                 message.delete();
                 return;
 

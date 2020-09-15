@@ -18,13 +18,12 @@ const execute = (client, message, args, isModerator) => {
         fs.writeFileSync(path.join(__dirname, `./problema.json`), data);
         message.reply('e de novo eu tô com problema. Incrível...');
     } else if (args[0] === 'add') {
-        let amount = parseInt(quantidadeDias) + 1
         let problemaUpdated = {
-            "quantidadeDias": amount
+            quantidadeDias: quantidadeDias + 1
         };
         let data = JSON.stringify(problemaUpdated);
-        console.log(data);
         fs.writeFileSync(path.join(__dirname, `./problema.json`), data);
+        message.channel.send(`**Mais um dia sem nenhum problema :)** \n \`${data}\` `);
     } else {
         const problemaEmbed = new Discord.MessageEmbed()
         .setColor(0xff0000)

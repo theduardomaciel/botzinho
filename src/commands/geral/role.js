@@ -29,7 +29,7 @@ const execute = (client, message, args, isModerator) => {
 
 module.exports = {
     name: 'role',
-    description: `Adiciona um cargo a um determinado membro do servidor através de uma menção. Ao usar \`!role all\` adiciona o cargo do argumento seguinte a todos os usuários do servidor.`,
+    description: `Adiciona um cargo a um determinado membro do servidor através de uma menção. Ao usar \`!role all\` adiciona o cargo do argumento seguinte a todos os usuários do servidor. Somente disponível para moderadores.`,
 	aliases: ['cargo', 'cargos'],
     cooldown: 5,
     guildOnly: false,
