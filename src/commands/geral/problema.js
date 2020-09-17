@@ -1,8 +1,7 @@
 const Discord = require('discord.js');
-const Keyv = require('keyv');
 
-const keyv = new Keyv();
-const mapaDeQuantidades = new Keyv();
+const keyv = undefined;
+const mapaDeQuantidades = undefined;
 
 keyv.on('error', err => console.log('Connection Error', err));
 
