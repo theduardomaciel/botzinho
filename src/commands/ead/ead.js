@@ -231,7 +231,7 @@ async function checkClass(isUpdating)
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
             textChannel.send(proximaAulaEmbed).then(eadMessage => {
-                if (!aula === 0 || !aula === 5 || !aula === diaLenght + 1) {
+                if (aula.parseInt() !== 0 || aula.parseInt() !== 5 || aula.parseInt() !== diaLenght.parseInt() + 1) {
                     console.log(aula);
                     console.log(diaLenght + 1)
                     eadMessage.react("🔄")
@@ -269,10 +269,8 @@ async function checkClass(isUpdating)
                             eadMessage.react('✅');
                         }
                     })
-
                 }
             })
-
         }
 
         if (isUpdating) {
@@ -381,12 +379,17 @@ module.exports = {
                 
             } else if (args[0] === 'true' && isModerator(message.member)) {
                 ready = true
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`);
-                message.delete();
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`).then(sentMessage => {
+                    sentMessage.delete(1);
+                    message.delete()
+                });
                 return;
             } else if (args[0] === 'false' && isModerator(message.member)) {
                 ready = false
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`);
+                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`).then(sentMessage => {
+                    sentMessage.delete(1);
+                    message.delete()
+                });
                 message.delete();
                 return;
 

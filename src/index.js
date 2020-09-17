@@ -38,14 +38,14 @@ function isModerator(member) {
 
 let i = 0;
 let activities = undefined;
-const semProblemas = require('./commands/geral/problema.json')
 
-client.on('ready', () => {
+client.on('ready', async () => {
+
     activities = [
-        'EAD! Ou neste momento, Estresse.A.Distância.',
+        'EAD! Conehecido como: Estresse-A-Distância.',
         '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
-        `Estou a ${semProblemas.quantidadeDias} dia(s) sem problemas!`
     ],
+
     i = 0;
     setInterval(() => client.user.setActivity(`${activities[i++ %
         activities.length]}`, {

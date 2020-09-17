@@ -1,35 +1,37 @@
 const Discord = require('discord.js');
-const fs = require('fs');
-const path = require('path');
+const Keyv = require('keyv');
 
-const problemaSave = require('./problema.json');
+const keyv = new Keyv();
+const mapaDeQuantidades = new Keyv();
 
-const execute = (client, message, args, isModerator) => {
+keyv.on('error', err => console.log('Connection Error', err));
 
-    let quantidadeDias = problemaSave.quantidadeDias;
-    console.log(`Estamos a: ${quantidadeDias} dia(s) sem problemas!`);
+const execute = async (client, message, args, isModerator) => {
+
+    return message.channel.send('Este comando está, ironicamente, com problemas. É sério. Desculpa :(');
+
+    let quantidadeServidor = await mapaDeQuantidades.get(message.guild.id);
+
+    if (quantidadeServidor === undefined) {
+        await mapaDeQuantidades.set(message.guild.id, 0);
+        quantidadeServidor = await mapaDeQuantidades.get(message.guild.id);
+    }
+
+    quantidadeDias = quantidadeServidor;
 
     if (args[0] === 'reset') {
-        let problemaUpdated = {
-            "quantidadeDias": 0
-        };
-        let data = JSON.stringify(problemaUpdated);
-        console.log(data);
-        fs.writeFileSync(path.join(__dirname, `./problema.json`), data);
-        message.reply('e de novo eu tô com problema. Incrível...');
+        quantidadeDias = 0
+        await mapaDeQuantidades.set(message.guild.id, quantidadeDias);
+        return message.channel.send(`**Infelizmente, nosso score de dias sem problema foi redefinido.**`);
     } else if (args[0] === 'add') {
-        let problemaUpdated = {
-            quantidadeDias: quantidadeDias + 1
-        };
-        let data = JSON.stringify(problemaUpdated);
-        fs.writeFileSync(path.join(__dirname, `./problema.json`), data);
-        message.channel.send(`**Mais um dia sem nenhum problema :)** \n \`${data}\` `);
+        quantidadeDias += 1;
+        await mapaDeQuantidades.set(message.guild.id, quantidadeDias);
+        return message.channel.send(`**Mais um dia sem nenhum problema!** \n Estamos a \`${quantidadeDias}\` dia(s) sem nenhuma anormalidade!`);
     } else {
         const problemaEmbed = new Discord.MessageEmbed()
         .setColor(0xff0000)
         .setTitle(`**DIAS SEM PROBLEMAS:**`)
-        .setDescription(`Estamos há ${problemaSave.quantidadeDias} dia(s) sem problemas! \n Se esse número for maior que 1 já é um avanço :)`);
-
+        .setDescription(`Estamos há ${quantidadeDias} dia(s) sem problemas! \n Se esse número for maior que 1 já é um avanço :)`);
         message.channel.send(problemaEmbed)
     }
 

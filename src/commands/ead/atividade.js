@@ -10,6 +10,8 @@ let attachment = undefined;
 const execute = (client, message, args) => {
     const channel = message.channel;
 
+    attachment = undefined;
+
     if (!args[0]) {
         message.reply('você precisa especificar se quer adicionar: matéria, atividade, data, ou anexar algum arquivo!');
     } else if (args[0] === 'anexo') {
