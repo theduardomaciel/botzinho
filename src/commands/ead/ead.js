@@ -231,7 +231,7 @@ async function checkClass(isUpdating)
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
             textChannel.send(proximaAulaEmbed).then(eadMessage => {
-                if (aula.parseInt() !== 0 || aula.parseInt() !== 5 || aula.parseInt() !== diaLenght.parseInt() + 1) {
+                if (parseInt(aula) !== 0 || parseInt(aula) !== 5 || parseInt(aula) !== parseInt(diaLenght) + 1) {
                     console.log(aula);
                     console.log(diaLenght + 1)
                     eadMessage.react("🔄")

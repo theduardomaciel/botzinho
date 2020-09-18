@@ -1,9 +1,6 @@
 const Discord = require('discord.js');
 
-const keyv = undefined;
 const mapaDeQuantidades = undefined;
-
-keyv.on('error', err => console.log('Connection Error', err));
 
 const execute = async (client, message, args, isModerator) => {
 

@@ -40,9 +40,10 @@ let i = 0;
 let activities = undefined;
 
 client.on('ready', async () => {
-
+    console.log('O bot foi iniciado');
+    return;
     activities = [
-        'EAD! Conehecido como: Estresse-A-Distância.',
+        'EAD! Também conhecido como: Estresse-A-Distância.',
         '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
     ],
 
@@ -51,7 +52,6 @@ client.on('ready', async () => {
         activities.length]}`, {
         type: 'PLAYING' }), 60000);
     // WATCHING, LISTENING, PLAYING, STREAMING
-    console.log('O bot foi iniciado');
 });
 
 client.once('reconnecting', () => {
@@ -128,12 +128,14 @@ client.on('message', message => {
 
 client.on('guildMemberAdd', (member) => {
     const joinResponse = `Olá! **${member.user.username}**, seja bem vindo ao servidor: **${member.guild.name}**!`
-    let role = member.guild.roles.get('EAD');
-    if(!role) return console.log('Este cargo não existe');
+    const role = guild.roles.cache.find(role => role.name === 'EAD');
+
+    if (!role) return console.log('Este cargo não existe');
+
     member.addRole(role);
-    const ch = member.guild.channels.get('aulas-ead');
-    if(!ch) return console.log("Canal não existe.");
-    ch.send(joinResponse);
+    const channel = member.guild.channels.get('aulas-ead');
+    if(!channel) return console.log("Canal não existe.");
+    channel.send(joinResponse);
 });
 
 client.login(token);
