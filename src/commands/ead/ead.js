@@ -231,46 +231,48 @@ async function checkClass(isUpdating)
             console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
             
             textChannel.send(proximaAulaEmbed).then(eadMessage => {
-                if (parseInt(aula) !== 0 || parseInt(aula) !== 5 || parseInt(aula) !== parseInt(diaLenght) + 1) {
-                    console.log(aula);
-                    console.log(diaLenght + 1)
-                    eadMessage.react("🔄")
+                
+                if (parseInt(aula) === 0 || parseInt(aula) === 5 || parseInt(aula) === diaLenght + 1) return;
 
-                    const waitingFilter = (reaction, user) => {
-                        return reaction.emoji.name === '🔄' && reaction.users
-                    };
+                console.log(aula);
+                console.log(diaLenght + 1)
+                eadMessage.react("🔄")
 
-                    const beginFilter = (reaction) => {
-                        return reaction.emoji.name === '✅' && reaction.users
-                    };
-                    const endFilter = (reaction) => {
-                        return reaction.emoji.name === '❌' && reaction.users
-                    };
-                    
-                    const waitingCollector = new Discord.ReactionCollector(eadMessage, waitingFilter);
-                    const beginCollector = new Discord.ReactionCollector(eadMessage, beginFilter);
-                    const endCollector = new Discord.ReactionCollector(eadMessage, endFilter);
+                const waitingFilter = (reaction, user) => {
+                    return reaction.emoji.name === '🔄' && reaction.users
+                };
 
-                    waitingCollector.on('collect', (reaction, user) => {
-                        if (!user.bot) {
-                            eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                            eadMessage.react('✅');
-                        }
-                    })
-                    beginCollector.on('collect', (reaction, user) => {
-                        if (!user.bot) {
-                            eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                            eadMessage.react('❌');
-                        }
-                    })
-                    endCollector.on('collect', (reaction, user) => {
-                        if (!user.bot) {
-                            eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                            eadMessage.react('✅');
-                        }
-                    })
-                }
+                const beginFilter = (reaction) => {
+                    return reaction.emoji.name === '✅' && reaction.users
+                };
+                const endFilter = (reaction) => {
+                    return reaction.emoji.name === '❌' && reaction.users
+                };
+                
+                const waitingCollector = new Discord.ReactionCollector(eadMessage, waitingFilter);
+                const beginCollector = new Discord.ReactionCollector(eadMessage, beginFilter);
+                const endCollector = new Discord.ReactionCollector(eadMessage, endFilter);
+
+                waitingCollector.on('collect', (reaction, user) => {
+                    if (!user.bot) {
+                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                        eadMessage.react('✅');
+                    }
+                })
+                beginCollector.on('collect', (reaction, user) => {
+                    if (!user.bot) {
+                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                        eadMessage.react('❌');
+                    }
+                })
+                endCollector.on('collect', (reaction, user) => {
+                    if (!user.bot) {
+                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                        eadMessage.react('✅');
+                    }
+                })
             })
+
         }
 
         if (isUpdating) {
@@ -380,19 +382,15 @@ module.exports = {
             } else if (args[0] === 'true' && isModerator(message.member)) {
                 ready = true
                 message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`).then(sentMessage => {
-                    sentMessage.delete(1);
                     message.delete()
+                    return sentMessage.delete(2);
                 });
-                return;
             } else if (args[0] === 'false' && isModerator(message.member)) {
                 ready = false
                 message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`).then(sentMessage => {
-                    sentMessage.delete(1);
                     message.delete()
+                    return sentMessage.delete(2);
                 });
-                message.delete();
-                return;
-
                 // COMEÇANDO INSERÇÃO DE LINKS
             } else if (args[0] === 'set' && isModerator(message.member)) {
                 aulaDia['aula' + args[1]]['link'] = args[2];

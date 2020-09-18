@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 const execute = async (client, message, args) => {
     const queue = client.queues.get(message.guild.id);
 
@@ -19,8 +21,8 @@ const execute = async (client, message, args) => {
     const volume = Number(args.join(' '));
 
     try {
-        if (isNaN(volume) || volume < 0 || volume > 2) {
-            message.reply('o volume deve ser um valor entre 0 e 2. (não deixe seus amiguinhos surdos)')
+        if (isNaN(volume) || volume < 0 || volume > 3) {
+            message.reply('**o volume deve ser um valor *audível*, que não deixe seus amiguinhos (e você mesmo) surdos :)**\n(Valor de 0 a 3)')
             .then(msg => {
                 message.delete();
                 msg.delete({ timeout: 1000 });
@@ -36,7 +38,7 @@ const execute = async (client, message, args) => {
         if (queue.musics[0] && queue.dispatcher !== null) {
             queue.dispatcher.setVolume(volume / 10);
         } else {
-            message.reply('aguarde a música ser carregada para poder alterar o volume!')
+            const stopEmbed = new Discord.MessageEmbed().setDescription(`**Por favor, aguarde a música ser carregada para poder alterar o volume.**`)
                 .then(msg => {
                     message.delete();
                     msg.delete({ timeout: 10000 });
@@ -54,7 +56,7 @@ const execute = async (client, message, args) => {
 
 module.exports = {
     name: 'volume',
-    description: 'Ajusta o volume em uma escala de 1 a 10.',
+    description: 'Ajusta o volume em uma escala de 1 a 3 (para prevenir que seus amigos fiquem surdos)',
 	aliases: ['vol'],
     cooldown: 1,
     guildOnly: true,

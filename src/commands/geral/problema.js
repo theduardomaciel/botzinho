@@ -4,7 +4,7 @@ const mapaDeQuantidades = undefined;
 
 const execute = async (client, message, args, isModerator) => {
 
-    return message.channel.send('Este comando está, ironicamente, com problemas. É sério. Desculpa :(');
+    return message.channel.send('**Este comando está, ironicamente, com problemas. É sério. Desculpa :(**');
 
     let quantidadeServidor = await mapaDeQuantidades.get(message.guild.id);
 

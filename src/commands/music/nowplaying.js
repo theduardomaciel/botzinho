@@ -1,9 +1,16 @@
+const Discord = require('discord.js');
+
 const execute = (client, message) => {
     const queue = client.queues.get(message.guild.id);
     if (!queue) {
         return message.reply('não existe nenhuma playlist sendo reproduzida.');
     }
-    return message.channel.send(`Tocando agora: \`${queue.musics[0].title}\``);
+
+    const playingEmbed = new Discord.MessageEmbed().setTitle('MÚSICA ATUAL:')
+    playingEmbed.setColor('#7289da');
+    playingEmbed.setDescription(`Tocando agora: \`${queue.musics[0].title}\``)
+
+    return message.channel.send(playingEmbed);
 };
 
 module.exports = {

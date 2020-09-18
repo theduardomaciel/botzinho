@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const search = require('yt-search');
 const ytdl = require('ytdl-core-discord');
 
@@ -46,8 +47,11 @@ const playMusic = async (client, message, music) => {
         if (queue) {
             queue.connection.disconnect();
             message.channel.bulkDelete(100, true);
-            await message.channel.send('**A playlist atual foi finalizada, hasta la vista a todos que compareceram à rave!**')
-            return client.queues.delete(message.member.guild.id);
+            client.queues.delete(message.member.guild.id);
+            const stopEmbed = new Discord.MessageEmbed()
+            stopEmbed.setColor('#FF0000');
+            stopEmbed.setDescription(`**A playlist atual foi encerrada.** Obrigado a todos que participaram da rave!\nPara iniciar outra playlist, use o comando \`!play\` com alguma música!`)
+            return message.channel.send(stopEmbed);
         }
     }
 
@@ -106,7 +110,7 @@ const playMusic = async (client, message, music) => {
 
 module.exports = {
     name: 'play',
-    description: 'Reproduz músicas!',
+    description: 'Este é o comando responsável por tocar músicas! É a base para todos os outros comandos de música.',
 	aliases: ['p', 'tocar', 'musica'],
     cooldown: 5,
     guildOnly: true,

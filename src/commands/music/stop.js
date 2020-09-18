@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 const execute = (client, message) => {
     const queue = client.queues.get(message.guild.id);
     if (!queue) {
@@ -8,6 +10,7 @@ const execute = (client, message) => {
     
     client.queues.set(message.guild.id, queue);
     queue.dispatcher.end();
+
 };
 
 module.exports = {

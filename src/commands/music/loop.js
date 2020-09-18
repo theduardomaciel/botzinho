@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 const execute = async (client, message, args) => {
 
     const queue = client.queues.get(message.guild.id);
@@ -21,12 +23,20 @@ const execute = async (client, message, args) => {
     if (!args.length) {
         if (queue.loop === false) {
             queue.loop = true;
-            message.channel.send('Modo **LOOP** foi ativado.');
             client.queues.set(message.guild.id, queue);
+
+            const loopTrue = new Discord.MessageEmbed().setTitle('LOOP:')
+            loopTrue.setColor('#FFA500')
+            loopTrue.setDescription(`Modo **LOOP** foi ativado. A música atual irá repetir até que o modo seja desativado.`)
+            return message.channel.send(loopTrue);
         } else {
             queue.loop = false;
-            message.channel.send('Modo **LOOP** foi desativado.');
             client.queues.set(message.guild.id, queue);
+
+            const loopFalse = new Discord.MessageEmbed().setTitle('LOOP:')
+            loopFalse.setColor('#FFA500')
+            loopFalse.setDescription(`Modo **LOOP** foi desativado.`)
+            return message.channel.send(loopFalse);
         }
     } else {
         try {
@@ -48,7 +58,11 @@ const execute = async (client, message, args) => {
         for (let i = 0; i <= loopTimes; i++) {
             queue.musics.unshift(musicToLoop);
         }
-        message.channel.send(`A música: \`${queue.musics[0].title}\` tocará mais **${loopTimes + 1}** vezes.`);
+        
+        const loopCount = new Discord.MessageEmbed()
+        loopCount.setColor('#7289da');
+        loopCount.setDescription(`A música: \`${queue.musics[0].title}\` tocará mais **${loopTimes + 1}** vez(es).`)
+        return message.channel.send(loopCount);
     }
 
 };

@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 const playMusic = require('./play').playMusic;
 
 const execute = (client, message) => {
