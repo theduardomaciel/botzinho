@@ -3,7 +3,8 @@ const Discord = require('discord.js');
 const execute = (client, message) => {
     const queue = client.queues.get(message.guild.id);
     if (!queue) {
-        return message.reply('não existe nenhuma playlist sendo reproduzida.');
+        const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
+        return message.channel.send(notPlaylist);
     }
     queue.dispatcher.resume();
 

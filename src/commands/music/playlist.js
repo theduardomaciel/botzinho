@@ -3,9 +3,8 @@ const Discord = require('discord.js');
 const playlistEmbed = new Discord.MessageEmbed()
 .setColor('#0099ff')
 .setTitle('PLAYLIST ATUAL:')
-.setAuthor('Botzinho • Por Edu (ex_) ', 'https://pbs.twimg.com/profile_images/1030607655478415366/LBoC35SF_400x400.jpg', 'https://twitter.com/theduardomaciel')
+.setAuthor('Botzinho', 'https://pbs.twimg.com/profile_images/1030607655478415366/LBoC35SF_400x400.jpg', 'https://twitter.com/theduardomaciel')
 // .setThumbnail('https://i.imgur.com/wSTFkRM.png')
-.setTimestamp();
 
 const execute = async (client, message) => {
     const queue = client.queues.get(message.guild.id);
@@ -13,24 +12,29 @@ const execute = async (client, message) => {
     // Verificando se há uma playlist tocando...
     try {
         if (!queue) {
-            await message.reply('não existe nenhuma playlist sendo reproduzida.')
-            .then(msg => {
-                message.delete();
-                msg.delete({ timeout: 1000 });
-            });
-            return;
+            const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
+            return message.channel.send(notPlaylist);
         }
     } catch(error) {
         console.log(error);
     }
 
-    let i = undefined;
-    let l = undefined;
 
-    for (i in queue.musics) {
-        l = parseInt(i);
-        playlistEmbed.addField(`${l + 1}. **${queue.musics[i].title}**`, `**${queue.musics[i].url}**`, false);
+    // MOSTRANDO A MÚSICA TOCANDO ATUALMENTE
+    if (queue.loopTimes > 0) {
+        playlistEmbed.setDescription(`**TOCANDO AGORA:**\n[${queue.musics[0].title}](${queue.musics[0].url}) (x${queue.loopTimes})`);
+    } else {
+        playlistEmbed.setDescription(`**TOCANDO AGORA:**\n[${queue.musics[0].title}](${queue.musics[0].url})`);
     }
+    // MOSTRANDO AS DEMAIS MÚSICAS DA PLAYLIST
+
+    for (const l in queue.musics) {
+        i = parseInt(l);
+        if (!i == 0) {
+            playlistEmbed.addField(`${i}. **${queue.musics[i].title}**`, queue.musics[i].url, false);
+        }       
+    }
+
     message.channel.send({ embed: playlistEmbed });
     playlistEmbed.fields = [];
     message.delete();
@@ -39,7 +43,7 @@ const execute = async (client, message) => {
 module.exports = {
     name: 'playlist',
     description: 'Mostra todas as músicas da playlist atual.',
-	aliases: ['musiclist', 'pl'],
+	aliases: ['musiclist', 'pl', 'list'],
     cooldown: 1,
     guildOnly: true,
     execute,

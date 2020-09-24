@@ -6,12 +6,8 @@ const execute = async (client, message, args) => {
     // Verificando se há uma playlist tocando...
     try {
         if (!queue) {
-            await message.reply('não existe nenhuma playlist sendo reproduzida.')
-            .then(msg => {
-                message.delete();
-                msg.delete({ timeout: 1000 });
-            });
-            return;
+            const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
+            return message.channel.send(notPlaylist);
         }
     } catch(error) {
         console.log(error);
@@ -37,13 +33,13 @@ const execute = async (client, message, args) => {
     try {
         if (queue.musics[0] && queue.dispatcher !== null) {
             queue.dispatcher.setVolume(volume / 10);
+            const volumeEmbed = new Discord.MessageEmbed()
+            volumeEmbed.setColor('#FFA500');
+            volumeEmbed.setDescription(`**O volume atual foi alterado para: \`${volume}\`.**`);
+            message.channel.send(volumeEmbed);
         } else {
-            const stopEmbed = new Discord.MessageEmbed().setDescription(`**Por favor, aguarde a música ser carregada para poder alterar o volume.**`)
-                .then(msg => {
-                    message.delete();
-                    msg.delete({ timeout: 10000 });
-                })
-                .catch(console.error);
+            const waitEmbed = new Discord.MessageEmbed().setDescription(`**Por favor, aguarde a música ser carregada para poder alterar o volume.**`)
+            message.channel.send(waitEmbed)
         }
     } catch(error) {
         console.log(error);
@@ -56,7 +52,7 @@ const execute = async (client, message, args) => {
 
 module.exports = {
     name: 'volume',
-    description: 'Ajusta o volume em uma escala de 1 a 3 (para prevenir que seus amigos fiquem surdos)',
+    description: 'Ajusta o volume em uma escala de 0.1 a 3 (para prevenir que seus amigos fiquem surdos)',
 	aliases: ['vol'],
     cooldown: 1,
     guildOnly: true,

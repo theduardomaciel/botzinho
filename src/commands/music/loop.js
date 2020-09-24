@@ -7,12 +7,8 @@ const execute = async (client, message, args) => {
     // Verificando se há uma playlist tocando...
     try {
         if (!queue) {
-            await message.reply('não existe nenhuma playlist sendo reproduzida.')
-            .then(msg => {
-                message.delete();
-                msg.delete({ timeout: 1000 });
-            });
-            return;
+            const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
+            return message.channel.send(notPlaylist);
         }
     } catch(error) {
         console.log(error);
@@ -31,37 +27,38 @@ const execute = async (client, message, args) => {
             return message.channel.send(loopTrue);
         } else {
             queue.loop = false;
+            queue.loopTimes = 0;
             client.queues.set(message.guild.id, queue);
 
             const loopFalse = new Discord.MessageEmbed().setTitle('LOOP:')
             loopFalse.setColor('#FFA500')
-            loopFalse.setDescription(`Modo **LOOP** foi desativado.`)
+            loopFalse.setDescription(`Modo **LOOP** foi desativado. Agora as músicas tocarão na ordem da playlist normalmente.`)
             return message.channel.send(loopFalse);
         }
     } else {
         try {
             if (args[0] > 5 || args[0] < 1) {
-                await message.reply('só é possível loopar uma música até 5 vezes.')
-                .then(msg => {
-                    message.delete();
-                    msg.delete({ timeout: 1000 });
-                });
-                return;
+                const notPlaylist = new Discord.MessageEmbed().setDescription(`Só é possível loopar uma música até 5 vezes. Para prender os ouvintes em um loop temporal infinito, por favor use o comando \`!loop\` sem nenhum argumento.
+                Ps.: Caso você tenha colocado 0, amigo, você precisa estudar mais matemática.`)
+                return message.channel.send(notPlaylist);
             }
         } catch(error) {
             console.log(error);
         }
 
-        const loopTimes = args[0] - 1;
+        const loopTimes = parseInt(args[0]);
         const musicToLoop = queue.musics[0];
 
-        for (let i = 0; i <= loopTimes; i++) {
-            queue.musics.unshift(musicToLoop);
-        }
+        //for (let i = 0; i <= loopTimes; i++) {
+        //    queue.musics.unshift(musicToLoop);
+        //}
+        
+        queue.loopTimes = loopTimes;
+        client.queues.set(message.guild.id, queue);
         
         const loopCount = new Discord.MessageEmbed()
-        loopCount.setColor('#7289da');
-        loopCount.setDescription(`A música: \`${queue.musics[0].title}\` tocará mais **${loopTimes + 1}** vez(es).`)
+        loopCount.setColor('#FFA500');
+        loopCount.setDescription(`A música: \`${queue.musics[0].title}\` tocará mais **${loopTimes}** vez(es).`)
         return message.channel.send(loopCount);
     }
 

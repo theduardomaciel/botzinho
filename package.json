@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@discordjs/opus": "^0.3.2",
+    "@ksoft/api": "^3.1.9",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
     "eslint": "^7.9.0",
+    "genius-lyrics": "^4.0.0",
     "mongoose": "^5.10.5",
     "node-lyrics-api": "^1.0.1",
     "yt-search": "^2.3.0",

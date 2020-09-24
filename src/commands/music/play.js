@@ -2,34 +2,45 @@ const Discord = require('discord.js');
 const search = require('yt-search');
 const ytdl = require('ytdl-core-discord');
 
+process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
+
 const execute = (client, message, args) => {
     const string = args.join(' ');
-    console.log('Música Encontrada: ' + string);
-    if (!args[0]) return message.reply('você precisa me especificar um nome ou link de música!');
+    console.log('Música requerida: ' + string);
+    const missingArgumentEmbed = new Discord.MessageEmbed().setDescription(`**Para tocar uma música, você precisa me especificar o nome ou link!**`)
+    if (!args[0]) return message.channel.send(missingArgumentEmbed);
     try {
         search(string, (error, result) => {
             if (error) {
                 throw error;
             } else if (result && result.videos.length > 0) {
+                if (!message.member.voice.channel) {
+                    const notInVoiceChannel = new Discord.MessageEmbed().setDescription(`Você precisa estar em um canal de voz para poder ouvir músicas!`);
+                    return message.channel.send(notInVoiceChannel);
+                }
+                const user = message.author;
                 const music = result.videos[0];
                 const queue = client.queues.get(message.guild.id);
                 if (queue) {
                     queue.musics.push(music);
+                    queue.users.push(user);
                     client.queues.set(message.guild.id, queue);
-                    if (message.member.voice.channel) {
-                        message.channel.send(`Adicionando: \`${music.title}\` à playlist atual.`);
-                        message.delete();
-                    }
+                    const addingEmbed = new Discord.MessageEmbed()
+                    addingEmbed.setDescription(`Adicionando: \`${music.title}\` à playlist atual.`)
+                    addingEmbed.setColor('#00FF00')
+                    message.channel.send(addingEmbed);
+                    message.delete();
                 } else {
-                    if (message.member.voice.channel) {
-                        message.channel.send(`Iniciando a playlist com a música: \`${music.title}\``);
-                        try {
-                            playMusic(client, message, music);
-                        } catch(error) {
-                            console.log(error);
-                        }
-                        message.delete();
+                    const initiatingEmbed = new Discord.MessageEmbed()
+                    initiatingEmbed.setDescription(`Iniciando a playlist com a música: \`${music.title}\``)
+                    initiatingEmbed.setColor('#00FF00');
+                    message.channel.send(initiatingEmbed);
+                    try {
+                        playMusic(client, message, music, user);
+                    } catch(error) {
+                        console.log(error);
                     }
+                    message.delete();
                 }
             } else {
                 return message.reply('desculpe, não encontrei sua música. Pare de bater a cabeça no teclado e escreva direito.');
@@ -40,7 +51,7 @@ const execute = (client, message, args) => {
     }
 };
 
-const playMusic = async (client, message, music) => {
+const playMusic = async (client, message, music, user) => {
     let queue = client.queues.get(message.guild.id);
 
     if(!music && queue.loop === false) {
@@ -55,19 +66,6 @@ const playMusic = async (client, message, music) => {
         }
     }
 
-    try {
-        if (!message.member.voice.channel) {
-            await message.reply('você precisa estar em um canal de voz para poder ouvir músicas!')
-            .then(msg => {
-                message.delete();
-                msg.delete({ timeout: 1000 });
-            });
-            return;
-        }
-    } catch(error) {
-        console.log(error);
-    }
-
     if (!queue) {
         try {
             const conn = await message.member.voice.channel.join();
@@ -76,6 +74,8 @@ const playMusic = async (client, message, music) => {
                 connection: conn,
                 dispatcher: null,
                 loop: false,
+                loopTimes: 0,
+                users: [user],
                 musics: [music],
             };
             client.queues.set(message.member.guild.id, queue);
@@ -96,10 +96,15 @@ const playMusic = async (client, message, music) => {
         }
     try {
         queue.dispatcher.on('finish', () => {
-            if (queue.loop === true) {
-                queue.musics.push(queue.musics.shift());
+            if (queue.loop === true || queue.loopTimes > 0) {
+                queue.musics.push(queue.musics.shift())
+                queue.users.push(queue.users.shift());
+                if (queue.loopTimes > 0) {
+                    queue.loopTimes -= 1
+                }
             } else {
-                queue.musics.shift();
+                queue.musics.shift()
+                queue.users.shift();
             }
             playMusic(client, message, queue.musics[0]);
         });
