@@ -383,7 +383,7 @@ module.exports = {
                 ready = true
                 message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`).then(sentMessage => {
                     message.delete()
-                    return sentMessage.delete(2);
+                    sentMessage.delete();
                 });
             } else if (args[0] === 'false' && isModerator(message.member)) {
                 ready = false

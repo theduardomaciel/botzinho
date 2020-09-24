@@ -8,9 +8,12 @@ const execute = (client, message) => {
     }
     queue.musics = [];
     queue.loop = false
+    queue.dispatcher.resume();
     
     client.queues.set(message.guild.id, queue);
-    queue.dispatcher.end();
+    if (queue.dispatcher) {
+        queue.dispatcher.end();
+    }
 
 };
 
