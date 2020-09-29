@@ -7,4 +7,4 @@ Além de comandos próprios para moderadores (determinação de links), os aluno
 O bot também é responsável por enviar um aviso, em tempo real no canal determinado no servidor do Discord, juntamente com o link, para facilitar o aprendizado.
 Enfim, aos que testaram o BOT, espero que ele tenha sido de bom uso.
 
-(Obs.: Além das funções mais emergenciais, como as de estudos, o bot tem total integração com um sistema de musica avançado e um sistema básico de moderação de servidores)
+(Obs.: Além das funções mais emergenciais, como as de estudos, o bot tem total integração com um sistema de musica intermediário e um sistema básico de moderação de servidores)
