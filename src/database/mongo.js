@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const mongoPath = 'mongodb+srv://meninocoiso:botzinhobonitinho@botzinho.luhh1.mongodb.net/<dbname>?retryWrites=true&w=majority'
+const mongoPath = process.env.MONGO_PATH
 
 module.exports = async () => {
     await mongoose.connect(mongoPath, {
