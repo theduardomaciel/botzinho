@@ -92,7 +92,7 @@ let ready = false;
 let textChannel = undefined;
 let role = undefined;
 
-async function SendClass() {
+async function SendClass(isUpdating) {
 
     if (aula < 1) {
         aulaAtual = inicioDasAulasMensagem;
@@ -122,8 +122,13 @@ async function SendClass() {
         }
 
         console.log(`Nova aula iniciando de ${aulaAtual['materia']} (${aula}), enviado mensagem ao servidor com o link.`);
-        
-        if (aulaAtual === aulaAnterior) return;
+
+        if (aula > 1 && aulaAtual['link'] === aulaAnterior['link']) return;
+
+        if (aulaAtual['link'] === 'Aguardando...') {
+            const allLinksEmbed = new Discord.MessageEmbed().setDescription(`Desculpe, mas o link da aula atual não foi inserido por nenhum moderador.\nPor favor, entre no site https://cpbedu.me/e-class para o link da aula atual.\nUm moderador deve inserir os links corretamente em breve.`)
+            return textChannel.send(allLinksEmbed);
+        }
 
         textChannel.send(proximaAulaEmbed).then(eadMessage => {
             
@@ -230,8 +235,8 @@ function execute(client, message, args) {
 
         for (let i = 1; i < diaLenght + 1; i++) {
             let aulaAtual = aulaDia['aula' + i];
-            if (i < diaLenght && aulaDia['aula' + [i + 1]]['materia'] === aulaAtual['materia']) {
-                aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']}-${aulaDia['aula' + [i + 1]]['horario']})`, aulaAtual['link'], true);
+            if (i < diaLenght && aulaAtual['link'] !== 'Aguardando...' && aulaDia['aula' + [i + 1]]['link'] === aulaAtual['link']) {
+                aulasEAD.addField(`${aulaAtual['materia']} e ${aulaDia['aula' + [i + 1]]['materia']}  (${aulaAtual['horario']}-${aulaDia['aula' + [i + 1]]['horario']})`, aulaAtual['link'], true);
                 i += 1
             } else {
                 aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']})`, aulaAtual['link'], true);
@@ -274,7 +279,7 @@ function execute(client, message, args) {
             message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
             offset = parseInt(args[1]);
             updateTime();
-            checkClass(true);
+            CheckClass(true);
             
         } else if (args[0] === 'true' && isModerator(message.member)) {
             ready = true
@@ -293,6 +298,15 @@ function execute(client, message, args) {
             aulaDia['aula' + args[1]]['link'] = args[2];
             message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
             message.delete();
+        } else if (args[0] === 'list' && isModerator(message.member)) {
+            const listEmbed = new Discord.MessageEmbed()
+            listEmbed.setTitle('AULAS DE HOJE:')
+            for (let i = 1; i < diaLenght + 1; i++) {
+                let aulaAtual = aulaDia['aula' + i];
+                listEmbed.addField(aulaAtual['materia'], aulaAtual['horario']);
+            }
+            textChannel.send(listEmbed);
+            message.delete();
         } else if (args[0] === 'all' && isModerator(message.member)) {
             console.log('Aulas no dia: ' + diaLenght);
             if (args.length > diaLenght + 1) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
@@ -306,6 +320,8 @@ function execute(client, message, args) {
                     console.log(`Aula ${i}: ${aulaDia['aula' + i]['link']}`);
                 }
             }
+            const allLinksEmbed = new Discord.MessageEmbed().setDescription('Todos os links foram inseridos corretamente.')
+            message.channel.send(allLinksEmbed)
         }
     } else {
         message.channel.send({ embed: finalDeSemana });
