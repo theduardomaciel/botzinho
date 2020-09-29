@@ -4,8 +4,10 @@ const ytdl = require('ytdl-core-discord');
 
 process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
 
+let string;
+
 const execute = (client, message, args) => {
-    const string = args.join(' ');
+    string = args.join(' ');
     console.log('Música requerida: ' + string);
     const missingArgumentEmbed = new Discord.MessageEmbed().setDescription(`**Para tocar uma música, você precisa me especificar o nome ou link!**`)
     if (!args[0]) return message.channel.send(missingArgumentEmbed);
@@ -26,11 +28,12 @@ const execute = (client, message, args) => {
                     queue.users.push(user);
                     client.queues.set(message.guild.id, queue);
                     const addingEmbed = new Discord.MessageEmbed()
-                    addingEmbed.setDescription(`Adicionando: \`${music.title}\` à playlist atual.`)
+                    addingEmbed.setDescription(`Adicionando: \`${music.title}\` à playlist atual na posição ${queue.musics.length}`)
                     addingEmbed.setColor('#00FF00')
                     message.channel.send(addingEmbed);
                     message.delete();
                 } else {
+                    message.channel.bulkDelete(100, true);
                     const initiatingEmbed = new Discord.MessageEmbed()
                     initiatingEmbed.setDescription(`Iniciando a playlist com a música: \`${music.title}\``)
                     initiatingEmbed.setColor('#00FF00');
@@ -42,6 +45,16 @@ const execute = (client, message, args) => {
                     }
                     message.delete();
                 }
+            } else if (result.playlists) {
+                if (!message.member.voice.channel) {
+                    const notInVoiceChannel = new Discord.MessageEmbed().setDescription(`Você precisa estar em um canal de voz para poder ouvir músicas!`);
+                    return message.channel.send(notInVoiceChannel);
+                }
+                const user = message.author;
+                const playlist = result.lists[0]
+                console.log(playlist);
+                //const queue = client.queues.get(message.guild.id);
+                message.channel.send('Ainda não é possível implementar playlists, este sistema ainda está sendo desenvolvido. Desculpe.')
             } else {
                 return message.reply('desculpe, não encontrei sua música. Pare de bater a cabeça no teclado e escreva direito.');
             }
@@ -102,7 +115,7 @@ const playMusic = async (client, message, music, user) => {
                 if (queue.loopTimes > 0) {
                     queue.loopTimes -= 1
                 }
-            } else {
+            } else {!
                 queue.musics.shift()
                 queue.users.shift();
             }
@@ -111,6 +124,18 @@ const playMusic = async (client, message, music, user) => {
     } catch(error) {
         console.log(error);
     }
+
+    module.exports = {
+        name: 'play',
+        description: 'Este é o comando responsável por tocar músicas! É a base para todos os outros comandos de música.',
+        aliases: ['p', 'tocar', 'musica'],
+        cooldown: 5,
+        guildOnly: true,
+        execute,
+        playMusic,
+        userRequire: string,
+    };
+
 };
 
 module.exports = {

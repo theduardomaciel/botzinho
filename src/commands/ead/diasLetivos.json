@@ -1,0 +1,103 @@
+{
+    "Domingo": [""],
+    "dia1": {
+        "aula1": {
+            "materia": "História", "horario": "7:10", "link": "Aguardando..." },
+        "aula2": {
+            "materia": "Espanhol", "horario": "8:00", "link": "Aguardando..." },
+        "aula3": {
+            "materia": "Espanhol", "horario": "8:50", "link": "Aguardando..." },
+        "aula4": {
+            "materia": "Filosofia", "horario": "9:35", "link": "Aguardando..." },
+        "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio ao seu longo tempo de descanso (20 minutos, uau...).\n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },
+        "aula6": {
+            "materia": "Sociologia", "horario": "10:40", "link": "Aguardando..." },
+        "aula7": {
+            "materia": "Química", "horario": "11:30", "link": "Aguardando..." },
+        "aula8": {
+            "materia": "Arte", "horario": "12:15", "link": "Aguardando..." }
+    },
+    "dia2": {
+        "aula1": {
+            "materia": "Redação", "horario": "7:10", "link": "Aguardando..."
+        },
+        "aula2": {
+            "materia": "Literatura", "horario": "8:00", "link": "Aguardando..."
+        },
+        "aula3": {
+            "materia": "Geografia", "horario": "8:50", "link": "Aguardando..."
+        },
+        "aula4": {
+            "materia": "Português", "horario": "9:35", "link": "Aguardando..."
+        },
+        "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio aos seu 'longos' 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },
+        "aula6": {
+            "materia": "Geografia", "horario": "10:40", "link": "Aguardando..."
+        },
+        "aula7": {
+            "materia": "Física", "horario": "11:30", "link": "Aguardando..."
+        },
+        "aula8": {
+            "materia": "Capela", "horario": "12:15", "link": "https://www.instagram.com/colegioadventistademaceio/"
+        }
+    },
+    "dia3": {
+        "aula1": {
+            "materia": "Religião", "horario": "7:10", "link": "Aguardando..." },
+        "aula2": {
+            "materia": "Física", "horario": "8:00", "link": "Aguardando..." },
+        "aula3": {
+            "materia": "Português", "horario": "8:50", "link": "Aguardando..." },
+        "aula4": {
+            "materia": "Redação", "horario": "9:35", "link": "Aguardando..." },
+        "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio aos seu 'longos' 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },        "aula6": {
+            "materia": "Física", "horario": "10:40", "link": "Aguardando..." },
+        "aula7": {
+            "materia": "Literatura", "horario": "11:30", "link": "Aguardando..." },
+        "aula8": {
+            "materia": "Biologia", "horario": "12:15", "link": "Aguardando..." }
+    },
+    "dia4": {
+        "aula1": {
+            "materia": "História (Ari)", "horario": "7:10", "link": "Aguardando..." },
+        "aula2": {
+            "materia": "Matemática", "horario": "8:00", "link": "Aguardando..." },
+        "aula3": {
+            "materia": "Química", "horario": "8:50", "link": "Aguardando..." },
+        "aula4": {
+            "materia": "Português", "horario": "9:35", "link": "Aguardando..." },
+        "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio aos seu 'longos' 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },        "aula6": {
+            "materia": "Matemática", "horario": "10:40", "link": "Aguardando..." },
+        "aula7": {
+            "materia": "Química", "horario": "11:30", "link": "Aguardando..." },
+        "aula8": {
+            "materia": "Inglês", "horario": "12:15", "link": "Aguardando..." }
+    },
+    "dia5": {
+        "aula1": {
+            "materia": "História", "horario": "7:10", "link": "Aguardando..."
+        },
+        "aula2": {
+            "materia": "Matemática", "horario": "8:00", "link": "Aguardando..."
+        },
+        "aula3": {
+            "materia": "Matemática", "horario": "8:50", "link": "Aguardando..."
+        },
+        "aula4": {
+            "materia": "Biologia", "horario": "9:35", "link": "Aguardando..."
+        },
+        "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio aos seu 'longos' 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },        "aula6": {
+            "materia": "Geografia", "horario": "10:40", "link": "Aguardando..."
+        },
+        "aula7": {
+            "materia": "Biologia", "horario": "11:30", "link": "Aguardando..."
+        },
+        "aula8": {
+            "materia": "Inglês", "horario": "12:15", "link": "Aguardando..."
+        },
+        "aula9": {
+            "materia": "Educação Física", "horario": "13:00", "link": "Aguardando..."
+        }
+    },
+    "Sábado": [""]
+}

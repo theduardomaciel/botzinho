@@ -1,111 +1,8 @@
 const Discord = require('discord.js');
+const diasLetivosArray = require('./diasLetivos.json')
 
 const inicioDasAulasMensagem = { 'materia': 'AS AULAS AINDA NÃO INICIARAM!', 'horario': 'somente 7:10', 'link': 'Vá separando seus livros e seu material pra quando o professor chegar! \nMas... enquanto o professor não chega, relaxe ao som de megalovania: https://www.youtube.com/watch?v=0TmoYBcLul8&t=104s...' };
 const fimDasAulasMensagem = { 'materia': 'TODAS AS AULAS JÁ ACABARAM!', 'horario': 'pelo menos as de hoje', 'link': 'O dia letivo já acabou, e agora só nos resta completar as aulas e atividades no e-class: https://cpbedu.me/.\nAproveite seu resto de dia!' };
-
-const diasLetivos = {
-    'Domingo': '',
-    'dia1': {
-        'aula1': {
-            'materia': 'História', 'horario': '7:10', 'link': 'Aguardando...' },
-        'aula2': {
-            'materia': 'Espanhol', 'horario': '8:00', 'link': 'Aguardando...' },
-        'aula3': {
-            'materia': 'Espanhol', 'horario': '8:50', 'link': 'Aguardando...' },
-        'aula4': {
-            'materia': 'Filosofia', 'horario': '9:35', 'link': 'Aguardando...' },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio ao seu longo tempo de descanso (20 minutos, uau...).\n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },
-        'aula6': {
-            'materia': 'Sociologia', 'horario': '10:40', 'link': 'Aguardando...' },
-        'aula7': {
-            'materia': 'Química', 'horario': '11:30', 'link': 'Aguardando...' },
-        'aula8': {
-            'materia': 'Arte', 'horario': '12:15', 'link': 'Aguardando...' },
-    },
-    'dia2': {
-        'aula1': {
-            'materia': 'Redação', 'horario': '7:10', 'link': 'Aguardando...',
-        },
-        'aula2': {
-            'materia': 'Literatura', 'horario': '8:00', 'link': 'Aguardando...',
-        },
-        'aula3': {
-            'materia': 'Geografia', 'horario': '8:50', 'link': 'Aguardando...',
-        },
-        'aula4': {
-            'materia': 'Português', 'horario': '9:35', 'link': 'Aguardando...',
-        },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },
-        'aula6': {
-            'materia': 'Geografia', 'horario': '10:40', 'link': 'Aguardando...',
-        },
-        'aula7': {
-            'materia': 'Física', 'horario': '11:30', 'link': 'Aguardando...',
-        },
-        'aula8': {
-            'materia': 'Capela', 'horario': '12:15', 'link': 'https://www.instagram.com/colegioadventistademaceio/',
-        },
-    },
-    'dia3': {
-        'aula1': {
-            'materia': 'Religião', 'horario': '7:10', 'link': 'Aguardando...' },
-        'aula2': {
-            'materia': 'Física', 'horario': '8:00', 'link': 'Aguardando...' },
-        'aula3': {
-            'materia': 'Português', 'horario': '8:50', 'link': 'Aguardando...' },
-        'aula4': {
-            'materia': 'Redação', 'horario': '9:35', 'link': 'Aguardando...' },
-            'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },        'aula6': {
-            'materia': 'Física', 'horario': '10:40', 'link': 'Aguardando...' },
-        'aula7': {
-            'materia': 'Literatura', 'horario': '11:30', 'link': 'Aguardando...' },
-        'aula8': {
-            'materia': 'Biologia', 'horario': '12:15', 'link': 'Aguardando...' },
-    },
-    'dia4': {
-        'aula1': {
-            'materia': 'História (Ari)', 'horario': '7:10', 'link': 'Aguardando...' },
-        'aula2': {
-            'materia': 'Matemática', 'horario': '8:00', 'link': 'Aguardando...' },
-        'aula3': {
-            'materia': 'Química', 'horario': '8:50', 'link': 'Aguardando...' },
-        'aula4': {
-            'materia': 'Português', 'horario': '9:35', 'link': 'Aguardando...' },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },        'aula6': {
-            'materia': 'Matemática', 'horario': '10:40', 'link': 'Aguardando...' },
-        'aula7': {
-            'materia': 'Química', 'horario': '11:30', 'link': 'Aguardando...' },
-        'aula8': {
-            'materia': 'Inglês', 'horario': '12:15', 'link': 'Aguardando...' },
-    },
-    'dia5': {
-        'aula1': {
-            'materia': 'História', 'horario': '7:10', 'link': 'Aguardando...',
-        },
-        'aula2': {
-            'materia': 'Matemática', 'horario': '8:00', 'link': 'Aguardando...',
-        },
-        'aula3': {
-            'materia': 'Matemática', 'horario': '8:50', 'link': 'Aguardando...',
-        },
-        'aula4': {
-            'materia': 'Biologia', 'horario': '9:35', 'link': 'Aguardando...',
-        },
-        'aula5': { 'materia': 'INTERVALO...', 'horario': '10:20', 'link': `Relaxe em meio aos seu "longos" 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO` },        'aula6': {
-            'materia': 'Geografia', 'horario': '10:40', 'link': 'Aguardando...',
-        },
-        'aula7': {
-            'materia': 'Biologia', 'horario': '11:30', 'link': 'Aguardando...',
-        },
-        'aula8': {
-            'materia': 'Inglês', 'horario': '12:15', 'link': 'Aguardando...',
-        },
-        'aula9': {
-            'materia': 'Educação Física', 'horario': '13:00', 'link': 'Aguardando...',
-        },
-    },
-    'Sábado': '',
-};
 
 function isModerator(member) {
     if (member.roles.cache.some(role => role.name === 'Moderador')) {
@@ -158,7 +55,7 @@ updateTime();
 const dias = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
 const diaNome = dias[time.getDay()];
 
-const aulaDia = diasLetivos['dia' + time.getDay()];
+const aulaDia = diasLetivosArray['dia' + time.getDay()];
 
 // aulaDia.unshift(inicioDasAulasMensagem);
 // aulaDia.push(fimDasAulasMensagem);
@@ -166,126 +63,139 @@ const aulaDia = diasLetivos['dia' + time.getDay()];
 // Verificando se há aula e qual a aula atual;
 
 let aula = 0;
-let aulaAtual = undefined;
-let proximaAula = undefined;
+let aulaAtual;
+let proximaAula;
+let aulaAnterior;
 
-let proximaAulaEmbed = undefined;
-console.log(hasClass());
+let proximaAulaEmbed = new Discord.MessageEmbed()
+proximaAulaEmbed.setAuthor('PRÓXIMA AULA • EAD')
+proximaAulaEmbed.setColor()
+proximaAulaEmbed.setColor('#0099ff')
 
-let aulasEAD = undefined;
-let aulaCheck = undefined;
+if (hasClass()) {
+    aulaAtual = inicioDasAulasMensagem;
+    proximaAula = aulaDia['aula1'];
+    proximaAulaEmbed.setTitle(`${aulaAtual['materia']}`)
+    proximaAulaEmbed.setDescription(`aulaAtual['link'] • @everyone`);
+}
 
-let diaLenght = undefined;
+let aulaCheck;
+
+let diaLenght;
 
 if (aulaDia) {
-    diaLenght =  Object.keys(aulaDia).length;
+    diaLenght = Object.keys(aulaDia).length;
 }
 
 let ready = false;
 
 let textChannel = undefined;
 let role = undefined;
-let lastMessage = undefined;
 
-async function checkClass(isUpdating)
+async function SendClass() {
+
+    if (aula < 1) {
+        aulaAtual = inicioDasAulasMensagem;
+    } else if (aula > diaLenght) {
+        aulaAtual = fimDasAulasMensagem;
+    } else {
+        aulaAtual = aulaDia['aula' + [aula]];
+    }
+
+    if (aula <= diaLenght) {
+        proximaAula = aulaDia['aula' + [aula + 1]];
+    } else {
+        proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
+    }
+
+    if (aulaAtual !== aulaCheck) {
+
+        if (aula < 1) {
+            proximaAulaEmbed.setTitle(`${inicioDasAulasMensagem['materia']} (${inicioDasAulasMensagem['horario']})`);
+            proximaAulaEmbed.setDescription(`${inicioDasAulasMensagem['link']}`);
+        } else if (aula >= diaLenght + 1) {
+            proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
+            proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
+        } else {
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']})`);
+            proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
+        }
+
+        console.log(`Nova aula iniciando de ${aulaAtual['materia']} (${aula}), enviado mensagem ao servidor com o link.`);
+        
+        if (aulaAtual === aulaAnterior) return;
+
+        textChannel.send(proximaAulaEmbed).then(eadMessage => {
+            
+            if (parseInt(aula) === 0 || parseInt(aula) === 5 || parseInt(aula) === diaLenght + 1) return;
+
+            console.log(aula);
+            console.log(diaLenght + 1)
+            eadMessage.react("🔄")
+
+            const waitingFilter = (reaction, user) => {
+                return reaction.emoji.name === '🔄' && reaction.users
+            };
+
+            const beginFilter = (reaction) => {
+                return reaction.emoji.name === '✅' && reaction.users
+            };
+            const endFilter = (reaction) => {
+                return reaction.emoji.name === '❌' && reaction.users
+            };
+            
+            const waitingCollector = new Discord.ReactionCollector(eadMessage, waitingFilter);
+            const beginCollector = new Discord.ReactionCollector(eadMessage, beginFilter);
+            const endCollector = new Discord.ReactionCollector(eadMessage, endFilter);
+
+            waitingCollector.on('collect', (reaction, user) => {
+                if (!user.bot) {
+                    eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                    eadMessage.react('✅');
+                }
+            })
+            beginCollector.on('collect', (reaction, user) => {
+                if (!user.bot) {
+                    eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                    eadMessage.react('❌');
+                }
+            })
+            endCollector.on('collect', (reaction, user) => {
+                if (!user.bot) {
+                    eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
+                    eadMessage.react('✅');
+                }
+            })
+        })
+
+    }
+
+    if (isUpdating) {
+        console.log(`Atualizando offset para ${offset} hora(s), aula atual: ${aula}`);
+    }
+    
+    aulaCheck = aulaAtual;
+    
+}
+
+function CheckClass(isUpdating)
 {
     if (textChannel && ready === true) {
-
         horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
         const now = new Date();
-
         for (let i = 0; i <= diaLenght; i++) {
             if (now > horarios[i])
             {
                 aula = i + 1;
             }
         }
-
-        if (aula < 1) {
-            aulaAtual = inicioDasAulasMensagem;
-        } else if (aula > diaLenght) {
-            aulaAtual = fimDasAulasMensagem;
-        } else {
-            aulaAtual = aulaDia['aula' + [aula]];
-        }
-
-        if (aula <= diaLenght) {
-            proximaAula = aulaDia['aula' + [aula + 1]];
-        } else {
-            proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
-        }
-
-        if (aulaAtual !== aulaCheck) {
-
-            if (aula < 1) {
-                proximaAulaEmbed.setTitle(`${inicioDasAulasMensagem['materia']} (${inicioDasAulasMensagem['horario']})`);
-                proximaAulaEmbed.setDescription(`${inicioDasAulasMensagem['link']}`);
-            } else if (aula >= diaLenght + 1) {
-                proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
-                proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
-            } else {
-                proximaAulaEmbed.setTitle(`${aulaDia['aula' + aula]['materia']} (${aulaDia['aula' + aula]['horario']})`);
-                proximaAulaEmbed.setDescription(`${aulaDia['aula' + aula]['link']} • ${role}`);
-            }
-
-            console.log(`Nova aula iniciando (${aula}), enviado mensagem ao servidor com o link.`);
-            
-            textChannel.send(proximaAulaEmbed).then(eadMessage => {
-                
-                if (parseInt(aula) === 0 || parseInt(aula) === 5 || parseInt(aula) === diaLenght + 1) return;
-
-                console.log(aula);
-                console.log(diaLenght + 1)
-                eadMessage.react("🔄")
-
-                const waitingFilter = (reaction, user) => {
-                    return reaction.emoji.name === '🔄' && reaction.users
-                };
-
-                const beginFilter = (reaction) => {
-                    return reaction.emoji.name === '✅' && reaction.users
-                };
-                const endFilter = (reaction) => {
-                    return reaction.emoji.name === '❌' && reaction.users
-                };
-                
-                const waitingCollector = new Discord.ReactionCollector(eadMessage, waitingFilter);
-                const beginCollector = new Discord.ReactionCollector(eadMessage, beginFilter);
-                const endCollector = new Discord.ReactionCollector(eadMessage, endFilter);
-
-                waitingCollector.on('collect', (reaction, user) => {
-                    if (!user.bot) {
-                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                        eadMessage.react('✅');
-                    }
-                })
-                beginCollector.on('collect', (reaction, user) => {
-                    if (!user.bot) {
-                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                        eadMessage.react('❌');
-                    }
-                })
-                endCollector.on('collect', (reaction, user) => {
-                    if (!user.bot) {
-                        eadMessage.reactions.removeAll().catch(error => console.error('Falha ao remover as reações:', error));
-                        eadMessage.react('✅');
-                    }
-                })
-            })
-
-        }
-
-        if (isUpdating) {
-            console.log(`Atualizando offset para ${offset} hora(s), aula atual: ${aula}`);
-        }
-        
-        aulaCheck = aulaAtual;
-        
+        SendClass();
     }
 }
+
 if (hasClass()) {
     console.log('Hoje há aula... iniciando verificações de novas aulas...');
-    setInterval(checkClass, 60000);
+    setInterval(CheckClass, 60000);
 } else {
     console.log('Hoje não há aula... encerrando verificações de novas aulas...');
 }
@@ -301,118 +211,112 @@ function hasClass()
 
 // Comandos Handler
 
+let aulasEAD;
+
+function execute(client, message, args) {
+    role = message.guild.roles.cache.find(role => role.name === 'EAD');
+    textChannel = message.channel;
+
+    // client.channels.cache.get('727537392415932488');
+    let aulaAtualEmbed = undefined;
+    if (hasClass()) {
+        aulasEAD = new Discord.MessageEmbed()
+        .setColor(0x0099ff)
+        .setTitle(`AULAS DE HOJE: (${diaNome})`)
+        .setURL('https://cpbedu.me/')
+        .setAuthor('Colégio Adventista de Maceió', 'https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png', 'https://twitter.com/theduardomaciel')
+        .setDescription('Aqui estão as aulas do dia, com seus determinados links:')
+        .setThumbnail('https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png')
+
+        for (let i = 1; i < diaLenght + 1; i++) {
+            let aulaAtual = aulaDia['aula' + i];
+            if (i < diaLenght && aulaDia['aula' + [i + 1]]['materia'] === aulaAtual['materia']) {
+                aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']}-${aulaDia['aula' + [i + 1]]['horario']})`, aulaAtual['link'], true);
+                i += 1
+            } else {
+                aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']})`, aulaAtual['link'], true);
+            }
+        }
+
+        //
+        aulaAtualEmbed = new Discord.MessageEmbed()
+        .setColor(0x0099ff)
+        .setTitle('AULA ATUAL:')
+        .setURL('https://cpbedu.me/')
+        .setThumbnail('https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png')
+        if (proximaAula) {
+            aulaAtualEmbed.setFooter('Próxima Aula: ' + `${proximaAula['materia']}`);
+        }
+        if (aulaAtual) {
+            aulaAtualEmbed.setDescription(`**${aulaAtual['materia']}**\n${aulaAtual['link']}`)
+        }
+
+    }
+
+    const finalDeSemana = new Discord.MessageEmbed()
+    .setColor(0x0099ff)
+    .setTitle('RELAXE!')
+    .setDescription('**Aproveite seu fim de semana para relaxar e descansar desta semana de estudos!**')
+    .setURL('https://www.youtube.com/watch?v=0TmoYBcLul8')
+    .setFooter('Próxima aula somente SEGUNDA.');
+
+    // EAD Commands
+    if (hasClass()) {
+        if (!args.length) {
+            if (!ready && !isModerator(message.member)) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
+            message.channel.send(aulasEAD);
+            message.delete();
+        } else if (args[0] === 'atual') {
+            if (!ready) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
+            message.channel.send({ embed: aulaAtualEmbed });
+            message.delete();
+        } else if (args[0] === 'offset' && isModerator(message.member)) {
+            message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
+            offset = parseInt(args[1]);
+            updateTime();
+            checkClass(true);
+            
+        } else if (args[0] === 'true' && isModerator(message.member)) {
+            ready = true
+            message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`).then(sentMessage => {
+                message.delete()
+                sentMessage.delete();
+            });
+        } else if (args[0] === 'false' && isModerator(message.member)) {
+            ready = false
+            message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`).then(sentMessage => {
+                message.delete()
+                return sentMessage.delete(2);
+            });
+            // COMEÇANDO INSERÇÃO DE LINKS
+        } else if (args[0] === 'set' && isModerator(message.member)) {
+            aulaDia['aula' + args[1]]['link'] = args[2];
+            message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
+            message.delete();
+        } else if (args[0] === 'all' && isModerator(message.member)) {
+            console.log('Aulas no dia: ' + diaLenght);
+            if (args.length > diaLenght + 1) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
+            for (let i = 1; i < args.length + 1; i++) {
+                if (i < 5) {
+                    aulaDia['aula' + i]['link'] = args[i];
+                    console.log(`Aula ${i}: ${aulaDia['aula' + i]['link']}`);
+                } else if (i > 5) {
+                    const value = i - 1;
+                    aulaDia['aula' + i]['link'] = args[value];
+                    console.log(`Aula ${i}: ${aulaDia['aula' + i]['link']}`);
+                }
+            }
+        }
+    } else {
+        message.channel.send({ embed: finalDeSemana });
+    }
+}
+
 module.exports = {
     name: 'ead',
     cooldown: 2.5,
     aliases: ['aulas', 'aula'],
     guildOnly: true,
 	description: 'Comando responsável por informar: matérias do dia, horário das aulas, status das aulas, aula atual, link das aulas online entre outras funções...',
-	execute(client, message, args, eadChannel) {
-
-        role = message.guild.roles.cache.find(role => role.name === 'EAD');
-        textChannel = message.channel;
-
-        if (hasClass()) {
-            aulaAtual = inicioDasAulasMensagem;
-            proximaAula = aulaDia['aula1'];
-        
-            // Embed: Próxima Aula
-            proximaAulaEmbed = new Discord.MessageEmbed()
-            .setColor('#0099ff')
-            .setTitle(`${aulaAtual['materia']}`)
-            .setAuthor('PRÓXIMA AULA • EAD')
-            .setDescription(`aulaAtual['link'] • ${role}`);
-        }
-
-        // client.channels.cache.get('727537392415932488');
-        let aulaAtualEmbed = undefined;
-        if (hasClass()) {
-            aulasEAD = new Discord.MessageEmbed()
-            .setColor(0x0099ff)
-            .setTitle(`AULAS DE HOJE: (${diaNome})`)
-            .setURL('https://cpbedu.me/')
-            .setAuthor('Colégio Adventista de Maceió', 'https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png', 'https://twitter.com/theduardomaciel')
-            .setDescription('Aqui estão as aulas do dia, com seus determinados links:')
-            .setThumbnail('https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png')
-            .setTimestamp()
-            .setFooter('Botzinho (by Edu)', 'https://images.emojiterra.com/twitter/512px/1f44c.png');
-
-            for (let i = 1; i < diaLenght + 1; i++) {
-                aulasEAD.addField(`${aulaDia['aula' + i]['materia']}  (${aulaDia['aula' + i]['horario']})`, aulaDia['aula' + i]['link'], true);
-            }
-
-            //
-            aulaAtualEmbed = new Discord.MessageEmbed()
-            .setColor(0x0099ff)
-            .setTitle('AULA ATUAL:')
-            .setURL('https://cpbedu.me/')
-            .setThumbnail('https://www.educacaoadventista.org.br/wp-content/uploads/2019/11/logo-ea.png')
-            if (proximaAula) {
-                aulaAtualEmbed.setFooter('Próxima Aula: ' + `${proximaAula['materia']}`);
-            }
-            if (aulaAtual) {
-                aulaAtualEmbed.setDescription(`**${aulaAtual['materia']}**\n${aulaAtual['link']}`)
-            }
-
-        }
-
-        const finalDeSemana = new Discord.MessageEmbed()
-        .setColor(0x0099ff)
-        .setTitle('RELAXE!')
-        .setDescription('**Aproveite seu fim de semana para relaxar e descansar desta semana de estudos!**')
-        .setURL('https://www.youtube.com/watch?v=0TmoYBcLul8')
-        .setFooter('Próxima aula somente SEGUNDA.');
-
-        // EAD Commands
-        if (hasClass()) {
-            if (!args.length) {
-                if (!ready && !isModerator(message.member)) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
-                message.channel.send(aulasEAD);
-                message.delete();
-            } else if (args[0] === 'atual') {
-                if (!ready) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
-                message.channel.send({ embed: aulaAtualEmbed });
-                message.delete();
-            } else if (args[0] === 'offset' && isModerator(message.member)) {
-                message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
-                offset = parseInt(args[1]);
-                updateTime();
-                checkClass(true);
-                
-            } else if (args[0] === 'true' && isModerator(message.member)) {
-                ready = true
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`).then(sentMessage => {
-                    message.delete()
-                    sentMessage.delete();
-                });
-            } else if (args[0] === 'false' && isModerator(message.member)) {
-                ready = false
-                message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`).then(sentMessage => {
-                    message.delete()
-                    return sentMessage.delete(2);
-                });
-                // COMEÇANDO INSERÇÃO DE LINKS
-            } else if (args[0] === 'set' && isModerator(message.member)) {
-                aulaDia['aula' + args[1]]['link'] = args[2];
-                message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
-                message.delete();
-            } else if (args[0] === 'all' && isModerator(message.member)) {
-                console.log('Aulas no dia: ' + diaLenght);
-                if (args.length > diaLenght + 1) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
-                for (let i = 1; i < args.length + 1; i++) {
-                    if (i < 5) {
-                        aulaDia['aula' + i]['link'] = args[i];
-                        console.log(`Aula ${i}: ${aulaDia['aula' + i]['link']}`);
-                    } else if (i > 5) {
-                        const value = i - 1;
-                        aulaDia['aula' + i]['link'] = args[value];
-                        console.log(`Aula ${i}: ${aulaDia['aula' + i]['link']}`);
-                    }
-                }
-            }
-        } else {
-            message.channel.send({ embed: finalDeSemana });
-        }
-
-    },
+	execute,
 };

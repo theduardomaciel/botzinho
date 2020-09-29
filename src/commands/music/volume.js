@@ -37,9 +37,11 @@ const execute = async (client, message, args) => {
             volumeEmbed.setColor('#FFA500');
             volumeEmbed.setDescription(`**O volume atual foi alterado para: \`${volume}\`.**`);
             message.channel.send(volumeEmbed);
+            message.delete()
         } else {
             const waitEmbed = new Discord.MessageEmbed().setDescription(`**Por favor, aguarde a música ser carregada para poder alterar o volume.**`)
             message.channel.send(waitEmbed)
+            message.delete()
         }
     } catch(error) {
         console.log(error);
@@ -54,7 +56,7 @@ module.exports = {
     name: 'volume',
     description: 'Ajusta o volume em uma escala de 0.1 a 3 (para prevenir que seus amigos fiquem surdos)',
 	aliases: ['vol'],
-    cooldown: 1,
+    cooldown: 30,
     guildOnly: true,
     execute,
 };

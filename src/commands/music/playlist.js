@@ -22,7 +22,7 @@ const execute = async (client, message) => {
 
     // MOSTRANDO A MÚSICA TOCANDO ATUALMENTE
     if (queue.loopTimes > 0) {
-        playlistEmbed.setDescription(`**TOCANDO AGORA:**\n[${queue.musics[0].title}](${queue.musics[0].url}) (x${queue.loopTimes})`);
+        playlistEmbed.setDescription(`**TOCANDO AGORA:**\n[${queue.musics[0].title}](${queue.musics[0].url}) (x${queue.loopTimes + 1})`);
     } else {
         playlistEmbed.setDescription(`**TOCANDO AGORA:**\n[${queue.musics[0].title}](${queue.musics[0].url})`);
     }

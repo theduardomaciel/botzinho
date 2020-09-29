@@ -32,7 +32,7 @@ const execute = async (client, message, args) => {
 
             const loopFalse = new Discord.MessageEmbed().setTitle('LOOP:')
             loopFalse.setColor('#FFA500')
-            loopFalse.setDescription(`Modo **LOOP** foi desativado. Agora as músicas tocarão na ordem da playlist normalmente.`)
+            loopFalse.setDescription(`Modo **LOOP** foi desativado. Agora as músicas tocarão na ordem normal da playlist.`)
             return message.channel.send(loopFalse);
         }
     } else {

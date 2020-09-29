@@ -1,32 +1,7 @@
-const fs = require('fs');
 const Discord = require('discord.js');
 
-const dotenv = require('dotenv');
-dotenv.config();
-
-const path = require('path');
-
-const prefix = process.env.PREFIX;
-const token = process.env.TOKEN;
-
-const client = new Discord.Client();
-
+const prefix = process.env.PREFIX
 const cooldowns = new Discord.Collection();
-client.queues = new Map();
-client.commands = new Discord.Collection();
-
-const dir = './src/commands'
-try {
-    fs.readdirSync(dir).forEach(dirs => {
-        const commands = fs.readdirSync(path.join(__dirname, `./commands${path.sep}${dirs}`)).filter(file => file.endsWith('.js'));
-        for (const file of commands) {
-            const command = require(`./commands/${dirs}/${file}`);
-            client.commands.set(command.name, command);
-        }
-    });
-} catch (error) {
-    console.log(error);
-}
 
 function isModerator(member) {
     if (member.roles.cache.some(role => role.name === 'Moderador')) {
@@ -36,35 +11,7 @@ function isModerator(member) {
     }
 }
 
-let i = 0;
-let activities = undefined;
-
-client.on('ready', async () => {
-    console.log('O bot foi iniciado');
-    return;
-    activities = [
-        'EAD! Também conhecido como: Estresse-A-Distância.',
-        '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
-    ],
-
-    i = 0;
-    setInterval(() => client.user.setActivity(`${activities[i++ %
-        activities.length]}`, {
-        type: 'PLAYING' }), 60000);
-    // WATCHING, LISTENING, PLAYING, STREAMING
-});
-
-client.once('reconnecting', () => {
-    console.log('O bot está reconectando!');
-});
-
-client.once('reconnecting', () => {
-    console.log('O bot foi desconectado!');
-});
-
-// COMANDOS HOLDER
-
-client.on('message', message => {
+module.exports = (client, message) => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 
     const args = message.content.slice(prefix.length).split(' ');
@@ -123,19 +70,4 @@ client.on('message', message => {
         console.error(error);
         message.reply('houve um erro ao tentar executar este comando, provavelmente o comando está quebrado!.');
     }
-
-});
-
-client.on('guildMemberAdd', (member) => {
-    const joinResponse = `Olá! **${member.user.username}**, seja bem vindo ao servidor: **${member.guild.name}**!`
-    const role = guild.roles.cache.find(role => role.name === 'EAD');
-
-    if (!role) return console.log('Este cargo não existe');
-
-    member.addRole(role);
-    const channel = member.guild.channels.get('aulas-ead');
-    if(!channel) return console.log("Canal não existe.");
-    channel.send(joinResponse);
-});
-
-client.login(token);
+}
