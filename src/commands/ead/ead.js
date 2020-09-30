@@ -100,6 +100,7 @@ async function SendClass(isUpdating) {
         aulaAtual = fimDasAulasMensagem;
     } else {
         aulaAtual = aulaDia['aula' + [aula]];
+        aulaAnterior = aulaDia['aula' + [aula - 1]]
     }
 
     if (aula <= diaLenght) {
@@ -121,9 +122,13 @@ async function SendClass(isUpdating) {
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         }
 
-        console.log(`Nova aula iniciando de ${aulaAtual['materia']} (${aula}), enviado mensagem ao servidor com o link.`);
+        console.log(`Nova aula de ${aulaAtual['materia']} (${aula}) iniciando, enviado mensagem ao servidor com o link.`);
 
-        if (aula > 1 && aulaAtual['link'] === aulaAnterior['link']) return;
+       if (aula > 1) {
+            console.log(`Aula atual: ${aulaAtual['materia']}`)
+            console.log(`Aula Anterior: ${aulaAnterior['materia']}`)
+            if (aulaAtual['link'] === aulaAnterior['link']) return;
+       }
 
         if (aulaAtual['link'] === 'Aguardando...') {
             const allLinksEmbed = new Discord.MessageEmbed().setDescription(`Desculpe, mas o link da aula atual não foi inserido por nenhum moderador.\nPor favor, entre no site https://cpbedu.me/e-class para o link da aula atual.\nUm moderador deve inserir os links corretamente em breve.`)
