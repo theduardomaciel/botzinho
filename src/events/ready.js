@@ -1,12 +1,12 @@
 module.exports = async (client) => {
 
-    const mongo = require('..//database/mongo')
+    const mongo = require('../database/mongoose');
 
     await mongo().then(mongoose => {
         try {
-            console.log('Conectado ao DB!');
-        } finally {
-            mongoose.connection.close();
+            console.log('Conectado ao Banco de Dados (DB) com sucesso!');
+        } catch(error) {
+            console.error(error)
         }
     })
 

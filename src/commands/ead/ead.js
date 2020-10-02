@@ -1,16 +1,12 @@
+const mongoose = require('mongoose')
+const Guild = require('../../database/models/GuildConfig');
+
 const Discord = require('discord.js');
 const diasLetivosArray = require('./diasLetivos.json')
 
+
 const inicioDasAulasMensagem = { 'materia': 'AS AULAS AINDA NÃO INICIARAM!', 'horario': 'somente 7:10', 'link': 'Vá separando seus livros e seu material pra quando o professor chegar! \nMas... enquanto o professor não chega, relaxe ao som de megalovania: https://www.youtube.com/watch?v=0TmoYBcLul8&t=104s...' };
 const fimDasAulasMensagem = { 'materia': 'TODAS AS AULAS JÁ ACABARAM!', 'horario': 'pelo menos as de hoje', 'link': 'O dia letivo já acabou, e agora só nos resta completar as aulas e atividades no e-class: https://cpbedu.me/.\nAproveite seu resto de dia!' };
-
-function isModerator(member) {
-    if (member.roles.cache.some(role => role.name === 'Moderador')) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 // Horários
 const time = new Date();
@@ -88,9 +84,32 @@ if (aulaDia) {
 }
 
 let ready = false;
+let textChannel;
+let role;
 
-let textChannel = undefined;
-let role = undefined;
+async function UpdateDependencies(message) {
+    const settings = await Guild.findOne({
+        guildId: message.guild.id
+    }, (err, guild) => {
+        if (err) console.error(err);
+        if (!guild) {
+            
+            const createGuild = require('..//database/CreateGuild')
+            createGuild(mongoose.Types.ObjectId(), message.guild.id, message.guild.name, process.env.PREFIX)
+    
+            return message.channel.send(new Discord.MessageEmbed().setDescription('Este servidor não estava em meu banco de dados, ou algumas informações estavam desatualizadas. Já configurei tudo para você, então você agora estará apto a usar os comandos do bot!'));
+        }
+    })
+    
+    const serverChannelId = await settings.eadChannel;
+    const serverDefaultRole = await settings.defaultRole;
+
+    const channel = message.client.channels.cache.get(serverChannelId);
+    const getRole = message.guild.roles.fetch(serverDefaultRole);
+
+    textChannel = await channel;
+    role = await getRole
+}
 
 async function SendClass(isUpdating) {
 
@@ -125,8 +144,6 @@ async function SendClass(isUpdating) {
         console.log(`Nova aula de ${aulaAtual['materia']} (${aula}) iniciando, enviado mensagem ao servidor com o link.`);
 
        if (aula > 1) {
-            console.log(`Aula atual: ${aulaAtual['materia']}`)
-            console.log(`Aula Anterior: ${aulaAnterior['materia']}`)
             if (aulaAtual['link'] === aulaAnterior['link']) return;
        }
 
@@ -139,8 +156,6 @@ async function SendClass(isUpdating) {
             
             if (parseInt(aula) === 0 || parseInt(aula) === 5 || parseInt(aula) === diaLenght + 1) return;
 
-            console.log(aula);
-            console.log(diaLenght + 1)
             eadMessage.react("🔄")
 
             const waitingFilter = (reaction, user) => {
@@ -223,9 +238,19 @@ function hasClass()
 
 let aulasEAD;
 
-function execute(client, message, args) {
-    role = message.guild.roles.cache.find(role => role.name === 'EAD');
-    textChannel = message.channel;
+function execute(client, message, args, isModerator) {
+
+    UpdateDependencies(message);
+
+    if (!role) {
+        return message.channel.send(new Discord.MessageEmbed().setDescription(`Não é possível enviar mensagens, pois o servidor não possui cargo padrão.
+        Para configurar isso, por favor utilize o comando: \`!role default [nome do cargo]\``));
+    }
+
+    if (!textChannel) {
+        return message.channel.send(new Discord.MessageEmbed().setDescription(`Não é possível enviar mensagens, pois o servidor não possui canal de EAD padrão.
+        Para configurar isso, por favor utilize o comando: \`!ead-channel [id do canal]\``));
+    }
 
     // client.channels.cache.get('727537392415932488');
     let aulaAtualEmbed = undefined;
@@ -273,37 +298,33 @@ function execute(client, message, args) {
     // EAD Commands
     if (hasClass()) {
         if (!args.length) {
-            if (!ready && !isModerator(message.member)) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
+            if (!ready && !isModerator) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
             message.channel.send(aulasEAD);
             message.delete();
         } else if (args[0] === 'atual') {
             if (!ready) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
             message.channel.send({ embed: aulaAtualEmbed });
             message.delete();
-        } else if (args[0] === 'offset' && isModerator(message.member)) {
+        } else if (args[0] === 'offset' && isModerator) {
             message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
             offset = parseInt(args[1]);
             updateTime();
             CheckClass(true);
             
-        } else if (args[0] === 'true' && isModerator(message.member)) {
+        } else if (args[0] === 'true' && isModerator) {
             ready = true
-            message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`).then(sentMessage => {
-                message.delete()
-                sentMessage.delete();
-            });
-        } else if (args[0] === 'false' && isModerator(message.member)) {
+            message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`);
+            message.delete()
+        } else if (args[0] === 'false' && isModerator) {
             ready = false
-            message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`).then(sentMessage => {
-                message.delete()
-                return sentMessage.delete(2);
-            });
+            message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas não serão mais enviadas ao servidor.`);
+            message.delete()
             // COMEÇANDO INSERÇÃO DE LINKS
-        } else if (args[0] === 'set' && isModerator(message.member)) {
+        } else if (args[0] === 'set' && isModerator) {
             aulaDia['aula' + args[1]]['link'] = args[2];
             message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
             message.delete();
-        } else if (args[0] === 'list' && isModerator(message.member)) {
+        } else if (args[0] === 'list' && isModerator) {
             const listEmbed = new Discord.MessageEmbed()
             listEmbed.setTitle('AULAS DE HOJE:')
             for (let i = 1; i < diaLenght + 1; i++) {
@@ -312,9 +333,9 @@ function execute(client, message, args) {
             }
             textChannel.send(listEmbed);
             message.delete();
-        } else if (args[0] === 'all' && isModerator(message.member)) {
+        } else if (args[0] === 'all' && isModerator) {
             console.log('Aulas no dia: ' + diaLenght);
-            if (args.length > diaLenght + 1) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
+            if (args.length > diaLenght) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
             for (let i = 1; i < args.length + 1; i++) {
                 if (i < 5) {
                     aulaDia['aula' + i]['link'] = args[i];

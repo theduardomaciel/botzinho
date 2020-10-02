@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const playMusic = require('./play').playMusic;
 
-const execute = (client, message) => {
+const execute = async (client, message) => {
     const queue = client.queues.get(message.guild.id);
     if (!queue) {
         const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
@@ -16,11 +16,15 @@ const execute = (client, message) => {
 
     queue.musics.shift();
     client.queues.set(message.guild.id, queue);
-    playMusic(client, message, queue.musics[0]);
+    let music = await queue.musics[0]
+    playMusic(client, message, music);
 
     const skipEmbed = new Discord.MessageEmbed()
     skipEmbed.setColor('#FFA500')
-    skipEmbed.setDescription(`A faixa atual foi pulada. Tocando agora: \`${queue.musics[0].title}\``);
+    skipEmbed.setTitle(`A faixa atual foi pulada.`);
+
+    queue.musics[0] ? skipEmbed.setDescription(`Tocando agora: \`${queue.musics[0].title}\``)
+    : console.log('Sem música no momento.');
 
     queue.musics[0] ? message.channel.send(skipEmbed)
     : console.log('Sem música no momento.');
