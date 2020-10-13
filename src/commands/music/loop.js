@@ -8,7 +8,7 @@ const execute = async (client, message, args) => {
     try {
         if (!queue) {
             const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
-            return message.channel.send(notPlaylist);
+            return message.channel.send(notPlaylist).then(messageSent => messageSent.delete({ timeout: 1000 }));
         }
     } catch(error) {
         console.log(error);
@@ -21,7 +21,7 @@ const execute = async (client, message, args) => {
             queue.loop = true;
             client.queues.set(message.guild.id, queue);
 
-            const loopTrue = new Discord.MessageEmbed().setTitle('LOOP:')
+            const loopTrue = new Discord.MessageEmbed()
             loopTrue.setColor('#FFA500')
             loopTrue.setDescription(`Modo **LOOP** foi ativado. A música atual irá repetir até que o modo seja desativado.`)
             return message.channel.send(loopTrue);
@@ -29,8 +29,9 @@ const execute = async (client, message, args) => {
             queue.loop = false;
             queue.loopTimes = 0;
             client.queues.set(message.guild.id, queue);
+            message.channel.bulkDelete(1, true);
 
-            const loopFalse = new Discord.MessageEmbed().setTitle('LOOP:')
+            const loopFalse = new Discord.MessageEmbed()
             loopFalse.setColor('#FFA500')
             loopFalse.setDescription(`Modo **LOOP** foi desativado. Agora as músicas tocarão na ordem normal da playlist.`)
             return message.channel.send(loopFalse);
@@ -38,9 +39,9 @@ const execute = async (client, message, args) => {
     } else {
         try {
             if (args[0] > 5 || args[0] < 1) {
-                const notPlaylist = new Discord.MessageEmbed().setDescription(`Só é possível loopar uma música até 5 vezes. Para prender os ouvintes em um loop temporal infinito, por favor use o comando \`!loop\` sem nenhum argumento.
+                const maxLoop = new Discord.MessageEmbed().setDescription(`Só é possível loopar uma música até 5 vezes. Para prender os ouvintes em um loop temporal infinito, por favor use o comando \`!loop\` sem nenhum argumento.
                 Ps.: Caso você tenha colocado 0, amigo, você precisa estudar mais matemática.`)
-                return message.channel.send(notPlaylist);
+                return message.channel.send(maxLoop);
             }
         } catch(error) {
             console.log(error);

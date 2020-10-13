@@ -214,6 +214,7 @@ function CheckClass(isUpdating)
                 aula = i + 1;
             }
         }
+        if (aulaAtual['link'] === 'Aguardando...') return;
         SendClass();
     }
 }
@@ -243,6 +244,7 @@ function execute(client, message, args, isModerator) {
     UpdateDependencies(message);
 
     if (!role) {
+        console.log(role);
         return message.channel.send(new Discord.MessageEmbed().setDescription(`Não é possível enviar mensagens, pois o servidor não possui cargo padrão.
         Para configurar isso, por favor utilize o comando: \`!role default [nome do cargo]\``));
     }
@@ -266,7 +268,7 @@ function execute(client, message, args, isModerator) {
         for (let i = 1; i < diaLenght + 1; i++) {
             let aulaAtual = aulaDia['aula' + i];
             if (i < diaLenght && aulaAtual['link'] !== 'Aguardando...' && aulaDia['aula' + [i + 1]]['link'] === aulaAtual['link']) {
-                aulasEAD.addField(`${aulaAtual['materia']} e ${aulaDia['aula' + [i + 1]]['materia']}  (${aulaAtual['horario']}-${aulaDia['aula' + [i + 1]]['horario']})`, aulaAtual['link'], true);
+                aulasEAD.addField(`${aulaAtual['materia']} e ${aulaDia['aula' + [i + 1]]['materia']}  (${aulaAtual['horario']}-${aulaDia['aula' + [i + 2]]['horario']})`, aulaAtual['link'], true);
                 i += 1
             } else {
                 aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']})`, aulaAtual['link'], true);

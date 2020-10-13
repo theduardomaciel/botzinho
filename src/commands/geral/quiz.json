@@ -1,0 +1,10 @@
+[
+	{
+		"pergunta": "Qual o jogo mais famoso atualmente?",
+		"respostas": ["fortnite"]
+	},
+	{
+		"pergunta": "Quais as letras de um controle Xbox?",
+		"respostas": ["ABXY", "XYAB", "A B X Y", "X Y A B"]
+	}
+]

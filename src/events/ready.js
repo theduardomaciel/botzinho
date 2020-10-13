@@ -1,3 +1,5 @@
+const message = require('./message/message');
+
 module.exports = async (client) => {
 
     const mongo = require('../database/mongoose');

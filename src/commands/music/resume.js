@@ -2,11 +2,14 @@ const Discord = require('discord.js');
 
 const execute = (client, message) => {
     const queue = client.queues.get(message.guild.id);
+    
     if (!queue) {
         const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
-        return message.channel.send(notPlaylist);
+        return message.channel.send(notPlaylist).then(messageSent => messageSent.delete({ timeout: 1000 }));
     }
+
     queue.dispatcher.resume();
+    message.channel.bulkDelete(1, true);
 
     const resumeEmbed = new Discord.MessageEmbed()
     resumeEmbed.setColor('#00FF00');

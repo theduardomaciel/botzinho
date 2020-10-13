@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Guild = require('../database/models/GuildConfig');
 
-module.exports = async (_id, guildId, guildName, prefix, defaultRole, eadChannel, musicChannel) => {
+module.exports = async (_id, guildId, guildName, prefix, defaultRole, eadChannel, musicChannel, musicMessage) => {
 
     try {
         const newGuild = new Guild({
@@ -11,7 +11,8 @@ module.exports = async (_id, guildId, guildName, prefix, defaultRole, eadChannel
             prefix: prefix,
             defaultRole: defaultRole,
             eadChannel: eadChannel,
-            musicChannel: musicChannel
+            musicChannel: musicChannel,
+            musicMessage: musicMessage,
         })
         newGuild.save()
     } catch (error) {

@@ -59,11 +59,13 @@ let update;
 let previousMessage;
 
 const execute = (client, message) => {
+    
     const queue = client.queues.get(message.guild.id);
 
     if (!queue) {
+        return;
         const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
-        return message.channel.send(notPlaylist);
+        return message.channel.send(notPlaylist).then(messageSent => messageSent.delete({ timeout: 1000 }));
     }
 
     const playingEmbed = new Discord.MessageEmbed().setTitle(`${queue.musics[0].title}`)
@@ -84,7 +86,7 @@ const execute = (client, message) => {
     LoadBar(queue)
 
     message.channel.send(playingEmbed).then(sentMessage => {
-        if (previousMessage) return previousMessage.delete();
+        if (!previousMessage === undefined) return previousMessage.delete();
         previousMessage = sentMessage;
         hasUsed = true;
         function ReloadMessage() {

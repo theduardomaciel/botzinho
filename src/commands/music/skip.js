@@ -3,9 +3,10 @@ const playMusic = require('./play').playMusic;
 
 const execute = async (client, message) => {
     const queue = client.queues.get(message.guild.id);
+    
     if (!queue) {
         const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
-        return message.channel.send(notPlaylist);
+        return message.channel.send(notPlaylist).then(messageSent => messageSent.delete({ timeout: 1000 }));
     }
 
     if (queue.loop === true || queue.loopTimes > 0) {

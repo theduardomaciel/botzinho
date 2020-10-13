@@ -7,7 +7,7 @@ const execute = async (client, message, args) => {
     try {
         if (!queue) {
             const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
-            return message.channel.send(notPlaylist);
+            return message.channel.send(notPlaylist).then(messageSent => messageSent.delete({ timeout: 1000 }));
         }
     } catch(error) {
         console.log(error);

@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const Guild = require('../database/models/GuildConfig');
+const Guild = require('../../database/models/GuildConfig');
 
 const Discord = require('discord.js');
 
@@ -21,7 +21,7 @@ module.exports = async (client, message) => {
         if (err) console.error(err);
         if (!guild) {
             
-            const createGuild = require('..//database/CreateGuild')
+            const createGuild = require('../../database/CreateGuild')
             createGuild(mongoose.Types.ObjectId(), message.guild.id, message.guild.name, process.env.PREFIX)
 
             return message.channel.send(new Discord.MessageEmbed().setDescription('Este servidor não estava em meu banco de dados, ou algumas informações estavam desatualizadas. Já configurei tudo para você, então você agora estará apto a usar os comandos do bot!')).then(m => m.delete({ timeout: 3000 }))

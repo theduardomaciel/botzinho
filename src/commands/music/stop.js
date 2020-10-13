@@ -2,10 +2,13 @@ const Discord = require('discord.js');
 
 const execute = (client, message) => {
     const queue = client.queues.get(message.guild.id);
+
     if (!queue) {
+        message.delete()
         const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
-        return message.channel.send(notPlaylist);
+        return message.channel.send(notPlaylist).then(messageSent => messageSent.delete({ timeout: 1000 }));
     }
+    
     queue.musics = [];
     queue.loop = false
     queue.dispatcher.resume();
@@ -14,7 +17,7 @@ const execute = (client, message) => {
     if (queue.dispatcher) {
         queue.dispatcher.end();
     }
-
+    
 };
 
 module.exports = {

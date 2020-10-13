@@ -6,7 +6,23 @@ process.on('unhandledRejection', error => console.error('Uncaught Promise Reject
 
 let string;
 
-const execute = (client, message, args) => {
+const execute = (client, message, args, givenMember, givenUser) => {
+
+    let member;
+    let user;
+
+    if (!givenMember) {
+        member = message.member;
+    } else {
+        member = givenMember;
+    }
+
+    if (!givenUser) {
+        user = message.author;
+    } else {
+        user = givenUser;
+    }
+
     string = args.join(' ');
     console.log('Música requerida: ' + string);
     const missingArgumentEmbed = new Discord.MessageEmbed().setDescription(`**Para tocar uma música, você precisa me especificar o nome ou link!**`)
@@ -14,16 +30,16 @@ const execute = (client, message, args) => {
     try {
         search(string, (error, result) => {
             if (error) {
-                throw error;
+                return console.log(error);
             } else if (result && result.videos.length > 0) {
-                if (!message.member.voice.channel) {
+                if (!member.voice.channel) {
                     const notInVoiceChannel = new Discord.MessageEmbed().setDescription(`Você precisa estar em um canal de voz para poder ouvir músicas!`);
                     return message.channel.send(notInVoiceChannel);
                 }
-                const user = message.author;
                 const music = result.videos[0];
                 const queue = client.queues.get(message.guild.id);
                 if (queue) {
+                    message.delete();
                     queue.musics.push(music);
                     queue.users.push(user);
                     client.queues.set(message.guild.id, queue);
@@ -31,22 +47,22 @@ const execute = (client, message, args) => {
                     addingEmbed.setDescription(`Adicionando: \`${music.title}\` à playlist atual na posição ${queue.musics.length}`)
                     addingEmbed.setColor('#00FF00')
                     message.channel.send(addingEmbed);
-                    message.delete();
                 } else {
-                    message.channel.bulkDelete(100, true);
+                    if (!givenMember) {
+                        message.delete();
+                    }
                     const initiatingEmbed = new Discord.MessageEmbed()
                     initiatingEmbed.setDescription(`Iniciando a playlist com a música: \`${music.title}\``)
                     initiatingEmbed.setColor('#00FF00');
                     message.channel.send(initiatingEmbed);
                     try {
-                        playMusic(client, message, music, user);
+                        playMusic(client, message, music, user, member);
                     } catch(error) {
                         console.log(error);
                     }
-                    message.delete();
                 }
             } else if (result.playlists) {
-                if (!message.member.voice.channel) {
+                if (!member.voice.channel) {
                     const notInVoiceChannel = new Discord.MessageEmbed().setDescription(`Você precisa estar em um canal de voz para poder ouvir músicas!`);
                     return message.channel.send(notInVoiceChannel);
                 }
@@ -64,24 +80,40 @@ const execute = (client, message, args) => {
     }
 };
 
-const playMusic = async (client, message, music, user) => {
+function RemoveAllMessages(client, channel) {
+
+    try {
+        channel.messages.fetch({ limit: 100 }).then(messages => {
+            channel.bulkDelete(messages.size - 1)
+        })
+    } catch (error) {
+        console.log(error)
+    }
+
+}
+
+const playMusic = async (client, message, music, user, member) => {
     let queue = client.queues.get(message.guild.id);
 
     if(!music && queue.loop === false) {
         if (queue) {
-            queue.connection.disconnect();
-            message.channel.bulkDelete(100, true);
-            client.queues.delete(message.member.guild.id);
+            try {
+                queue.connection.disconnect();
+                await client.queues.delete(message.guild.id);
+            } catch (error) {
+                console.log(error)
+            }
             const stopEmbed = new Discord.MessageEmbed()
             stopEmbed.setColor('#FF0000');
             stopEmbed.setDescription(`**A playlist atual foi encerrada.** Obrigado a todos que participaram da rave!\nPara iniciar outra playlist, use o comando \`!play\` com alguma música!`)
+            RemoveAllMessages(client, message.channel)
             return message.channel.send(stopEmbed);
         }
     }
 
     if (!queue) {
         try {
-            const conn = await message.member.voice.channel.join();
+            const conn = await member.voice.channel.join();
             queue = {
                 volume: 1,
                 connection: conn,
@@ -91,7 +123,7 @@ const playMusic = async (client, message, music, user) => {
                 users: [user],
                 musics: [music],
             };
-            client.queues.set(message.member.guild.id, queue);
+            client.queues.set(member.guild.id, queue);
         } catch(error) {
             console.log(error);
         }
