@@ -1,3 +1,5 @@
+const Discord = require('discord.js');
+
 const playCommand = require('..//commands/music/play').execute;
 
 const mongoose = require('mongoose');
