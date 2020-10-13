@@ -105,7 +105,7 @@ async function UpdateDependencies(message) {
     const serverDefaultRole = await settings.defaultRole;
 
     const channel = message.client.channels.cache.get(serverChannelId);
-    const getRole = message.guild.roles.fetch(serverDefaultRole);
+    const getRole = message.guild.roles.cache.find(role => role.id === serverDefaultRole);
 
     textChannel = await channel;
     role = await getRole
@@ -239,9 +239,9 @@ function hasClass()
 
 let aulasEAD;
 
-function execute(client, message, args, isModerator) {
+async function execute(client, message, args, isModerator) {
 
-    UpdateDependencies(message);
+    await UpdateDependencies(message);
 
     if (!role) {
         console.log(role);
