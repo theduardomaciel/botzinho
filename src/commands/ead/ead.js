@@ -136,8 +136,12 @@ async function SendClass(isUpdating) {
         } else if (aula >= diaLenght + 1) {
             proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
             proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
+        } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && aulaDia['aula' + [aula + 1]]['link'] === aulaAtual['link']) {
+
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${aulaDia['aula' + [aula + 1]]['horario']})`);
+            proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         } else {
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']})`);
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         }
 
@@ -324,7 +328,7 @@ async function execute(client, message, args, isModerator) {
             // COMEÇANDO INSERÇÃO DE LINKS
         } else if (args[0] === 'set' && isModerator) {
             aulaDia['aula' + args[1]]['link'] = args[2];
-            message.channel.send(`Link da aula: ${args[1]} foi setado para ${args[2]}`);
+            message.channel.send(new Discord.MessageEmbed().setDescription(`O link da aula: ${aulaDia['aula' + args[2]]['materia']} foi setado para \`${args[2]}\``));
             message.delete();
         } else if (args[0] === 'list' && isModerator) {
             const listEmbed = new Discord.MessageEmbed()
@@ -337,7 +341,7 @@ async function execute(client, message, args, isModerator) {
             message.delete();
         } else if (args[0] === 'all' && isModerator) {
             console.log('Aulas no dia: ' + diaLenght);
-            if (args.length > diaLenght) return message.reply(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`);
+            if (args.length > diaLenght) return  message.channel.send(new Discord.MessageEmbed().setDescription(`me foi dado mais argumentos do que preciso (${args.length - 1} de ${diaLenght})!`));
             for (let i = 1; i < args.length + 1; i++) {
                 if (i < 5) {
                     aulaDia['aula' + i]['link'] = args[i];
