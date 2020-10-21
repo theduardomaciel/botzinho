@@ -10,6 +10,8 @@ const execute = (client, message, args, isModerator) => {
 
     if (!isModerator) return message.reply('somente moderadores podem executar este comando.')
 
+    console.log(args[0])
+
     if (args[0] === 'roblox') {
         if (args[1] === 'id') {
             message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de banimento por ID de: ${args[2]}.`));
@@ -18,11 +20,11 @@ const execute = (client, message, args, isModerator) => {
             message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de banimento por UserName de: ${args[2]}.`));
             byUser('Ban', args, message)
         } else {
-            message.channel.send(new MessageEmbed().setDescription(`Comando inválido: sintaxe do comando incorreta.\nO comando deve ser utilizado da senguinte forma: \`!ban roblox id [id do jogador] ou !ban roblox user [nome do jogador]\``));
-        }        
-    } 
-    
-    if (!args.lenght) {
+            return message.channel.send(new MessageEmbed().setDescription(`Comando inválido: sintaxe do comando incorreta.\nO comando deve ser utilizado da senguinte forma: \`!ban roblox id [id do jogador] ou !ban roblox user [nome do jogador]\``));
+        }
+        return;    
+    } else {
+        console.log('Chegou aqui')
         const user = message.mentions.users.first();
         if (!user) return  message.channel.send(new MessageEmbed().setDescription(`Não foi possível encontrar o usuário marcado.\nLembre-se que a sintaxe do comando para banimento em servidores do Discord é \`!ban [@nome do usuário]\``));
         message.guild.members.ban(user);
