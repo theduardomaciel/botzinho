@@ -14,7 +14,8 @@ function byUID(method,args,message) {
         if (res.statusCode == 200) {
             toBan.push({method: method,username: JSON.parse(data).Username,value: args[2],cid: message.channel.id});
         } else {
-            message.channel.send(method + " failed: Invalid userId " + args[2]);
+          
+          message.channel.send(method + " failed: Invalid userId " + args[2]);
         }
       });
   }).on('error', error => {
