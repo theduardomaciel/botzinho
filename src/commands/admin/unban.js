@@ -17,8 +17,11 @@ const execute = (client, message, args, isModerator) => {
         } else {
             message.channel.send(new MessageEmbed().setDescription(`Comando inválido: sintaxe do comando incorreta.\nO comando deve ser utilizado da senguinte forma: \`!unban roblox id [id do jogador] ou !unban roblox user [nome do jogador]\``));
         }        
-    } else {
+    } 
+    
+    if (!args.lenght)  {
         const user = message.mentions.users.first();
+        if (!user) return  message.channel.send(new MessageEmbed().setDescription(`Não foi possível encontrar o usuário marcado.\nLembre-se que a sintaxe do comando para banimento em servidores do Discord é \`!unban [@nome do usuário]\``));
         message.guild.members.unban(user.id);
     }
 
