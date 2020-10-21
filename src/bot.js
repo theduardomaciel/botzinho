@@ -7,13 +7,6 @@ const express = require('express');
 let bodyParser = require('body-parser');
 const app = express();
 
-async function startApp() {
-    let promise = client.login(token)
-    promise.catch(function(error) {
-      console.error("Discord bot login | " + error);
-    });
-}
-startApp();
 client.on("ready", () => {
   console.log("Successfully logged in Discord bot.");
 })
