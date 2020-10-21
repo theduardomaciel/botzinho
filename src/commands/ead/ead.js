@@ -137,8 +137,7 @@ async function SendClass(isUpdating) {
             proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
             proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
         } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && aulaDia['aula' + [aula + 1]]['link'] === aulaAtual['link']) {
-
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${aulaDia['aula' + [aula + 1]]['horario']})`);
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${proximaAula['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         } else {
             proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}`);

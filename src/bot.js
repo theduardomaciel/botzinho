@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const { registerCommands, registerEvents } = require('./utils/registry');
-const client = new Discord.Client({ partials: ['MESSAGE', 'REACTION']});
+const client = new Discord.Client();
 
 client.queues = new Map();
 
