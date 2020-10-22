@@ -34,3 +34,7 @@ app.get('/', function(request, response) {
   response.send(toBan[0]);
   toBan.shift();
 });
+
+let listener = app.listen(process.env.PORT, function() {
+  console.log('Não que importe, mas o aplicativo está escutando na porta: ' + listener.address().port);
+});
