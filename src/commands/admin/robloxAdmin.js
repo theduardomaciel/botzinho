@@ -8,6 +8,9 @@ const app = express();
 let rolename = "Roblox Admin"
 let toBan = [];
 
+let lastChangelog;
+let changelog = 'Loading...'
+
 let channel;
 
 function byUID(method, args, message) {
@@ -57,19 +60,37 @@ function byUser(method, args, message) {
   });
 }
 
+function updateChangelog(method, updatedChangelog, message) {
+  channel = message.channel;
+  changelog = updatedChangelog;
+  message.channel.send(new MessageEmbed().setDescription(`O changelog de **Extreme Adventures** foi atualizado por \`${message.author.username}\` para:\n${updatedChangelog}`).setColor('#FFFF00'));
+}
+
 app.use(express.static('public'));
 
 app.get('/', function(request, response) {
   if (request.headers.username != undefined) {
       console.log(request.headers.cid);
-      if (request.headers.rblxerror == undefined) {
-        channel.send('Successfully ' + request.headers.method + 'ned user ' + request.headers.username + " | ID: " + request.headers.value);
+      if (request.headers.method == 'changelog') {
+        if (request.headers.rblxerror == undefined) {
+          channel.send(`O changelog de **Extreme Adventures** foi atualizado com sucesso.`);
+        } else {
+          channel.send(`Não foi possível atualizar o changelog de **Extreme Adventures**.\nErro da API do Roblox:\n${request.headers.rblxerror}`);
+        }
       } else {
-        channel.send("Failed to " + request.headers.method + " user: " + request.headers.username + " | ID: " + request.headers.value + " | `Rblx-Error:  " + request.headers.rblxerror + "`"); 
-      }
+        if (request.headers.rblxerror == undefined) {
+          channel.send('Successfully ' + request.headers.method + 'ned user ' + request.headers.username + " | ID: " + request.headers.value);
+        } else {
+          channel.send("Failed to " + request.headers.method + " user: " + request.headers.username + " | ID: " + request.headers.value + " | `Rblx-Error:  " + request.headers.rblxerror + "`"); 
+        }
+      }   
   }
-  response.send(toBan[0]);
-  toBan.shift();
+  if (request.headers.method == 'changelog') {
+    response.send(changelog);
+  } else {
+    response.send(toBan[0]);
+    toBan.shift();
+  }
 });
 
 let listener = app.listen(process.env.PORT, function() {
@@ -79,4 +100,5 @@ let listener = app.listen(process.env.PORT, function() {
 module.exports = {
     byUID,
     byUser,
+    updateChangelog,
 }

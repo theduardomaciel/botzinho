@@ -32,9 +32,13 @@ const execute = (client, message, args, givenMember, givenUser) => {
             if (error) {
                 return console.log(error);
             } else if (result && result.videos.length > 0) {
-                if (!member.voice.channel) {
-                    const notInVoiceChannel = new Discord.MessageEmbed().setDescription(`Você precisa estar em um canal de voz para poder ouvir músicas!`);
-                    return message.channel.send(notInVoiceChannel);
+                try {
+                    if (!member.voice.channel) {
+                        const notInVoiceChannel = new Discord.MessageEmbed().setDescription(`Você precisa estar em um canal de voz para poder ouvir músicas!`);
+                        return message.channel.send(notInVoiceChannel);
+                    }
+                } catch (error) {
+                    console.log(error)
                 }
                 const music = result.videos[0];
                 const queue = client.queues.get(message.guild.id);

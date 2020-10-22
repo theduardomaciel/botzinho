@@ -136,7 +136,7 @@ async function SendClass(isUpdating) {
         } else if (aula >= diaLenght + 1) {
             proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
             proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
-        } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && aulaDia['aula' + [aula + 1]]['link'] === aulaAtual['link']) {
+        } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && proximaAula['link'] === aulaAtual['link']) {
             proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${proximaAula['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         } else {
