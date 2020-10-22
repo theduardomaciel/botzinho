@@ -8,10 +8,10 @@ const app = express();
 let rolename = "Roblox Admin"
 let toBan = [];
 
-let client;
+let channel;
 
 function byUID(method, args, message) {
-  client = message.client;
+  channel = message.channel;
   https.get("https://api.roblox.com/users/" + args[2], (res) => {
       
     let data = '';
@@ -32,7 +32,7 @@ function byUID(method, args, message) {
 }
 
 function byUser(method, args, message) {
-  client = message.client;
+  channel = message.channel;
   const options = {
     hostname: 'api.roblox.com',
     port: 443,
@@ -60,8 +60,8 @@ function byUser(method, args, message) {
 app.use(express.static('public'));
 
 app.get('/', function(request, response) {
-  if (request.headers.username != undefined) { 
-      const channel = client.channels.get(request.headers.cid);
+  if (request.headers.username != undefined) {
+      console.log(request.headers.cid);
       if (request.headers.rblxerror == undefined) {
         channel.send('Successfully ' + request.headers.method + 'ned user ' + request.headers.username + " | ID: " + request.headers.value);
       } else {
