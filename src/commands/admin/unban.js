@@ -3,6 +3,9 @@ const { MessageEmbed } = require('discord.js')
 const axios = require('axios');
 let scriptID = process.env.SCRIPT_ID + "/exec"
 
+const byUID = require('./robloxAdmin').byUID;
+const byUser = require('./robloxAdmin').byUser;
+
 const execute = (client, message, args, isModerator) => {
 
     if (!isModerator) return message.reply('somente moderadores podem executar este comando.')

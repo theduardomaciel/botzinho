@@ -1,3 +1,5 @@
+const { MessageEmbed } = require('discord.js')
+
 const https = require('https');
 const express = require('express');
 let bodyParser = require('body-parser');
@@ -16,8 +18,8 @@ function byUID(method,args,message) {
     res.on('end', () => {
         if (res.statusCode == 200) {
             toBan.push({method: method,username: JSON.parse(data).Username,value: args[2],cid: message.channel.id});
+            message.channel.send(new MessageEmbed().setDescription(`As ações para com o usuário com ID ${args[2]} foram tomadas com sucesso.`).setColor('#ff0000'));
         } else {
-          
           message.channel.send(method + " failed: Invalid userId " + args[2]);
         }
       });
@@ -41,6 +43,7 @@ function byUser(method,args,message) {
       res.on('end', () => {
         if (JSON.parse(data).Id != undefined) {
           toBan.push({method: method,value: JSON.parse(data).Id,username: JSON.parse(data).Username,cid: message.channel.id});
+          message.channel.send(new MessageEmbed().setDescription(`As ações para ${args[2]} foram tomadas com sucesso.`).setColor('#ff0000'));
         } else {
           message.channel.send(method + " failed: Invalid username " + args[2]);
         }
