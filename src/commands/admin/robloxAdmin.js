@@ -43,7 +43,7 @@ function byUser(method,args,message) {
       res.on('end', () => {
         if (JSON.parse(data).Id != undefined) {
           toBan.push({method: method,value: JSON.parse(data).Id,username: JSON.parse(data).Username,cid: message.channel.id});
-          message.channel.send(new MessageEmbed().setDescription(`As ações para ${args[2]} foram tomadas com sucesso.`).setColor('#ff0000'));
+          message.channel.send(new MessageEmbed().setDescription(`As ações de \`${method}\` para ${args[2]} foram tomadas com sucesso.`).setColor('#FFFF00'));
         } else {
           message.channel.send(method + " failed: Invalid username " + args[2]);
         }
