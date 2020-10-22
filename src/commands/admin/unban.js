@@ -15,7 +15,7 @@ const execute = (client, message, args, isModerator) => {
             message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de desbanimento por ID de: ${args[2]}.`));
             byUID('Unban', args, message)
         } else if (args[1] === 'user') {
-            message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de desbanimento por UserName de: ${args[2]}.`));
+            message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de desbanimento por username de: ${args[2]}.`));
             byUser('Unban', args, message)
         } else {
             return message.channel.send(new MessageEmbed().setDescription(`Comando inválido: sintaxe do comando incorreta.\nO comando deve ser utilizado da senguinte forma: \`!unban roblox id [id do jogador] ou !unban roblox user [nome do jogador]\``));

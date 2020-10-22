@@ -8,7 +8,10 @@ const app = express();
 let rolename = "Roblox Admin"
 let toBan = [];
 
-function byUID(method,args,message) {
+let client;
+
+function byUID(method, args, message) {
+  client = message.client;
   https.get("https://api.roblox.com/users/" + args[2], (res) => {
       
     let data = '';
@@ -18,7 +21,7 @@ function byUID(method,args,message) {
     res.on('end', () => {
         if (res.statusCode == 200) {
             toBan.push({method: method,username: JSON.parse(data).Username,value: args[2],cid: message.channel.id});
-            message.channel.send(new MessageEmbed().setDescription(`As ações para com o usuário com ID ${args[2]} foram tomadas com sucesso.`).setColor('#ff0000'));
+            message.channel.send(new MessageEmbed().setDescription(`As ações de \`${method}\` para ${args[2]} foram tomadas com sucesso.`).setColor('#FFFF00'));
         } else {
           message.channel.send(method + " failed: Invalid userId " + args[2]);
         }
@@ -28,7 +31,8 @@ function byUID(method,args,message) {
   });
 }
 
-function byUser(method,args,message) {
+function byUser(method, args, message) {
+  client = message.client;
   const options = {
     hostname: 'api.roblox.com',
     port: 443,

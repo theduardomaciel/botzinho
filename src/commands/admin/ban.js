@@ -17,7 +17,7 @@ const execute = (client, message, args, isModerator) => {
             message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de banimento por ID de: ${args[2]}.`));
             byUID('Ban', args, message)
         } else if (args[1] === 'user') {
-            message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de banimento por UserName de: ${args[2]}.`));
+            message.channel.send(new MessageEmbed().setDescription(`Iniciando tentativa de banimento por username de: ${args[2]}.`));
             byUser('Ban', args, message)
         } else {
             return message.channel.send(new MessageEmbed().setDescription(`Comando inválido: sintaxe do comando incorreta.\nO comando deve ser utilizado da senguinte forma: \`!ban roblox id [id do jogador] ou !ban roblox user [nome do jogador]\``));
