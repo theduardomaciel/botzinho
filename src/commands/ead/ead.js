@@ -113,8 +113,6 @@ async function UpdateDependencies(message) {
 
 async function SendClass(isUpdating) {
 
-    if (ready === false) return;
-
     if (aula < 1) {
         aulaAtual = inicioDasAulasMensagem;
     } else if (aula > diaLenght) {
@@ -139,18 +137,18 @@ async function SendClass(isUpdating) {
             proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
             proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
         } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && proximaAula['link'] === aulaAtual['link']) {
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${aulaDia['aula' + [aula + 2]]['horario']})`);
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']} - ${aulaDia['aula' + [aula + 2]]['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         } else {
             proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         }
 
-        console.log(`Nova aula de ${aulaAtual['materia']} (${aula}) iniciando, enviado mensagem ao servidor com o link.`);
-
-       if (aula > 1) {
+        if (aula > 1) {
             if (aulaAtual['link'] === aulaAnterior['link']) return;
-       }
+        }
+        
+        console.log(`Nova aula de ${aulaAtual['materia']} (${aula}) iniciando, enviado mensagem ao servidor com o link.`);
 
         if (aulaAtual['link'] === 'Aguardando...') {
             const allLinksEmbed = new Discord.MessageEmbed().setDescription(`Desculpe, mas o link da aula atual não foi inserido por nenhum moderador.\nPor favor, entre no site https://cpbedu.me/e-class para o link da aula atual.\nUm moderador deve inserir os links corretamente em breve.`)
@@ -210,7 +208,7 @@ async function SendClass(isUpdating) {
 
 function CheckClass(isUpdating, addOne) {
     if (ready === true) {
-        if (textChannel && addOne === false) {
+        if (textChannel && !addOne) {
             horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
             const now = new Date();
             for (let i = 0; i <= diaLenght; i++) {
@@ -263,7 +261,6 @@ async function execute(client, message, args, isModerator) {
         Para configurar isso, por favor utilize o comando: \`!ead-channel [id do canal]\``));
     }
 
-    // client.channels.cache.get('727537392415932488');
     let aulaAtualEmbed = undefined;
     if (hasClass()) {
         aulasEAD = new Discord.MessageEmbed()
@@ -276,10 +273,19 @@ async function execute(client, message, args, isModerator) {
 
         for (let i = 1; i < diaLenght + 1; i++) {
             let aulaAtual = aulaDia['aula' + i];
-            if (i < diaLenght && aulaAtual['link'] !== 'Aguardando...' && aulaDia['aula' + [i + 1]]['link'] === aulaAtual['link']) {
-                aulasEAD.addField(`${aulaAtual['materia']} e ${aulaDia['aula' + [i + 1]]['materia']}  (${aulaAtual['horario']}-${aulaDia['aula' + [i + 2]]['horario']})`, aulaAtual['link'], true);
+            let aulaSeguinte = aulaDia['aula' + [i + 1]]
+            let horarioFinal = aulaDia['aula' + [i + 2]] // Lembrar de utilizar horarioFinal['horario']
+            if (i < diaLenght && aulaAtual['link'] !== 'Aguardando...' && aulaSeguinte['link'] === aulaAtual['link']) {
+                if (aulaAtual['materia'] !== aulaSeguinte['materia']) {
+                    //console.log('Repetidas de matérias diferentes')
+                    aulasEAD.addField(`${aulaAtual['materia']} e ${aulaSeguinte['materia']}  (${aulaAtual['horario']} - ${horarioFinal['horario']})`, aulaAtual['link'], true);
+                } else {
+                    //console.log('Repetidas da mesma matéria')
+                    aulasEAD.addField(`${aulaAtual['materia']} (${aulaAtual['horario']} - ${horarioFinal['horario']})`, aulaAtual['link'], true);
+                }
                 i += 1
             } else {
+                //console.log('Aulas não repetidas.')
                 aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']})`, aulaAtual['link'], true);
             }
         }
@@ -317,13 +323,17 @@ async function execute(client, message, args, isModerator) {
             message.channel.send({ embed: aulaAtualEmbed });
             message.delete();
         } else if (args[0] === 'offset' && isModerator) {
-            message.channel.send(`Offset de horário atualizado para: \`${args[1]}\`.`);
+            message.channel.send(new Discord.MessageEmbed().setDescription(`Offset de horário atualizado para: \`${args[1]}\`.`));
             offset = parseInt(args[1]);
             updateTime();
             CheckClass(true);
         } else if (args[0] === 'adiantar') {
-            CheckClass(true, true);
-            message.channel.send(new Discord.MessageEmbed().setDescription(`A aula seguinte (${aulaAtual['material']}) foi adiantada.`));
+            if (aula < diaLenght) {
+                CheckClass(true, true);
+                message.channel.send(new Discord.MessageEmbed().setDescription(`A aula seguinte de \`${aulaAtual['materia']}\` foi adiantada.`));
+            } else {
+                message.channel.send(new Discord.MessageEmbed().setDescription(`**Não há mais aulas para adiantar.** Esta é a última aula ou o dia já foi concluído.`));
+            }
             message.delete();
         } else if (args[0] === 'true' && isModerator) {
             ready = true
