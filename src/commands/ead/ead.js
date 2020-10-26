@@ -113,6 +113,8 @@ async function UpdateDependencies(message) {
 
 async function SendClass(isUpdating) {
 
+    if (ready === false) return;
+
     if (aula < 1) {
         aulaAtual = inicioDasAulasMensagem;
     } else if (aula > diaLenght) {
@@ -137,7 +139,7 @@ async function SendClass(isUpdating) {
             proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
             proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
         } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && proximaAula['link'] === aulaAtual['link']) {
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${aulaDia['aula' + [i + 2]]['horario']})`);
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${aulaDia['aula' + [aula + 2]]['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         } else {
             proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']})`);
