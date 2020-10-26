@@ -208,23 +208,23 @@ async function SendClass(isUpdating) {
     
 }
 
-function CheckClass(isUpdating, addOne)
-{
-    if (textChannel && ready === true && addOne === false) {
-        horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
-        const now = new Date();
-        for (let i = 0; i <= diaLenght; i++) {
-            if (now > horarios[i])
-            {
-                aula = i + 1;
+function CheckClass(isUpdating, addOne) {
+    if (ready === true) {
+        if (textChannel && addOne === false) {
+            horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
+            const now = new Date();
+            for (let i = 0; i <= diaLenght; i++) {
+                if (now > horarios[i]) {
+                    aula = i + 1;
+                }
             }
+            if (aulaAtual['link'] === 'Aguardando...') return;
+            SendClass();
+        } else if (textChannel && addOne === true) {
+            aula += 1;
+            if (aulaAtual['link'] === 'Aguardando...') return;
+            SendClass();
         }
-        if (aulaAtual['link'] === 'Aguardando...') return;
-        SendClass();
-    } else {
-        aula += 1;
-        if (aulaAtual['link'] === 'Aguardando...') return;
-        SendClass();
     }
 }
 
