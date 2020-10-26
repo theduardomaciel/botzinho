@@ -137,10 +137,10 @@ async function SendClass(isUpdating) {
             proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
             proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
         } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && proximaAula['link'] === aulaAtual['link']) {
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${proximaAula['horario']})`);
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}-${aulaDia['aula' + [i + 2]]['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         } else {
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']}`);
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         }
 
@@ -206,9 +206,9 @@ async function SendClass(isUpdating) {
     
 }
 
-function CheckClass(isUpdating)
+function CheckClass(isUpdating, addOne)
 {
-    if (textChannel && ready === true) {
+    if (textChannel && ready === true && addOne === false) {
         horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
         const now = new Date();
         for (let i = 0; i <= diaLenght; i++) {
@@ -217,6 +217,10 @@ function CheckClass(isUpdating)
                 aula = i + 1;
             }
         }
+        if (aulaAtual['link'] === 'Aguardando...') return;
+        SendClass();
+    } else {
+        aula += 1;
         if (aulaAtual['link'] === 'Aguardando...') return;
         SendClass();
     }
@@ -315,7 +319,8 @@ async function execute(client, message, args, isModerator) {
             offset = parseInt(args[1]);
             updateTime();
             CheckClass(true);
-            
+        } else if (args[0] === 'adiantar') {
+            CheckClass(true, true);
         } else if (args[0] === 'true' && isModerator) {
             ready = true
             message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`);
@@ -327,7 +332,7 @@ async function execute(client, message, args, isModerator) {
             // COMEÇANDO INSERÇÃO DE LINKS
         } else if (args[0] === 'set' && isModerator) {
             aulaDia['aula' + args[1]]['link'] = args[2];
-            message.channel.send(new Discord.MessageEmbed().setDescription(`O link da aula: ${aulaDia['aula' + args[2]]['materia']} foi setado para \`${args[2]}\``));
+            message.channel.send(new Discord.MessageEmbed().setDescription(`O link da aula de: ${aulaDia['aula' + args[1]]['materia']} foi setado para \`${args[2]}\``));
             message.delete();
         } else if (args[0] === 'list' && isModerator) {
             const listEmbed = new Discord.MessageEmbed()
