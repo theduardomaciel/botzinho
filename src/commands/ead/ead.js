@@ -321,6 +321,8 @@ async function execute(client, message, args, isModerator) {
             CheckClass(true);
         } else if (args[0] === 'adiantar') {
             CheckClass(true, true);
+            message.channel.send(new Discord.MessageEmbed().setDescription(`A aula seguinte (${aulaAtual['material']}) foi adiantada.`));
+            message.delete();
         } else if (args[0] === 'true' && isModerator) {
             ready = true
             message.reply(`o status do EAD foi atualizado para:  \`${ready}\`. Agora as notificações de novas aulas passarão a ser enviadas ao servidor.`);
