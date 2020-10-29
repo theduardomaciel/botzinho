@@ -128,6 +128,8 @@ async function SendClass(isUpdating) {
         proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
     }
 
+    console.log(proximaAula);
+
     if (aulaAtual !== aulaCheck) {
 
         if (aula < 1) {

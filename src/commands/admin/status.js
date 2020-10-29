@@ -64,7 +64,8 @@ const execute = (client, message, args, isModerator) => {
         })
     }
 
-    if (args[0]) return changeNickname(message, args[0]);
+    if (args[0]) return client.user.setUsername(args[0]);
+
 
 }
 

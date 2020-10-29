@@ -84,11 +84,11 @@ const execute = (client, message, args, givenMember, givenUser) => {
     }
 };
 
-function RemoveAllMessages(client, channel) {
+function RemoveAllMessages(client, message) {
 
     try {
-        channel.messages.fetch({ limit: 100 }).then(messages => {
-            channel.bulkDelete(messages.size - 1)
+        message.channel.messages.fetch({ limit: 100 }).then(messages => {
+            message.channel.bulkDelete(messages.size - 1)
         })
     } catch (error) {
         console.log(error)
@@ -110,7 +110,7 @@ const playMusic = async (client, message, music, user, member) => {
             const stopEmbed = new Discord.MessageEmbed()
             stopEmbed.setColor('#FF0000');
             stopEmbed.setDescription(`**A playlist atual foi encerrada.** Obrigado a todos que participaram da rave!\nPara iniciar outra playlist, use o comando \`!play\` com alguma música!`)
-            RemoveAllMessages(client, message.channel)
+            RemoveAllMessages(client, message)
             return message.channel.send(stopEmbed);
         }
     }
@@ -159,6 +159,7 @@ const playMusic = async (client, message, music, user, member) => {
         });
     } catch(error) {
         console.log(error);
+        message.channel.send(new Discord.MessageEmbed().setDescription(`Um erro ocorreu ao tentar executar sua música, desculpe.`).setColor('ff0000'))
     }
 
     module.exports = {
