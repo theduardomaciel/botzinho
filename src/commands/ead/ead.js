@@ -128,8 +128,6 @@ async function SendClass(isUpdating) {
         proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
     }
 
-    console.log(proximaAula);
-
     if (aulaAtual !== aulaCheck) {
 
         if (aula < 1) {
@@ -138,8 +136,8 @@ async function SendClass(isUpdating) {
         } else if (aula >= diaLenght + 1) {
             proximaAulaEmbed.setTitle(`${fimDasAulasMensagem['materia']} (${fimDasAulasMensagem['horario']})`);
             proximaAulaEmbed.setDescription(`${fimDasAulasMensagem['link']}`);
-        } else if (aula > 1 && aulaAtual['link'] !== 'Aguardando...' && proximaAula['link'] === aulaAtual['link']) {
-            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']} - ${aulaDia['aula' + [aula + 2]]['horario']})`);
+        } else if (aula > 1 && proximaAula && aulaAtual['link'] !== 'Aguardando...' && aulaAtual['link'] === proximaAula['link']) {
+            proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']} - ${proximaAula['horario']})`);
             proximaAulaEmbed.setDescription(`${aulaAtual['link']} • ${role}`);
         } else {
             proximaAulaEmbed.setTitle(`${aulaAtual['materia']} (${aulaAtual['horario']})`);
@@ -213,6 +211,7 @@ function CheckClass(isUpdating, addOne) {
         if (textChannel && !addOne) {
             horarios = [aula1Time, aula2Time, aula3Time, aula4Time, aula5Time, aula6Time, aula7Time, aula8Time, fimDasAulas];
             const now = new Date();
+            if (aulaAtual['link'] === proximaAula['link']) return;
             for (let i = 0; i <= diaLenght; i++) {
                 if (now > horarios[i]) {
                     aula = i + 1;
@@ -222,6 +221,7 @@ function CheckClass(isUpdating, addOne) {
             SendClass();
         } else if (textChannel && addOne === true) {
             aula += 1;
+            lastTimeUsed += 1;
             if (aulaAtual['link'] === 'Aguardando...') return;
             SendClass();
         }
