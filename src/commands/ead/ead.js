@@ -122,7 +122,7 @@ async function SendClass(isUpdating) {
         aulaAnterior = aulaDia['aula' + [aula - 1]]
     }
 
-    if (aula <= diaLenght) {
+    if (aula <= diaLenght + 1) {
         proximaAula = aulaDia['aula' + [aula + 1]];
     } else {
         proximaAula = {'materia': 'Tchau e benção! O dia letivo terá acabado.', 'horario': '13:00', 'link': 'Aguardando...' };
@@ -215,7 +215,9 @@ function CheckClass(isUpdating, addOne) {
             if (aulaAtual['link'] === proximaAula['link']) return;
             for (let i = 0; i <= diaLenght; i++) {
                 if (now > horarios[i]) {
-                    aula = i + 1;
+                    if ((i + 1) >= aula) {
+                        aula = i + 1;
+                    }
                 }
             }
             if (aulaAtual['link'] === 'Aguardando...') return;
