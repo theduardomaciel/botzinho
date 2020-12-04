@@ -215,9 +215,7 @@ function CheckClass(isUpdating, addOne) {
             if (aulaAtual['link'] === proximaAula['link']) return;
             for (let i = 0; i <= diaLenght; i++) {
                 if (now > horarios[i]) {
-                    if (i >= aula) {
-                        aula = i + 1;
-                    }
+                    aula = i + 1;
                 }
             }
             if (aulaAtual['link'] === 'Aguardando...') return;

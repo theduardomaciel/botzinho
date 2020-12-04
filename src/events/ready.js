@@ -18,7 +18,10 @@ module.exports = async (client) => {
     let activities = undefined;
     
     activities = [
-        'EAD! Também conhecido como: Estresse-A-Distância.',
+        'TÁ ACABANDO! Finalmente o EAD nos deixará livres! (pelo menos é o que nós esperamos)',
+        'O QUE SÃO ESSAS MENSAGENS?',
+        'QUAL PORQUÊ DEVERIA SER USADO AQUI MESMO?',
+        '👀 VOCÊ NÃO VIU NADA...',
         '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
     ],
 

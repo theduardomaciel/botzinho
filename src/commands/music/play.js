@@ -1,39 +1,34 @@
 const Discord = require('discord.js');
 const search = require('yt-search');
-const ytdl = require('ytdl-core-discord');
+const ytdl = require('ytdl-core');
 
-process.on('unhandledRejection', error => console.error('Uncaught Promise Rejection', error));
-
-let string;
-
-const execute = (client, message, args, givenMember, givenUser) => {
+const execute = (client, message, args, isModerator, givenMember, givenUser) => {
 
     let member;
     let user;
 
-    if (!givenMember) {
+    if (!givenMember || !givenUser) {
         member = message.member;
-    } else {
-        member = givenMember;
-    }
-
-    if (!givenUser) {
         user = message.author;
     } else {
+        member = givenMember;
         user = givenUser;
     }
 
-    string = args.join(' ');
-    console.log('Música requerida: ' + string);
+    const string = args.join(' ');
+    console.log(`Inciando processo de execução músicas com a string: ${string}`);
+
     const missingArgumentEmbed = new Discord.MessageEmbed().setDescription(`**Para tocar uma música, você precisa me especificar o nome ou link!**`)
     if (!args[0]) return message.channel.send(missingArgumentEmbed);
+    
     try {
         search(string, (error, result) => {
             if (error) {
                 return console.log(error);
             } else if (result && result.videos.length > 0) {
                 try {
-                    if (!member.voice.channel) {
+                    const voiceChannel = member.voice.channel;
+                    if (!voiceChannel) {
                         const notInVoiceChannel = new Discord.MessageEmbed().setDescription(`Você precisa estar em um canal de voz para poder ouvir músicas!`);
                         return message.channel.send(notInVoiceChannel);
                     }
@@ -85,7 +80,6 @@ const execute = (client, message, args, givenMember, givenUser) => {
 };
 
 function RemoveAllMessages(client, message) {
-
     try {
         message.channel.messages.fetch({ limit: 100 }).then(messages => {
             message.channel.bulkDelete(messages.size - 1)
@@ -93,32 +87,27 @@ function RemoveAllMessages(client, message) {
     } catch (error) {
         console.log(error)
     }
-
 }
 
 const playMusic = async (client, message, music, user, member) => {
+
     let queue = client.queues.get(message.guild.id);
 
-    if(!music && queue.loop === false) {
-        if (queue) {
-            try {
-                queue.connection.disconnect();
-                await client.queues.delete(message.guild.id);
-            } catch (error) {
-                console.log(error)
-            }
-            const stopEmbed = new Discord.MessageEmbed()
-            stopEmbed.setColor('#FF0000');
-            stopEmbed.setDescription(`**A playlist atual foi encerrada.** Obrigado a todos que participaram da rave!\nPara iniciar outra playlist, use o comando \`!play\` com alguma música!`)
-            RemoveAllMessages(client, message)
-            return message.channel.send(stopEmbed);
-        }
+    if (!music) {
+        queue.voiceChannel.leave();
+        await client.queues.delete(message.guild.id);
+        const stopEmbed = new Discord.MessageEmbed()
+        stopEmbed.setColor('#FF0000');
+        stopEmbed.setDescription(`**A playlist atual foi encerrada.** Obrigado a todos que participaram da rave!\nPara iniciar outra playlist, use o comando \`!play\` com alguma música!`)
+        RemoveAllMessages(client, message)
+        return message.channel.send(stopEmbed);
     }
 
     if (!queue) {
         try {
             const conn = await member.voice.channel.join();
             queue = {
+                voiceChannel: member.voice.channel,
                 volume: 1,
                 connection: conn,
                 dispatcher: null,
@@ -133,18 +122,15 @@ const playMusic = async (client, message, music, user, member) => {
         }
     }
     try {
-        queue.dispatcher = await queue.connection.play(
-            await ytdl(music.url, { highWaterMark: 1 << 25, filter:'audioonly' }),
-            {
-                type:'opus',
+        const dispatcher = await queue.connection
+            .on("error", error => {
+                console.log(error)
             });
-        const previousVolume = queue.dispatcher.volume;
-        queue.dispatcher.setVolume(previousVolume / 10);
-        } catch(error) {
-            console.log(error);
-        }
-    try {
-        queue.dispatcher.on('finish', () => {
+        queue.dispatcher = dispatcher.play(ytdl(music.url));
+        queue.dispatcher.setVolumeLogarithmic(queue.volume);
+        console.log(`Música inciada com sucesso!`);
+        try {
+            queue.dispatcher.on('finish', () => {
             if (queue.loop === true || queue.loopTimes > 0) {
                 queue.musics.push(queue.musics.shift())
                 queue.users.push(queue.users.shift());
@@ -157,22 +143,14 @@ const playMusic = async (client, message, music, user, member) => {
             }
             playMusic(client, message, queue.musics[0]);
         });
+        } catch (error) {
+            message.channel.send(new Discord.MessageEmbed().setDescription(`Um erro ocorreu ao tentar continuar a playlist atual. Desculpe.`));
+        }
     } catch(error) {
         console.log(error);
         message.channel.send(new Discord.MessageEmbed().setDescription(`Um erro ocorreu ao tentar executar sua música, desculpe.`).setColor('ff0000'))
     }
-
-    module.exports = {
-        name: 'play',
-        description: 'Este é o comando responsável por tocar músicas! É a base para todos os outros comandos de música.',
-        aliases: ['p', 'tocar', 'musica'],
-        cooldown: 5,
-        guildOnly: true,
-        execute,
-        playMusic,
-        userRequire: string,
-    };
-
+    
 };
 
 module.exports = {

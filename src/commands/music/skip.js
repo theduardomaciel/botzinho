@@ -15,10 +15,7 @@ const execute = async (client, message) => {
         notSkip.setDescription(`Não é possível pular de faixa com o modo loop ativado. Para desativar utilize o comando \`!loop\`.`);
     }
 
-    queue.musics.shift();
-    client.queues.set(message.guild.id, queue);
-    let music = await queue.musics[0]
-    playMusic(client, message, music);
+    queue.connection.dispatcher.end();
 
     const skipEmbed = new Discord.MessageEmbed()
     skipEmbed.setColor('#FFA500')

@@ -8,16 +8,9 @@ const execute = (client, message) => {
         const notPlaylist = new Discord.MessageEmbed().setDescription(`Não há nenhuma playlist sendo reproduzida no momento.`)
         return message.channel.send(notPlaylist).then(messageSent => messageSent.delete({ timeout: 1000 }));
     }
-    
-    queue.musics = [];
-    queue.loop = false
-    queue.dispatcher.resume();
-    
-    client.queues.set(message.guild.id, queue);
-    if (queue.dispatcher) {
-        queue.dispatcher.end();
-    }
-    
+
+    queue.songs = [];
+    queue.connection.dispatcher.end();
 };
 
 module.exports = {
