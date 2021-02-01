@@ -22,13 +22,13 @@
             "materia": "Literatura", "horario": "7:10", "link": "Aguardando..."
         },
         "aula2": {
-            "materia": "Geografia", "horario": "8:00", "link": "Aguardando..."
+            "materia": "Biologia", "horario": "8:00", "link": "Aguardando..."
         },
         "aula3": {
-            "materia": "Biologia", "horario": "8:50", "link": "Aguardando..."
+            "materia": "Português", "horario": "8:50", "link": "Aguardando..."
         },
         "aula4": {
-            "materia": "Redação", "horario": "9:35", "link": "Aguardando..."
+            "materia": "Literatura", "horario": "9:35", "link": "Aguardando..."
         },
         "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio aos seu 'longos' 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },
         "aula6": {
@@ -43,7 +43,7 @@
     },
     "dia3": {
         "aula1": {
-            "materia": "Literatura", "horario": "7:10", "link": "Aguardando..." },
+            "materia": "Redação", "horario": "7:10", "link": "Aguardando..." },
         "aula2": {
             "materia": "Física", "horario": "8:00", "link": "Aguardando..." },
         "aula3": {
@@ -55,21 +55,21 @@
         "aula7": {
             "materia": "Português", "horario": "11:30", "link": "Aguardando..." },
         "aula8": {
-            "materia": "Literatura", "horario": "12:15", "link": "Aguardando..." }
+            "materia": "Redação", "horario": "12:15", "link": "Aguardando..." }
     },
     "dia4": {
         "aula1": {
             "materia": "História", "horario": "7:10", "link": "Aguardando..." },
         "aula2": {
-            "materia": "Esapnhol", "horario": "8:00", "link": "Aguardando..." },
+            "materia": "Matemática", "horario": "8:00", "link": "Aguardando..." },
         "aula3": {
-            "materia": "Português", "horario": "8:50", "link": "Aguardando..." },
+            "materia": "Espanhol", "horario": "8:50", "link": "Aguardando..." },
         "aula4": {
             "materia": "Capela", "horario": "9:35", "link": "Aguardando..." },
         "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio aos seu 'longos' 20 minutos de descanso. \n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },        "aula6": {
-            "materia": "Religião", "horario": "10:40", "link": "Aguardando..." },
+            "materia": "Química", "horario": "10:40", "link": "Aguardando..." },
         "aula7": {
-            "materia": "Química", "horario": "11:30", "link": "Aguardando..." },
+            "materia": "Religião", "horario": "11:30", "link": "Aguardando..." },
         "aula8": {
             "materia": "Inglês", "horario": "12:15", "link": "Aguardando..." }
     },
