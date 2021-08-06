@@ -15,7 +15,7 @@ const execute = (client, message, args) => {
 module.exports = {
     name: 'comunicado',
     description: 'Cria um comunicado para avisar a todos do servidor de mensagens importantes.',
-	aliases: ['aviso', 'urgente'],
+	aliases: ['informação', 'documento'],
     cooldown: 5,
     guildOnly: true,
     execute,

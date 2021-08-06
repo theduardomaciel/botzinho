@@ -26,9 +26,9 @@ module.exports = {
             .setAuthor(message.guild.name, `https://cdn.discordapp.com/icons/${message.guild.id}/${message.guild.icon}.png`, 'https://discord.gg/Tnap8b')
             .setDescription(`Aqui está a lista de todos os meus comandos. \nVocê pode enviar \`${prefix}help [nome do comando]\` para acessar um comando específico. \nPara informações mais detalhadas sobre o bot, visite a wiki: https://github.com/extremeHubGit/botzinho/wiki`)
             .setTimestamp()
-            .setFooter('Botzinho (by Edu)', 'https://images.emojiterra.com/twitter/512px/1f44c.png');
+            .setFooter('Botzinho (by MeninoCoiso)', 'https://images.emojiterra.com/twitter/512px/1f44c.png');
 
-            commandsEmbed.addField(commands.map(command => command.name), `Estes comandos podem estar quebrados, portanto, caso encontre algum erro, reporte para: \`${'⇦eXt┒reMe#7743'}\` `, true);
+            commandsEmbed.addField(`Estes comandos podem estar quebrados, portanto, caso encontre algum erro, reporte para: \`${'⇦eXt┒reMe#7743'}\` `, commands.map(command => command.name), true);
 
             return message.author.send(commandsEmbed)
                 .then(() => {
@@ -37,7 +37,7 @@ module.exports = {
                 })
                 .catch(error => {
                     console.error(`Não foi possível mandar DM para ${message.author.tag}.\n`, error);
-                    message.reply(`**parece que eu não consigo lhe mandar mensagens diretas (DMs)!** \n \`${message.author.tag}\` ,você as desativou?`);
+                    message.reply(`**parece que eu não consigo lhe mandar mensagens diretas (DMs)!** \n \`${message.author.tag}\`, você as desativou?`);
                 });
         }
 

@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 
 const mongoose = require('mongoose')
-const Guild = require('../../database/models/GuildConfig');
+const Guild = require('../../../database/models/GuildConfig');
 
 const execute = async (client, message, args, isModerator) => {
 
@@ -17,7 +17,7 @@ const execute = async (client, message, args, isModerator) => {
             if (err) console.error(err);
             if (!guild) {
                 
-                const createGuild = require('../../database/CreateGuild')
+                const createGuild = require('../../../database/CreateGuild')
                 createGuild(mongoose.Types.ObjectId(), message.guild.id, message.guild.name, process.env.PREFIX, undefined, args[0], undefined)
 
             }

@@ -6,11 +6,25 @@ const collectorUtil = require('..//..//utils/musicCollector');
 
 module.exports = async (client, reaction, user) => {
     
+    //console.log("UMA REAÇÃO FOI ADICIONADA");
+
     if (user.bot) return;
 
     const message = reaction.message;
 
-    const reactionsArray = [ '🔷', '⏯️', '⏹', '⏭', '🔁', '🔀', '⭐', '❌' ];
+    // Checando se a mensagem é parcial ou não
+	if (reaction.partial) {
+		// Se a mensagem da reação não existir mais, haverá um erro de API que precisamos segurar
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error('Something went wrong when fetching the message: (não tentei traduzir fetch) ', error);
+			// Returnar como se o `reaction.message.author` fosse undefined/null
+			return;
+		}
+	}
+    
+    const reactionsArray = [ '🔷', '⏯️', '⏹', '⏭', '🔁', '🔀', '⭐', '✖️' ];
     const commandsCheck = {
         '🔷': '',
         '⏯️': client.commands.get('pause'),
@@ -22,6 +36,7 @@ module.exports = async (client, reaction, user) => {
         '❌': client.commands.get('desfavorite'),
     }
 
+    // Verificando caso a reação seja uma das reações do sistema de música
     for (let i = 0; i < reactionsArray.length; i++) {
         if (reaction.emoji.name === reactionsArray[i]) {
             if (reaction.emoji.name === '🔷') {

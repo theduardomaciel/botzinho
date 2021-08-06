@@ -2,16 +2,16 @@
     "Domingo": [""],
     "dia1": {
         "aula1": {
-            "materia": "Química", "horario": "7:10", "link": "Aguardando..." },
+            "materia": "Inglês", "horario": "7:10", "link": "Aguardando..." },
         "aula2": {
-            "materia": "Espanhol", "horario": "8:00", "link": "Aguardando..." },
+            "materia": "Química", "horario": "8:00", "link": "Aguardando..." },
         "aula3": {
             "materia": "Matemática", "horario": "8:50", "link": "Aguardando..." },
         "aula4": {
             "materia": "Matemática", "horario": "9:35", "link": "Aguardando..." },
         "aula5": { "materia": "INTERVALO...", "horario": "10:20", "link": "Relaxe em meio ao seu longo tempo de descanso (20 minutos, uau...).\n :white_check_mark:: AULA COMEÇOU \n :arrows_counterclockwise:: AGUARDANDO... \n :x:: AULA ACABADA ou LINK QUEBRADO" },
         "aula6": {
-            "materia": "Inglês", "horario": "10:40", "link": "Aguardando..." },
+            "materia": "Espanhol", "horario": "10:40", "link": "Aguardando..." },
         "aula7": {
             "materia": "Química", "horario": "11:30", "link": "Aguardando..." },
         "aula8": {

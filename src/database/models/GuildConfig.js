@@ -7,7 +7,13 @@ const guildSchema = new mongoose.Schema({
     prefix: mongoose.SchemaTypes.String,
     defaultRole: mongoose.SchemaTypes.String,
     eadChannel: mongoose.SchemaTypes.String,
-    musicChannel: mongoose.SchemaTypes.String
+    musicChannel: mongoose.SchemaTypes.String,
+    guildClasses: mongoose.SchemaTypes.Array,
+    guildQuestions: mongoose.SchemaTypes.Array,
+    actualClassInfo: {
+        class: mongoose.SchemaTypes.Number,
+        question: mongoose.SchemaTypes.Number,
+    },
 })
 
 module.exports = mongoose.model('Guild', guildSchema, 'guilds')

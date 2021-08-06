@@ -18,11 +18,9 @@ module.exports = async (client) => {
     let activities = undefined;
     
     activities = [
-        'TÁ ACABANDO! Finalmente o EAD nos deixará livres! (pelo menos é o que nós esperamos)',
-        'O QUE SÃO ESSAS MENSAGENS?',
-        'QUAL PORQUÊ DEVERIA SER USADO AQUI MESMO?',
-        '👀 VOCÊ NÃO VIU NADA...',
+        'ENSINO HÍBRIDO... Parece que o EAD não sai de nós de forma alguma.',
         '🐞REPORTE! Muitos dos comandos que deveriam funcionar podem estar quebrados!',
+        'é isso ae',
     ],
 
     i = 0;

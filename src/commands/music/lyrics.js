@@ -3,13 +3,6 @@ const Discord = require('discord.js')
 const Genius = require('genius-lyrics')
 const genius = new Genius.Client(process.env.GENIUS);
 
-const { KSoftClient } = require('@ksoft/api');
-const ksoft = new KSoftClient('your-very-nice-token');
-
-async function getLyrics(musicName) {
-    return ksoft.lyrics.get(musicName);
-}
-
 const execute = async (client, message, args) => {
     const queue = client.queues.get(message.guild.id);
     if (!queue && !args[0]) {

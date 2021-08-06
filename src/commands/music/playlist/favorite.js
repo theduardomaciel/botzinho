@@ -39,6 +39,8 @@ const execute = async (client, message, {}, user) => {
 
     if (!settingsLoaded) return;
 
+    // Caso haja um erro, utilizar o !settings diretamente, o !settingsLoaded pode não estar funcionando
+
     try {
         await settingsLoaded.updateOne(
             { $push: { playlist: { 

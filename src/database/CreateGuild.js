@@ -13,6 +13,12 @@ module.exports = async (_id, guildId, guildName, prefix, defaultRole, eadChannel
             eadChannel: eadChannel,
             musicChannel: musicChannel,
             musicMessage: musicMessage,
+            guildClasses: [],
+            guildQuestions: [],
+            actualClassInfo: {
+                class: 0,
+                question: 0,
+            },
         })
         newGuild.save()
     } catch (error) {

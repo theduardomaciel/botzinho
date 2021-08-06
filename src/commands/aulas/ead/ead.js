@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const Guild = require('../../database/models/GuildConfig');
+const Guild = require('../../../database/models/GuildConfig');
 
 const Discord = require('discord.js');
 const diasLetivosArray = require('./diasLetivos.json')
@@ -277,18 +277,26 @@ async function execute(client, message, args, isModerator) {
             let aulaAtual = aulaDia['aula' + i];
             let aulaSeguinte = aulaDia['aula' + [i + 1]]
             let horarioFinal = aulaDia['aula' + [i + 2]] // Lembrar de utilizar horarioFinal['horario']
+
+            let value = aulaAtual['link'];
+            let inline = true;
+            if (args[0] === 'horario') {
+                value = '-';
+                inline = false;
+            }
+
             if (i < diaLenght && aulaAtual['link'] !== 'Aguardando...' && aulaSeguinte['link'] === aulaAtual['link']) {
                 if (aulaAtual['materia'] !== aulaSeguinte['materia']) {
                     //console.log('Repetidas de matérias diferentes')
-                    aulasEAD.addField(`${aulaAtual['materia']} e ${aulaSeguinte['materia']}  (${aulaAtual['horario']} - ${horarioFinal['horario']})`, aulaAtual['link'], true);
+                    aulasEAD.addField(`${aulaAtual['materia']} e ${aulaSeguinte['materia']}  (${aulaAtual['horario']} - ${horarioFinal['horario']})`, value, inline);
                 } else {
                     //console.log('Repetidas da mesma matéria')
-                    aulasEAD.addField(`${aulaAtual['materia']} (${aulaAtual['horario']} - ${horarioFinal['horario']})`, aulaAtual['link'], true);
+                    aulasEAD.addField(`${aulaAtual['materia']} (${aulaAtual['horario']} - ${horarioFinal['horario']})`, value, inline);
                 }
                 i += 1
             } else {
                 //console.log('Aulas não repetidas.')
-                aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']})`, aulaAtual['link'], true);
+                aulasEAD.addField(`${aulaAtual['materia']}  (${aulaAtual['horario']})`, value, inline);
             }
         }
 
@@ -318,6 +326,10 @@ async function execute(client, message, args, isModerator) {
     if (hasClass()) {
         if (!args.length) {
             if (!ready && !isModerator) return message.channel.send(`**As aulas de hoje ainda não foram atualizadas por nenhum moderador, por favor, volte mais tarde.**`)
+            message.channel.send(aulasEAD);
+            message.delete();
+        } else if (args[0] === 'horario') {
+            aulasEAD.setDescription('Aqui estão os horários das aulas do dia.')
             message.channel.send(aulasEAD);
             message.delete();
         } else if (args[0] === 'atual') {

@@ -12,7 +12,7 @@ module.exports = async (client, message, channel, createdMessage) => {
 
     try {
         
-        const reactionsArray = [ '🔷', '⏯️', '⏹', '⏭', '🔁', '🔀', '⭐', '❌' ];
+        const reactionsArray = [ '🔷', '⏯️', '⏹', '⏭', '🔁', '🔀', '⭐', '✖️' ];
 
         for (let i = 0; i < reactionsArray.length; i++) {
             const emoji = reactionsArray[i]

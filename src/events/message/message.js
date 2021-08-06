@@ -15,20 +15,27 @@ function isModerator(member) {
 
 module.exports = async (client, message) => {
 
-    const settings = await Guild.findOne({
-        guildId: message.guild.id
-    }, (err, guild) => {
-        if (err) console.error(err);
-        if (!guild) {
-            
-            const createGuild = require('../../database/CreateGuild')
-            createGuild(mongoose.Types.ObjectId(), message.guild.id, message.guild.name, process.env.PREFIX)
+    let prefix;
 
-            return message.channel.send(new Discord.MessageEmbed().setDescription('Este servidor não estava em meu banco de dados, ou algumas informações estavam desatualizadas. Já configurei tudo para você, então você agora estará apto a usar os comandos do bot!')).then(m => m.delete({ timeout: 3000 }))
-        }
-    })
+    if (message.channel.type == 'text') {
+        const settings = await Guild.findOne({
+            guildId: message.guild.id
+        }, (err, guild) => {
+            if (err) console.error(err);
+            if (!guild) {
+                
+                const createGuild = require('../../database/CreateGuild')
+                createGuild(mongoose.Types.ObjectId(), message.guild.id, message.guild.name, process.env.PREFIX)
+    
+                return message.channel.send(new Discord.MessageEmbed().setDescription('Este servidor não estava em meu banco de dados, ou algumas informações estavam desatualizadas. Já configurei tudo para você, então você agora estará apto a usar os comandos do bot!')).then(m => m.delete({ timeout: 3000 }))
+            }
+        })
+    
+        prefix = await settings.prefix;
 
-    const prefix = await settings.prefix;
+    } else {
+        prefix = "!";
+    }
 
     if (!message.content.startsWith(prefix) || message.author.bot) return;
 

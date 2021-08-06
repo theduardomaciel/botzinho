@@ -1,7 +1,7 @@
 require('dotenv').config();
 const Discord = require('discord.js');
 const { registerCommands, registerEvents } = require('./utils/registry');
-const client = new Discord.Client();
+const client = new Discord.Client({ partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER'] });
 
 client.on("ready", () => {
   console.log("Successfully logged in Discord bot.");
